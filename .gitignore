@@ -1,0 +1,9 @@
+*~
+*.user
+*.suo
+*.resharper
+*.cache
+Build
+obj
+bin
+_ReSharper.*
