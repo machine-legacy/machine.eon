@@ -15,7 +15,6 @@ namespace Machine.Eon.Mapping
       definition.Accept(visitor);
     }
   }
-
   public class MyReflectionStructureVisitor : BaseStructureVisitor
   {
     private readonly Listener _listener;
@@ -28,7 +27,7 @@ namespace Machine.Eon.Mapping
     #region IReflectionStructureVisitor Members
     public override void VisitAssemblyDefinition(AssemblyDefinition asm)
     {
-      _listener.StartAssembly();
+      _listener.StartAssembly(asm.ToName());
     }
 
     public override void TerminateAssemblyDefinition(AssemblyDefinition asm)
@@ -121,7 +120,7 @@ namespace Machine.Eon.Mapping
     {
       foreach (MethodDefinition ctor in ctors)
       {
-        _listener.StartMethod();
+        _listener.StartMethod(ctor.ToName());
         ctor.Accept(this);
         _listener.EndMethod();
       }
@@ -227,7 +226,7 @@ namespace Machine.Eon.Mapping
     {
       foreach (MethodDefinition method in methods)
       {
-        _listener.StartMethod();
+        _listener.StartMethod(method.ToName());
         method.Accept(this);
         _listener.EndMethod();
       }
@@ -245,7 +244,11 @@ namespace Machine.Eon.Mapping
     {
       foreach (TypeDefinition type in nestedTypes)
       {
+        _listener.StartNamespace(type.ToNamespaceName());
+        _listener.StartType(type.ToTypeName());
         type.Accept(this);
+        _listener.EndType();
+        _listener.EndNamespace();
       }
     }
 
@@ -309,7 +312,11 @@ namespace Machine.Eon.Mapping
     {
       foreach (TypeDefinition type in types)
       {
+        _listener.StartNamespace(type.ToNamespaceName());
+        _listener.StartType(type.ToTypeName());
         type.Accept(this);
+        _listener.EndType();
+        _listener.EndNamespace();
       }
     }
 
@@ -392,5 +399,43 @@ namespace Machine.Eon.Mapping
       }
     }
     #endregion
+  }
+
+  public static class Mapping
+  {
+    public static AssemblyName ToName(this AssemblyDefinition definition)
+    {
+      return new AssemblyName(definition.Name.FullName);
+    }
+
+    public static TypeName ToTypeName(this TypeDefinition definition)
+    {
+      return new TypeName(definition.FullName);
+    }
+
+    public static NamespaceName ToNamespaceName(this TypeDefinition definition)
+    {
+      return new NamespaceName(definition.Namespace);
+    }
+
+    public static MethodName ToName(this MethodDefinition definition)
+    {
+      return new MethodName(definition.Name);
+    }
+
+    public static TypeName ToTypeName(this TypeReference reference)
+    {
+      return new TypeName(reference.FullName);
+    }
+
+    public static TypeName ToTypeName(this VariableDefinition definition)
+    {
+      return definition.VariableType.ToTypeName();
+    }
+
+    public static TypeName ToTypeName(this ParameterDefinition definition)
+    {
+      return definition.ParameterType.ToTypeName();
+    }
   }
 }

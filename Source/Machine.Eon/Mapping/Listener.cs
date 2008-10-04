@@ -10,23 +10,27 @@ namespace Machine.Eon.Mapping
     private readonly Stack<TypeName> _types = new Stack<TypeName>();
     private readonly Stack<MethodName> _methods = new Stack<MethodName>();
 
-    public void StartAssembly()
+    public void StartAssembly(AssemblyName name)
     {
+      Console.WriteLine(name);
     }
 
-    public void StartNamespace()
+    public void StartNamespace(NamespaceName name)
     {
+      Console.WriteLine("  " + name);
     }
 
-    public void StartType()
+    public void StartType(TypeName name)
     {
+      Console.WriteLine("  " + name);
     }
 
-    public void StartMethod()
+    public void StartMethod(MethodName name)
     {
+      Console.WriteLine("    " + name);
     }
 
-    public void UseType()
+    public void UseType(TypeName name)
     {
     }
 
