@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 
@@ -10,20 +10,30 @@ namespace Machine.Eon.Mapping
     public void Include(string path)
     {
       AssemblyDefinition definition = AssemblyFactory.GetAssembly(path);
-      MyReflectionStructureVisitor visitor = new MyReflectionStructureVisitor();
+      Listener listener = new Listener();
+      MyReflectionStructureVisitor visitor = new MyReflectionStructureVisitor(listener);
       definition.Accept(visitor);
     }
   }
+
   public class MyReflectionStructureVisitor : BaseStructureVisitor
   {
-    #region IReflectionStructureVisitor Members
-    public override void TerminateAssemblyDefinition(AssemblyDefinition asm)
+    private readonly Listener _listener;
+
+    public MyReflectionStructureVisitor(Listener listener)
     {
+      _listener = listener;
     }
 
+    #region IReflectionStructureVisitor Members
     public override void VisitAssemblyDefinition(AssemblyDefinition asm)
     {
-      Console.WriteLine("Assembly");
+      _listener.StartAssembly();
+    }
+
+    public override void TerminateAssemblyDefinition(AssemblyDefinition asm)
+    {
+      _listener.EndAssembly();
     }
 
     public override void VisitAssemblyLinkedResource(AssemblyLinkedResource res)
@@ -56,8 +66,7 @@ namespace Machine.Eon.Mapping
 
     public override void VisitModuleDefinition(ModuleDefinition module)
     {
-      Console.WriteLine("Module");
-      module.Accept(new MyReflectionVisitor());
+      module.Accept(new MyReflectionVisitor(_listener));
     }
 
     public override void VisitModuleDefinitionCollection(ModuleDefinitionCollection modules)
@@ -91,22 +100,30 @@ namespace Machine.Eon.Mapping
   }
   public class MyReflectionVisitor : BaseReflectionVisitor
   {
-    #region IReflectionVisitor Members
+    private readonly Listener _listener;
 
+    public MyReflectionVisitor(Listener listener)
+    {
+      _listener = listener;
+    }
+
+    #region IReflectionVisitor Members
     public override void TerminateModuleDefinition(ModuleDefinition module)
     {
     }
 
     public override void VisitConstructor(MethodDefinition ctor)
     {
-      ctor.Body.Accept(new MyCodeVisitor());
+      ctor.Body.Accept(new MyCodeVisitor(_listener));
     }
 
     public override void VisitConstructorCollection(ConstructorCollection ctors)
     {
       foreach (MethodDefinition ctor in ctors)
       {
+        _listener.StartMethod();
         ctor.Accept(this);
+        _listener.EndMethod();
       }
     }
 
@@ -200,10 +217,9 @@ namespace Machine.Eon.Mapping
 
     public override void VisitMethodDefinition(MethodDefinition method)
     {
-      Console.WriteLine("Method " + method.Name);
       if (method.Body != null)
       {
-        method.Body.Accept(new MyCodeVisitor());
+        method.Body.Accept(new MyCodeVisitor(_listener));
       }
     }
 
@@ -211,7 +227,9 @@ namespace Machine.Eon.Mapping
     {
       foreach (MethodDefinition method in methods)
       {
+        _listener.StartMethod();
         method.Accept(this);
+        _listener.EndMethod();
       }
     }
 
@@ -285,7 +303,6 @@ namespace Machine.Eon.Mapping
 
     public override void VisitTypeDefinition(TypeDefinition type)
     {
-      Console.WriteLine("Type: " + type);
     }
 
     public override void VisitTypeDefinitionCollection(TypeDefinitionCollection types)
@@ -298,12 +315,10 @@ namespace Machine.Eon.Mapping
 
     public override void VisitTypeReference(TypeReference type)
     {
-      // Console.WriteLine("Type Reference: {0}", type);
     }
 
     public override void VisitTypeReferenceCollection(TypeReferenceCollection refs)
     {
-      // Console.WriteLine("Type References:");
       foreach (TypeReference reference in refs)
       {
         reference.Accept(this);
@@ -313,6 +328,13 @@ namespace Machine.Eon.Mapping
   }
   public class MyCodeVisitor : BaseCodeVisitor
   {
+    private readonly Listener _listener;
+
+    public MyCodeVisitor(Listener listener)
+    {
+      _listener = listener;
+    }
+
     #region ICodeVisitor Members
     public override void TerminateMethodBody(MethodBody body)
     {
@@ -332,7 +354,6 @@ namespace Machine.Eon.Mapping
 
     public override void VisitInstruction(Instruction instr)
     {
-      // Console.WriteLine("    " + instr.OpCode);
     }
 
     public override void VisitInstructionCollection(InstructionCollection instructions)
@@ -361,7 +382,6 @@ namespace Machine.Eon.Mapping
 
     public override void VisitVariableDefinition(VariableDefinition var)
     {
-      Console.WriteLine("    {0} {1}", var.Name, var.VariableType);
     }
 
     public override void VisitVariableDefinitionCollection(VariableDefinitionCollection variables)
