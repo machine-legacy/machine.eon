@@ -264,7 +264,7 @@ namespace Machine.Eon.Mapping
     {
       foreach (PropertyDefinition property in properties)
       {
-        properties.Accept(this);
+        property.Accept(this);
       }
     }
 
