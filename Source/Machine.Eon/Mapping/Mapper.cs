@@ -12,24 +12,6 @@ namespace Machine.Eon.Mapping
       AssemblyDefinition definition = AssemblyFactory.GetAssembly(path);
       MyReflectionStructureVisitor visitor = new MyReflectionStructureVisitor();
       definition.Accept(visitor);
-      /*
-      foreach (TypeDefinition type in definition.MainModule.Types)
-      {
-        Console.WriteLine(type);
-        foreach (MethodDefinition method in type.Methods)
-        {
-          Console.WriteLine("  " + method);
-          foreach (ParameterDefinition parameter in method.Parameters)
-          {
-            Console.WriteLine("    " + parameter);
-          }
-          foreach (Instruction instruction in method.Body.Instructions)
-          {
-            Console.WriteLine("    " + instruction.OpCode);
-          }
-        }
-      }
-      */
     }
   }
   public class MyReflectionStructureVisitor : BaseStructureVisitor
