@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mapping\Assembly.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Mapping\AssemblyName.cs" />
     <Compile Include="Mapping\Mapper.cs" />
     <Compile Include="Mapping\Listener.cs" />
