@@ -1,0 +1,3 @@
+﻿Give a set of Assemblies:
+
+Metadata on Assemblies, Namespaces, Types, Methods...
