@@ -46,7 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mapping\AssemblyName.cs" />
     <Compile Include="Mapping\Mapper.cs" />
+    <Compile Include="Mapping\MethodName.cs" />
+    <Compile Include="Mapping\NamespaceName.cs" />
+    <Compile Include="Mapping\TypeName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
