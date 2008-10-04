@@ -201,7 +201,10 @@ namespace Machine.Eon.Mapping
     public override void VisitMethodDefinition(MethodDefinition method)
     {
       Console.WriteLine("Method " + method.Name);
-      method.Body.Accept(new MyCodeVisitor());
+      if (method.Body != null)
+      {
+        method.Body.Accept(new MyCodeVisitor());
+      }
     }
 
     public override void VisitMethodDefinitionCollection(MethodDefinitionCollection methods)
