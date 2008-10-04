@@ -34,6 +34,10 @@ namespace Machine.Eon.Mapping
 
     public override string ToString()
     {
+      if (String.IsNullOrEmpty(_name))
+      {
+        return "Ns<Null>";
+      }
       return _name;
     }
   }
