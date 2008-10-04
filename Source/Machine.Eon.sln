@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Machine.Eon", "Machine.Eon\Machine.Eon.csproj", "{195FD23E-26A5-49FD-BCEC-39A335D64726}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Machine.Eon.Console", "Machine.Eon.Console\Machine.Eon.Console.csproj", "{E19DE9CA-CA1C-449D-92B8-CD03F86F22FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Machine.Eon.Specs", "Machine.Eon.Specs\Machine.Eon.Specs.csproj", "{F30AE43C-ED32-4E96-B651-1F0FFC8DDD16}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{195FD23E-26A5-49FD-BCEC-39A335D64726}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{195FD23E-26A5-49FD-BCEC-39A335D64726}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{195FD23E-26A5-49FD-BCEC-39A335D64726}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{195FD23E-26A5-49FD-BCEC-39A335D64726}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E19DE9CA-CA1C-449D-92B8-CD03F86F22FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E19DE9CA-CA1C-449D-92B8-CD03F86F22FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E19DE9CA-CA1C-449D-92B8-CD03F86F22FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E19DE9CA-CA1C-449D-92B8-CD03F86F22FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F30AE43C-ED32-4E96-B651-1F0FFC8DDD16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F30AE43C-ED32-4E96-B651-1F0FFC8DDD16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F30AE43C-ED32-4E96-B651-1F0FFC8DDD16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F30AE43C-ED32-4E96-B651-1F0FFC8DDD16}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
