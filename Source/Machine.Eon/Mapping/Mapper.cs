@@ -270,6 +270,7 @@ namespace Machine.Eon.Mapping
 
     public override void VisitParameterDefinition(ParameterDefinition parameter)
     {
+      _listener.UseType(parameter.ToTypeName());
     }
 
     public override void VisitParameterDefinitionCollection(ParameterDefinitionCollection parameters)
@@ -322,6 +323,7 @@ namespace Machine.Eon.Mapping
 
     public override void VisitTypeReference(TypeReference type)
     {
+      _listener.UseType(type.ToTypeName());
     }
 
     public override void VisitTypeReferenceCollection(TypeReferenceCollection refs)
@@ -361,6 +363,18 @@ namespace Machine.Eon.Mapping
 
     public override void VisitInstruction(Instruction instr)
     {
+      if (instr.Operand is TypeReference)
+      {
+        _listener.UseType(((TypeReference)instr.Operand).ToTypeName());
+      }
+      else if (instr.Operand is FieldReference)
+      {
+        _listener.UseType(((FieldReference)instr.Operand).FieldType.ToTypeName());
+      }
+      else if (instr.Operand is MethodReference)
+      {
+        _listener.UseType(((MethodReference) instr.Operand).DeclaringType.ToTypeName());
+      }
     }
 
     public override void VisitInstructionCollection(InstructionCollection instructions)
@@ -387,8 +401,9 @@ namespace Machine.Eon.Mapping
       }
     }
 
-    public override void VisitVariableDefinition(VariableDefinition var)
+    public override void VisitVariableDefinition(VariableDefinition variable)
     {
+      _listener.UseType(variable.ToTypeName());
     }
 
     public override void VisitVariableDefinitionCollection(VariableDefinitionCollection variables)
