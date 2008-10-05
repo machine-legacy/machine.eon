@@ -440,6 +440,11 @@ namespace Machine.Eon.Mapping
 
     public static TypeName ToTypeName(this TypeReference reference)
     {
+      GenericInstanceType genericInstanceType = reference as GenericInstanceType;
+      if (genericInstanceType != null)
+      {
+        return new TypeName(reference.FullName.Substring(0, reference.FullName.IndexOf('`')));
+      }
       return new TypeName(reference.FullName);
     }
 
