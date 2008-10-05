@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
@@ -21,6 +22,32 @@ namespace Machine.Eon.Mapping
     {
       _name = name;
     }
+
+    public Namespace FindOrCreateNamespace(NamespaceName name)
+    {
+      foreach (Namespace ns in _namespaces)
+      {
+        if (ns.Name.Equals(name))
+        {
+          return ns;
+        }
+      }
+      Namespace newNs = new Namespace(name);
+      _namespaces.Add(newNs);
+      return newNs;
+    }
+
+    public Type FindOrCreateType(TypeName typeName)
+    {
+      Namespace ns = FindOrCreateNamespace(typeName.Namespace);
+      return ns.FindOrCreateType(typeName);
+    }
+
+    public Method FindOrCreateMethod(MethodName methodName)
+    {
+      Type type = FindOrCreateType(methodName.TypeName);
+      return type.FindOrCreateMethod(methodName);
+    }
   }
   public class Namespace
   {
@@ -41,6 +68,21 @@ namespace Machine.Eon.Mapping
     {
       _name = name;
     }
+
+    public Type FindOrCreateType(TypeName name)
+    {
+      if (!name.Namespace.Equals(_name)) throw new ArgumentException("name");
+      foreach (Type type in _types)
+      {
+        if (type.Name.Equals(name))
+        {
+          return type;
+        }
+      }
+      Type newType = new Type(name);
+      _types.Add(newType);
+      return newType;
+    }
   }
   public class Type
   {
@@ -60,6 +102,21 @@ namespace Machine.Eon.Mapping
     public Type(TypeName name)
     {
       _name = name;
+    }
+
+    public Method FindOrCreateMethod(MethodName name)
+    {
+      if (!name.TypeName.Equals(_name)) throw new ArgumentException("name");
+      foreach (Method method in _methods)
+      {
+        if (method.Name.Equals(name))
+        {
+          return method;
+        }
+      }
+      Method newMethod = new Method(name);
+      _methods.Add(newMethod);
+      return newMethod;
     }
   }
   public class Method
