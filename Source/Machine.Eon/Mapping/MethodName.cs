@@ -5,6 +5,7 @@ namespace Machine.Eon.Mapping
 {
   public class MethodName
   {
+    public static readonly MethodName None = new MethodName(TypeName.None, String.Empty);
     private readonly TypeName _typeName;
     private readonly string _name;
 
@@ -41,6 +42,10 @@ namespace Machine.Eon.Mapping
 
     public override string ToString()
     {
+      if (String.IsNullOrEmpty(_name))
+      {
+        return "Method<Null>";
+      }
       return _name;
     }
   }

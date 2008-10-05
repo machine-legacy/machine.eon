@@ -5,6 +5,7 @@ namespace Machine.Eon.Mapping
 {
   public class TypeName
   {
+    public static readonly TypeName None = new TypeName(String.Empty);
     private readonly string _name;
 
     public string Name
@@ -45,6 +46,10 @@ namespace Machine.Eon.Mapping
 
     public override string ToString()
     {
+      if (String.IsNullOrEmpty(_name))
+      {
+        return "Type<Null>";
+      }
       return _name;
     }
   }
