@@ -35,6 +35,16 @@ namespace Machine.Eon.Mapping
       return false;
     }
 
+    public static bool operator ==(MethodName n1, MethodName n2)
+    {
+      return Equals(n1, n2);
+    }
+
+    public static bool operator !=(MethodName n1, MethodName n2)
+    {
+      return !Equals(n1, n2);
+    }
+
     public override Int32 GetHashCode()
     {
       return _typeName.GetHashCode() ^ _name.GetHashCode();

@@ -27,6 +27,16 @@ namespace Machine.Eon.Mapping
       return false;
     }
 
+    public static bool operator ==(NamespaceName n1, NamespaceName n2)
+    {
+      return Equals(n1, n2);
+    }
+
+    public static bool operator !=(NamespaceName n1, NamespaceName n2)
+    {
+      return !Equals(n1, n2);
+    }
+
     public override Int32 GetHashCode()
     {
       return _name.GetHashCode();
