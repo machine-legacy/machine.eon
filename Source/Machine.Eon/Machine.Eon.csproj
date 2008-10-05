@@ -50,10 +50,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mapping\AssemblyName.cs" />
+    <Compile Include="Mapping\Repositories\IMethodRepository.cs" />
     <Compile Include="Mapping\Mapper.cs" />
     <Compile Include="Mapping\Listener.cs" />
     <Compile Include="Mapping\MethodName.cs" />
     <Compile Include="Mapping\NamespaceName.cs" />
+    <Compile Include="Mapping\Repositories\Impl\AssemblyRepository.cs" />
+    <Compile Include="Mapping\Repositories\Impl\MethodRepository.cs" />
+    <Compile Include="Mapping\Repositories\Impl\Storage.cs" />
     <Compile Include="Mapping\TypeName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
