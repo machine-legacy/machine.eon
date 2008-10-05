@@ -435,7 +435,7 @@ namespace Machine.Eon.Mapping
 
     public static MethodName ToName(this MethodDefinition definition)
     {
-      return new MethodName(definition.Name);
+      return new MethodName(definition.DeclaringType.ToTypeName(), definition.Name);
     }
 
     public static TypeName ToTypeName(this TypeReference reference)

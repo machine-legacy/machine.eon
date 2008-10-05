@@ -5,30 +5,38 @@ namespace Machine.Eon.Mapping
 {
   public class MethodName
   {
+    private readonly TypeName _typeName;
     private readonly string _name;
+
+    public TypeName TypeName
+    {
+      get { return _typeName; }
+    }
 
     public string Name
     {
       get { return _name; }
     }
 
-    public MethodName(string name)
+    public MethodName(TypeName typeName, string name)
     {
+      _typeName = typeName;
       _name = name;
     }
 
     public override bool Equals(object obj)
     {
-      if (obj is MethodName)
+      MethodName other = obj as MethodName;
+      if (other != null)
       {
-        return ((MethodName)obj).Name.Equals(this.Name);
+        return other.TypeName.Equals(this.TypeName) && other.Name.Equals(this.Name);
       }
       return false;
     }
 
     public override Int32 GetHashCode()
     {
-      return _name.GetHashCode();
+      return _typeName.GetHashCode() ^ _name.GetHashCode();
     }
 
     public override string ToString()
