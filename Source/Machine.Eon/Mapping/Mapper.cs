@@ -420,7 +420,7 @@ namespace Machine.Eon.Mapping
   {
     public static AssemblyName ToName(this AssemblyDefinition definition)
     {
-      return new AssemblyName(definition.Name.FullName);
+      return new AssemblyName(definition.Name.Name);
     }
 
     public static TypeName ToTypeName(this TypeDefinition definition)
