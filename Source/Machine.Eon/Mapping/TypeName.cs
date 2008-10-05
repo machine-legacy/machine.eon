@@ -6,35 +6,47 @@ namespace Machine.Eon.Mapping
   public class TypeName
   {
     public static readonly TypeName None = new TypeName(String.Empty);
-    private readonly string _name;
+    private readonly string _fullName;
+
+    public string FullName
+    {
+      get { return _fullName; }
+    }
 
     public string Name
     {
-      get { return _name; }
+      get
+      {
+        if (_fullName.LastIndexOf('.') < 0)
+        {
+          return _fullName;
+        }
+        return _fullName.Substring(_fullName.LastIndexOf('.') + 1);
+      }
     }
 
     public NamespaceName Namespace
     {
       get
       {
-        if (_name.LastIndexOf('.') < 0)
+        if (_fullName.LastIndexOf('.') < 0)
         {
           return NamespaceName.None;
         }
-        return new NamespaceName(_name.Substring(0, _name.LastIndexOf('.') - 1));
+        return new NamespaceName(_fullName.Substring(0, _fullName.LastIndexOf('.') - 1));
       }
     }
 
     public TypeName(string name)
     {
-      _name = name;
+      _fullName = name;
     }
 
     public override bool Equals(object obj)
     {
       if (obj is TypeName)
       {
-        return ((TypeName)obj).Name.Equals(this.Name);
+        return ((TypeName)obj).FullName.Equals(this.FullName);
       }
       return false;
     }
@@ -51,16 +63,16 @@ namespace Machine.Eon.Mapping
 
     public override Int32 GetHashCode()
     {
-      return _name.GetHashCode();
+      return _fullName.GetHashCode();
     }
 
     public override string ToString()
     {
-      if (String.IsNullOrEmpty(_name))
+      if (String.IsNullOrEmpty(_fullName))
       {
         return "Type<Null>";
       }
-      return _name;
+      return _fullName;
     }
   }
 }
