@@ -12,22 +12,18 @@ namespace Machine.Eon.Mapping
 
     public void StartAssembly(AssemblyName name)
     {
-      Console.WriteLine(name);
     }
 
     public void StartNamespace(NamespaceName name)
     {
-      Console.WriteLine("  " + name);
     }
 
     public void StartType(TypeName name)
     {
-      Console.WriteLine("  " + name);
     }
 
     public void StartMethod(MethodName name)
     {
-      Console.WriteLine("    " + name);
     }
 
     public void UseType(TypeName name)
