@@ -58,6 +58,8 @@
     <Compile Include="Mapping\Repositories\Impl\AssemblyRepository.cs" />
     <Compile Include="Mapping\Repositories\Impl\MethodRepository.cs" />
     <Compile Include="Mapping\Repositories\Impl\Storage.cs" />
+    <Compile Include="Mapping\Repositories\Impl\TypeRepository.cs" />
+    <Compile Include="Mapping\Repositories\ITypeRepository.cs" />
     <Compile Include="Mapping\TypeName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
