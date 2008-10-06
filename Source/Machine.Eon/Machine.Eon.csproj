@@ -50,6 +50,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mapping\AssemblyName.cs" />
+    <Compile Include="Mapping\Method.cs" />
+    <Compile Include="Mapping\Namespace.cs" />
     <Compile Include="Mapping\Repositories\IMethodRepository.cs" />
     <Compile Include="Mapping\Mapper.cs" />
     <Compile Include="Mapping\Listener.cs" />
@@ -60,7 +62,9 @@
     <Compile Include="Mapping\Repositories\Impl\Storage.cs" />
     <Compile Include="Mapping\Repositories\Impl\TypeRepository.cs" />
     <Compile Include="Mapping\Repositories\ITypeRepository.cs" />
+    <Compile Include="Mapping\Type.cs" />
     <Compile Include="Mapping\TypeName.cs" />
+    <Compile Include="Mapping\TypeUsage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
