@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Machine.Eon.Mapping;
 
 namespace Machine.Eon.Console

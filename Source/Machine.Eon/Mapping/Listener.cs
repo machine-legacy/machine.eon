@@ -53,12 +53,13 @@ namespace Machine.Eon.Mapping
       if (methodName != MethodName.None)
       {
         Method method = _methodRepository.FindMethod(assemblyName, methodName);
+        method.UseType(name);
       }
       else
       {
         Type type = _typeRepository.FindType(assemblyName, typeName);
+        type.UseType(name);
       }
-      Console.WriteLine("{0} {1} {2} {3}", assemblyName, typeName.Name, methodName, name);
     }
 
     public void EndMethod()

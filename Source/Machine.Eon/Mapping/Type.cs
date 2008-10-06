@@ -7,6 +7,7 @@ namespace Machine.Eon.Mapping
   {
     private readonly TypeName _name;
     private readonly List<Method> _methods = new List<Method>();
+    private readonly UsageSet _usages = new UsageSet();
 
     public TypeName Name
     {
@@ -36,6 +37,11 @@ namespace Machine.Eon.Mapping
       Method newMethod = new Method(name);
       _methods.Add(newMethod);
       return newMethod;
+    }
+
+    public void UseType(TypeName name)
+    {
+      _usages.Add(name);
     }
   }
 }
