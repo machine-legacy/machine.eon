@@ -25,21 +25,25 @@ namespace Machine.Eon.Mapping
 
     public void StartAssembly(AssemblyName name)
     {
+      if (name == null) throw new ArgumentNullException("name");
       _assemblies.Push(name);
     }
 
     public void StartNamespace(NamespaceName name)
     {
+      if (name == null) throw new ArgumentNullException("name");
       _namespaces.Push(name);
     }
 
     public void StartType(TypeName name)
     {
+      if (name == null) throw new ArgumentNullException("name");
       _types.Push(name);
     }
 
     public void StartProperty(PropertyName name)
     {
+      if (name == null) throw new ArgumentNullException("name");
       _properties.Push(name);
     }
 
@@ -50,44 +54,40 @@ namespace Machine.Eon.Mapping
 
     public void StartMethod(MethodName name)
     {
+      if (name == null) throw new ArgumentNullException("name");
       _methods.Push(name);
     }
 
     public void UseType(TypeName name)
     {
-      ICanUse can = GetCurrentCanUse();
-      if (can != null)
-      {
-        can.Use(_typeRepository.FindType(name));
-      }
+      if (name == null) throw new ArgumentNullException("name");
+      UseInCurrentContext(_typeRepository.FindType(name));
     }
 
     public void UseMethod(MethodName name)
     {
-      ICanUse can = GetCurrentCanUse();
-      if (can != null)
-      {
-        can.Use(_memberRepository.FindMethod(name));
-      }
+      if (name == null) throw new ArgumentNullException("name");
+      UseInCurrentContext(_memberRepository.FindMethod(name));
     }
 
     public void UseProperty(PropertyName name)
     {
-      ICanUse can = GetCurrentCanUse();
-      if (can != null)
-      {
-        can.Use(_memberRepository.FindProperty(name));
-      }
+      if (name == null) throw new ArgumentNullException("name");
+      UseInCurrentContext(_memberRepository.FindProperty(name));
     }
 
     public void SetPropertyGetter(PropertyName propertyName, MethodName methodName)
     {
+      if (propertyName == null) throw new ArgumentNullException("propertyName");
+      if (methodName == null) throw new ArgumentNullException("methodName");
       Property property = _memberRepository.FindProperty(propertyName);
       property.Getter = _memberRepository.FindMethod(methodName);
     }
 
     public void SetPropertySetter(PropertyName propertyName, MethodName methodName)
     {
+      if (propertyName == null) throw new ArgumentNullException("propertyName");
+      if (methodName == null) throw new ArgumentNullException("methodName");
       Property property = _memberRepository.FindProperty(propertyName);
       property.Setter = _memberRepository.FindMethod(methodName);
     }
@@ -150,6 +150,15 @@ namespace Machine.Eon.Mapping
         return type;
       }
       return null;
+    }
+
+    private void UseInCurrentContext(Node node)
+    {
+      ICanUse can = GetCurrentCanUse();
+      if (can != null)
+      {
+        can.Use(node);
+      }
     }
   }
 }
