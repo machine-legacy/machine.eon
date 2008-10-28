@@ -3,10 +3,20 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class Namespace
+  public class Namespace : Node
   {
     private readonly NamespaceName _name;
     private readonly List<Type> _types = new List<Type>();
+
+    public override NodeName NodeName
+    {
+      get { return _name; }
+    }
+
+    public override Usage Usage()
+    {
+      throw new InvalidOperationException();
+    }
 
     public NamespaceName Name
     {
