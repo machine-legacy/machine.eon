@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class Assembly
+  public class Assembly : Node
   {
     private readonly List<Namespace> _namespaces = new List<Namespace>();
     private readonly AssemblyName _name;

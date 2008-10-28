@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public abstract class Member
+  public abstract class Member : Node
   {
     private readonly MemberName _name;
 
