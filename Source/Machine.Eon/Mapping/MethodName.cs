@@ -3,9 +3,24 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class MethodName
+  public class PropertyName : MemberName
+  {
+    public PropertyName(TypeName typeName, string name)
+      : base(typeName, name)
+    {
+    }
+  }
+  public class MethodName : MemberName
   {
     public static readonly MethodName None = new MethodName(TypeName.None, String.Empty);
+
+    public MethodName(TypeName typeName, string name)
+      : base(typeName, name)
+    {
+    }
+  }
+  public abstract class MemberName
+  {
     private readonly TypeName _typeName;
     private readonly string _name;
 
@@ -19,7 +34,7 @@ namespace Machine.Eon.Mapping
       get { return _name; }
     }
 
-    public MethodName(TypeName typeName, string name)
+    protected MemberName(TypeName typeName, string name)
     {
       _typeName = typeName;
       _name = name;
@@ -35,12 +50,12 @@ namespace Machine.Eon.Mapping
       return false;
     }
 
-    public static bool operator ==(MethodName n1, MethodName n2)
+    public static bool operator ==(MemberName n1, MemberName n2)
     {
       return Equals(n1, n2);
     }
 
-    public static bool operator !=(MethodName n1, MethodName n2)
+    public static bool operator !=(MemberName n1, MemberName n2)
     {
       return !Equals(n1, n2);
     }
@@ -54,7 +69,7 @@ namespace Machine.Eon.Mapping
     {
       if (String.IsNullOrEmpty(_name))
       {
-        return "Method<Null>";
+        return "Member<Null>";
       }
       return _name;
     }
