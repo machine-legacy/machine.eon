@@ -7,20 +7,23 @@ namespace Machine.Eon.Mapping
   {
   }
 
-  public abstract class UsageByName<TNode, TName> : Usage where TNode : Node where TName : class
+  public abstract class UsageByName<TNode, TName> : Usage where TNode : Node where TName : NodeName
   {
     private readonly TNode _node;
-    private readonly TName _name;
 
-    protected UsageByName(TNode node, TName name)
+    protected UsageByName(TNode node)
     {
       _node = node;
-      _name = name;
+    }
+
+    public TNode Node
+    {
+      get { return _node; }
     }
 
     public TName Name
     {
-      get { return _name; }
+      get { return (TName)_node.NodeName; }
     }
 
     public override bool Equals(object obj)
@@ -45,24 +48,24 @@ namespace Machine.Eon.Mapping
   
   public class TypeUsage : UsageByName<Type, TypeName>
   {
-    public TypeUsage(Type type, TypeName name)
-      : base(type, name)
+    public TypeUsage(Type type)
+      : base(type)
     {
     }
   }
   
   public class MethodUsage : UsageByName<Method, MethodName>
   {
-    public MethodUsage(Method method, MethodName name)
-      : base(method, name)
+    public MethodUsage(Method method)
+      : base(method)
     {
     }
   }
   
   public class PropertyUsage : UsageByName<Property, PropertyName>
   {
-    public PropertyUsage(Property property, PropertyName name)
-      : base(property, name)
+    public PropertyUsage(Property property)
+      : base(property)
     {
     }
   }

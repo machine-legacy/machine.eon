@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class AssemblyName
+  public class AssemblyName : NodeName
   {
     public static readonly AssemblyName None = new AssemblyName(String.Empty);
     private readonly string _name;

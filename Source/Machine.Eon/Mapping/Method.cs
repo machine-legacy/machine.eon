@@ -19,9 +19,14 @@ namespace Machine.Eon.Mapping
       _name = name;
     }
 
+    public override NodeName NodeName
+    {
+      get { return _name; }
+    }
+
     public override Usage Usage()
     {
-      return new MethodUsage(this, _name);
+      return new MethodUsage(this);
     }
 
     public void Use(Node node)

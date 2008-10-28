@@ -21,7 +21,7 @@ namespace Machine.Eon.Mapping
     {
     }
   }
-  public abstract class MemberName
+  public abstract class MemberName : NodeName
   {
     private readonly TypeName _typeName;
     private readonly string _name;

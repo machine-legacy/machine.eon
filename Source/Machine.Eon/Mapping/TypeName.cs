@@ -10,7 +10,7 @@ namespace Machine.Eon.Mapping
     {
     }
   }
-  public class TypeName
+  public class TypeName : NodeName
   {
     public static readonly TypeName None = new TypeName(AssemblyName.None, String.Empty);
     private readonly AssemblyName _assemblyName;
