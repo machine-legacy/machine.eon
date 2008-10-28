@@ -20,6 +20,7 @@ namespace Machine.Eon.Mapping
     {
       _types.Push(TypeName.None);
       _methods.Push(MethodName.None);
+      _properties.Push(PropertyName.None);
     }
 
     public void StartAssembly(AssemblyName name)
@@ -57,9 +58,15 @@ namespace Machine.Eon.Mapping
       AssemblyName assemblyName = _assemblies.Peek();
       TypeName typeName = _types.Peek();
       MethodName methodName = _methods.Peek();
+      PropertyName propertyName = _properties.Peek();
       if (typeName == TypeName.None)
       {
         return;
+      }
+      if (propertyName != PropertyName.None)
+      {
+        Property property = _memberRepository.FindProperty(assemblyName, propertyName);
+        property.UseType(name);
       }
       if (methodName != MethodName.None)
       {
@@ -71,6 +78,14 @@ namespace Machine.Eon.Mapping
         Type type = _typeRepository.FindType(assemblyName, typeName);
         type.UseType(name);
       }
+    }
+
+    public void UseMethod(MethodName name)
+    {
+    }
+
+    public void UseProperty(PropertyName name)
+    {
     }
 
     public void EndMethod()

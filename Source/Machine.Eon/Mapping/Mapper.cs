@@ -382,7 +382,13 @@ namespace Machine.Eon.Mapping
       }
       else if (instr.Operand is MethodReference)
       {
-        _listener.UseType(((MethodReference) instr.Operand).DeclaringType.ToTypeName());
+        _listener.UseType(((MethodReference)instr.Operand).DeclaringType.ToTypeName());
+        _listener.UseMethod(((MethodReference)instr.Operand).ToMethodName());
+      }
+      else if (instr.Operand is PropertyReference)
+      {
+        _listener.UseType(((PropertyReference)instr.Operand).DeclaringType.ToTypeName());
+        _listener.UseProperty(((PropertyReference)instr.Operand).ToPropertyName());
       }
     }
 
@@ -459,6 +465,16 @@ namespace Machine.Eon.Mapping
         return new TypeName(reference.FullName.Substring(0, reference.FullName.IndexOf('`')));
       }
       return new TypeName(reference.FullName);
+    }
+
+    public static MethodName ToMethodName(this MethodReference reference)
+    {
+      return new MethodName(reference.DeclaringType.ToTypeName(), reference.Name);
+    }
+
+    public static PropertyName ToPropertyName(this PropertyReference reference)
+    {
+      return new PropertyName(reference.DeclaringType.ToTypeName(), reference.Name);
     }
 
     public static TypeName ToTypeName(this VariableDefinition definition)

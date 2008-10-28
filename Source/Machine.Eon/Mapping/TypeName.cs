@@ -72,7 +72,7 @@ namespace Machine.Eon.Mapping
       {
         return "Type<Null>";
       }
-      return _fullName;
+      return "Type<" + _fullName + ">";
     }
   }
 }
