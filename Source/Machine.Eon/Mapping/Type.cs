@@ -58,5 +58,10 @@ namespace Machine.Eon.Mapping
     public void Use(Node node)
     {
     }
+
+    public override string ToString()
+    {
+      return _name.ToString();
+    }
   }
 }

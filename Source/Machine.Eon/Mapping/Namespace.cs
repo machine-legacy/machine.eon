@@ -47,5 +47,10 @@ namespace Machine.Eon.Mapping
       }
       return null;
     }
+
+    public override string ToString()
+    {
+      return _name.ToString();
+    }
   }
 }

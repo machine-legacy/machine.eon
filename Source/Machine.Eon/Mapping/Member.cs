@@ -16,5 +16,10 @@ namespace Machine.Eon.Mapping
     {
       _name = name;
     }
+
+    public override string ToString()
+    {
+      return _name.ToString();
+    }
   }
 }
