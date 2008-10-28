@@ -21,7 +21,7 @@ namespace Machine.Eon.Mapping
 
     public override Usage Usage()
     {
-      return new MethodUsage(_name);
+      return new MethodUsage(this, _name);
     }
 
     public void Use(Node node)

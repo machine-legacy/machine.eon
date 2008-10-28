@@ -52,7 +52,7 @@ namespace Machine.Eon.Mapping
 
     public override Usage Usage()
     {
-      return new TypeUsage(_name);
+      return new TypeUsage(this, _name);
     }
 
     public void Use(Node node)
