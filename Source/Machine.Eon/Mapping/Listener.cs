@@ -8,7 +8,7 @@ namespace Machine.Eon.Mapping
 {
   public class Listener
   {
-    private readonly IMethodRepository _methodRepository = new MethodRepository();
+    private readonly IMemberRepository _memberRepository = new MemberRepository();
     private readonly ITypeRepository _typeRepository = new TypeRepository();
     private readonly Stack<AssemblyName> _assemblies = new Stack<AssemblyName>();
     private readonly Stack<NamespaceName> _namespaces = new Stack<NamespaceName>();
@@ -52,7 +52,7 @@ namespace Machine.Eon.Mapping
       }
       if (methodName != MethodName.None)
       {
-        Method method = _methodRepository.FindMethod(assemblyName, methodName);
+        Method method = _memberRepository.FindMethod(assemblyName, methodName);
         method.UseType(name);
       }
       else

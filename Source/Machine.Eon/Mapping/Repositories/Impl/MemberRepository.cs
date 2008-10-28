@@ -1,13 +1,22 @@
 using System;
-using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping.Repositories.Impl
 {
-  public class PropertyRepository : IPropertyRepository
+  public class MemberRepository : IMemberRepository
   {
     private readonly AssemblyRepository _assemblyRepository = new AssemblyRepository();
 
-    #region IPropertyRepository Members
+    public Method FindMethod(AssemblyName assemblyName, MethodName name)
+    {
+      Assembly assembly = _assemblyRepository.FindAssembly(assemblyName);
+      if (assembly == null)
+      {
+        assembly = new Assembly(assemblyName);
+        _assemblyRepository.SaveAssembly(assembly);
+      }
+      return assembly.FindOrCreateMethod(name);
+    }
+
     public Property FindProperty(AssemblyName assemblyName, PropertyName name)
     {
       Assembly assembly = _assemblyRepository.FindAssembly(assemblyName);
@@ -18,6 +27,5 @@ namespace Machine.Eon.Mapping.Repositories.Impl
       }
       return assembly.FindOrCreateProperty(name);
     }
-    #endregion
   }
 }
