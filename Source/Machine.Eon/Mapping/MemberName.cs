@@ -5,6 +5,8 @@ namespace Machine.Eon.Mapping
 {
   public class PropertyName : MemberName
   {
+    public static readonly PropertyName None = new PropertyName(TypeName.None, String.Empty);
+
     public PropertyName(TypeName typeName, string name)
       : base(typeName, name)
     {
@@ -71,7 +73,7 @@ namespace Machine.Eon.Mapping
       {
         return "Member<Null>";
       }
-      return _name;
+      return "Member<" + _typeName + "->" + _name + ">";
     }
   }
 }

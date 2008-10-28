@@ -58,7 +58,7 @@
     <Compile Include="Mapping\Repositories\IMemberRepository.cs" />
     <Compile Include="Mapping\Mapper.cs" />
     <Compile Include="Mapping\Listener.cs" />
-    <Compile Include="Mapping\MethodName.cs" />
+    <Compile Include="Mapping\MemberName.cs" />
     <Compile Include="Mapping\NamespaceName.cs" />
     <Compile Include="Mapping\Repositories\Impl\AssemblyRepository.cs" />
     <Compile Include="Mapping\Repositories\Impl\MemberRepository.cs" />
