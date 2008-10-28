@@ -441,7 +441,8 @@ namespace Machine.Eon.Mapping
 
     public static TypeName ToTypeName(this TypeDefinition definition)
     {
-      return new TypeName(definition.FullName);
+      AssemblyName assemblyName = definition.Scope.ToAssemblyName();
+      return new TypeName(assemblyName, definition.FullName);
     }
 
     public static NamespaceName ToNamespaceName(this TypeDefinition definition)
@@ -461,12 +462,13 @@ namespace Machine.Eon.Mapping
 
     public static TypeName ToTypeName(this TypeReference reference)
     {
+      AssemblyName assemblyName = reference.Scope.ToAssemblyName();
       GenericInstanceType genericInstanceType = reference as GenericInstanceType;
       if (genericInstanceType != null)
       {
-        return new TypeName(reference.FullName.Substring(0, reference.FullName.IndexOf('`')));
+        return new TypeName(assemblyName, reference.FullName.Substring(0, reference.FullName.IndexOf('`')));
       }
-      return new TypeName(reference.FullName);
+      return new TypeName(assemblyName, reference.FullName);
     }
 
     public static MethodName ToMethodName(this MethodReference reference)
@@ -487,6 +489,29 @@ namespace Machine.Eon.Mapping
     public static TypeName ToTypeName(this ParameterDefinition definition)
     {
       return definition.ParameterType.ToTypeName();
+    }
+
+    public static AssemblyName ToAssemblyName(this AssemblyNameReference reference)
+    {
+      return new AssemblyName(reference.Name);
+    }
+
+    public static AssemblyName ToAssemblyName(this ModuleDefinition definition)
+    {
+      return definition.Assembly.ToName();
+    }
+
+    public static AssemblyName ToAssemblyName(this IMetadataScope scope)
+    {
+      if (scope is AssemblyNameReference)
+      {
+        return ((AssemblyNameReference)scope).ToAssemblyName();
+      }
+      if (scope is ModuleDefinition)
+      {
+        return ((ModuleDefinition)scope).ToAssemblyName();
+      }
+      throw new InvalidOperationException();
     }
   }
 }

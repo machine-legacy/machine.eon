@@ -6,28 +6,15 @@ namespace Machine.Eon.Mapping.Repositories.Impl
   {
     private readonly AssemblyRepository _assemblyRepository = new AssemblyRepository();
 
-    public Type FindType(AssemblyName assemblyName, TypeName name)
+    public Type FindType(TypeName name)
     {
-      Assembly assembly = _assemblyRepository.FindAssembly(assemblyName);
+      Assembly assembly = _assemblyRepository.FindAssembly(name.AssemblyName);
       if (assembly == null)
       {
-        assembly = new Assembly(assemblyName);
+        assembly = new Assembly(name.AssemblyName);
         _assemblyRepository.SaveAssembly(assembly);
       }
       return assembly.FindOrCreateType(name);
-    }
-
-    public Type FindType(TypeName name)
-    {
-      foreach (Assembly assembly in _assemblyRepository.FindAll())
-      {
-        Type type = assembly.FindType(name);
-        if (type != null)
-        {
-          return type;
-        }
-      }
-      throw new InvalidOperationException();
     }
   }
 }

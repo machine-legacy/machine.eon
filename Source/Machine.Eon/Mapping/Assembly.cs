@@ -55,18 +55,6 @@ namespace Machine.Eon.Mapping
       return type.FindOrCreateProperty(propertyName);
     }
 
-    public Type FindType(TypeName name)
-    {
-      foreach (Namespace ns in _namespaces)
-      {
-        if (ns.Name.Equals(name.Namespace))
-        {
-          return ns.FindType(name);
-        }
-      }
-      return null;
-    }
-
     public override string ToString()
     {
       return _name.ToString();

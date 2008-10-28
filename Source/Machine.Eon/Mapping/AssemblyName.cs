@@ -5,6 +5,7 @@ namespace Machine.Eon.Mapping
 {
   public class AssemblyName
   {
+    public static readonly AssemblyName None = new AssemblyName(String.Empty);
     private readonly string _name;
 
     public string Name

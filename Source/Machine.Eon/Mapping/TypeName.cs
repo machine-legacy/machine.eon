@@ -5,8 +5,14 @@ namespace Machine.Eon.Mapping
 {
   public class TypeName
   {
-    public static readonly TypeName None = new TypeName(String.Empty);
+    public static readonly TypeName None = new TypeName(AssemblyName.None, String.Empty);
+    private readonly AssemblyName _assemblyName;
     private readonly string _fullName;
+
+    public AssemblyName AssemblyName
+    {
+      get { return _assemblyName; }
+    }
 
     public string FullName
     {
@@ -37,8 +43,9 @@ namespace Machine.Eon.Mapping
       }
     }
 
-    public TypeName(string name)
+    public TypeName(AssemblyName assemblyName, string name)
     {
+      _assemblyName = assemblyName;
       _fullName = name;
     }
 

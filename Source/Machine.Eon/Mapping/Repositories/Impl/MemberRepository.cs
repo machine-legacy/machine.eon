@@ -6,23 +6,23 @@ namespace Machine.Eon.Mapping.Repositories.Impl
   {
     private readonly AssemblyRepository _assemblyRepository = new AssemblyRepository();
 
-    public Method FindMethod(AssemblyName assemblyName, MethodName name)
+    public Method FindMethod(MethodName name)
     {
-      Assembly assembly = _assemblyRepository.FindAssembly(assemblyName);
+      Assembly assembly = _assemblyRepository.FindAssembly(name.TypeName.AssemblyName);
       if (assembly == null)
       {
-        assembly = new Assembly(assemblyName);
+        assembly = new Assembly(name.TypeName.AssemblyName);
         _assemblyRepository.SaveAssembly(assembly);
       }
       return assembly.FindOrCreateMethod(name);
     }
 
-    public Property FindProperty(AssemblyName assemblyName, PropertyName name)
+    public Property FindProperty(PropertyName name)
     {
-      Assembly assembly = _assemblyRepository.FindAssembly(assemblyName);
+      Assembly assembly = _assemblyRepository.FindAssembly(name.TypeName.AssemblyName);
       if (assembly == null)
       {
-        assembly = new Assembly(assemblyName);
+        assembly = new Assembly(name.TypeName.AssemblyName);
         _assemblyRepository.SaveAssembly(assembly);
       }
       return assembly.FindOrCreateProperty(name);

@@ -67,7 +67,7 @@ namespace Machine.Eon.Mapping
       ICanUse can = GetCurrentCanUse();
       if (can != null)
       {
-        //can.Use(_memberRepository.FindMethod());
+        can.Use(_memberRepository.FindMethod(name));
       }
     }
 
@@ -76,22 +76,20 @@ namespace Machine.Eon.Mapping
       ICanUse can = GetCurrentCanUse();
       if (can != null)
       {
-        //can.Use(_memberRepository.FindProperty());
+        can.Use(_memberRepository.FindProperty(name));
       }
     }
 
     public void SetPropertyGetter(PropertyName propertyName, MethodName methodName)
     {
-      AssemblyName assemblyName = _assemblies.Peek();
-      Property property = _memberRepository.FindProperty(assemblyName, propertyName);
-      property.Getter = _memberRepository.FindMethod(assemblyName, methodName);
+      Property property = _memberRepository.FindProperty(propertyName);
+      property.Getter = _memberRepository.FindMethod(methodName);
     }
 
     public void SetPropertySetter(PropertyName propertyName, MethodName methodName)
     {
-      AssemblyName assemblyName = _assemblies.Peek();
-      Property property = _memberRepository.FindProperty(assemblyName, propertyName);
-      property.Setter = _memberRepository.FindMethod(assemblyName, methodName);
+      Property property = _memberRepository.FindProperty(propertyName);
+      property.Setter = _memberRepository.FindMethod(methodName);
     }
 
     public void EndMethod()
@@ -116,18 +114,16 @@ namespace Machine.Eon.Mapping
 
     private Type GetCurrentType()
     {
-      AssemblyName assemblyName = _assemblies.Peek();
       TypeName typeName = _types.Peek();
       if (typeName == TypeName.None)
       {
         return null;
       }
-      return _typeRepository.FindType(assemblyName, typeName);
+      return _typeRepository.FindType(typeName);
     }
 
     private Method GetCurrentMethod()
     {
-      AssemblyName assemblyName = _assemblies.Peek();
       MethodName methodName = _methods.Peek();
       TypeName typeName = _types.Peek();
       if (typeName == TypeName.None)
@@ -138,7 +134,7 @@ namespace Machine.Eon.Mapping
       {
         return null;
       }
-      return _memberRepository.FindMethod(assemblyName, methodName);
+      return _memberRepository.FindMethod(methodName);
     }
 
     private ICanUse GetCurrentCanUse()

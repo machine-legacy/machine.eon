@@ -36,7 +36,7 @@ namespace Machine.Eon.Mapping
       return type;
     }
 
-    public Type FindType(TypeName name)
+    private Type FindType(TypeName name)
     {
       foreach (Type type in _types)
       {
