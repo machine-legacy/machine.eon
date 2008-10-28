@@ -6,7 +6,6 @@ namespace Machine.Eon.Mapping
   public class Property : Member
   {
     private readonly PropertyName _name;
-    private readonly UsageSet _usages = new UsageSet();
     private Method _getter;
     private Method _setter;
 
@@ -33,9 +32,9 @@ namespace Machine.Eon.Mapping
       _name = name;
     }
 
-    public void UseType(TypeName name)
+    public override Usage Usage()
     {
-      _usages.Add(name);
+      throw new InvalidOperationException();
     }
   }
 }

@@ -5,5 +5,6 @@ namespace Machine.Eon.Mapping
 {
   public abstract class Node
   {
+    public abstract Usage Usage();
   }
 }

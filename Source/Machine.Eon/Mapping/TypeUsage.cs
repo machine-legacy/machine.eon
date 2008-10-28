@@ -3,23 +3,25 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class TypeUsage : Usage
+  public class TypeUsage : UsageByName<TypeName>
   {
-    private readonly TypeName _typeName;
-
-    public TypeName TypeName
+    public TypeUsage(TypeName name)
+      : base(name)
     {
-      get { return _typeName; }
     }
-
-    public TypeUsage(TypeName typeName)
+  }
+  public class MethodUsage : UsageByName<MethodName>
+  {
+    public MethodUsage(MethodName name)
+      : base(name)
     {
-      _typeName = typeName;
     }
-
-    public override string ToString()
+  }
+  public class PropertyUsage : UsageByName<PropertyName>
+  {
+    public PropertyUsage(PropertyName name)
+      : base(name)
     {
-      return "Usage<" + _typeName + ">";
     }
   }
 }

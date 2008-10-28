@@ -50,13 +50,14 @@ namespace Machine.Eon.Mapping
       return newMember;
     }
 
-    public void UseType(TypeName name)
+    public override Usage Usage()
     {
-      _usages.Add(name);
+      return new TypeUsage(_name);
     }
 
     public void Use(Node node)
     {
+      _usages.Add(node);
     }
 
     public override string ToString()

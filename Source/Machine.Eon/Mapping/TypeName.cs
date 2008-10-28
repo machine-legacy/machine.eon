@@ -3,6 +3,13 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
+  public class GenericParameterTypeName : TypeName
+  {
+    public GenericParameterTypeName(AssemblyName assemblyName, string name)
+      : base(assemblyName, name)
+    {
+    }
+  }
   public class TypeName
   {
     public static readonly TypeName None = new TypeName(AssemblyName.None, String.Empty);

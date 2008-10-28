@@ -23,6 +23,11 @@ namespace Machine.Eon.Mapping
       _name = name;
     }
 
+    public override Usage Usage()
+    {
+      throw new InvalidOperationException();
+    }
+
     public Namespace FindOrCreateNamespace(NamespaceName name)
     {
       foreach (Namespace ns in _namespaces)

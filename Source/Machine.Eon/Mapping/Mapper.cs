@@ -380,7 +380,11 @@ namespace Machine.Eon.Mapping
       }
       else if (instr.Operand is FieldReference)
       {
-        _listener.UseType(((FieldReference)instr.Operand).FieldType.ToTypeName());
+        TypeName typeName = ((FieldReference)instr.Operand).FieldType.ToTypeName();
+        if (typeName != null)
+        {
+          _listener.UseType(typeName);
+        }
       }
       else if (instr.Operand is MethodReference)
       {
@@ -462,6 +466,10 @@ namespace Machine.Eon.Mapping
 
     public static TypeName ToTypeName(this TypeReference reference)
     {
+      if (reference.Scope == null)
+      {
+        return new GenericParameterTypeName(AssemblyName.None, reference.Name);
+      }
       AssemblyName assemblyName = reference.Scope.ToAssemblyName();
       GenericInstanceType genericInstanceType = reference as GenericInstanceType;
       if (genericInstanceType != null)

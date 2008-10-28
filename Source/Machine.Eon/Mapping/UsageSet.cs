@@ -5,20 +5,25 @@ namespace Machine.Eon.Mapping
 {
   public class UsageSet
   {
-    private readonly Dictionary<TypeName, TypeUsage> _usages = new Dictionary<TypeName, TypeUsage>();
+    private readonly List<Usage> _usages = new List<Usage>();
 
-    public ICollection<TypeUsage> Usages
+    public IEnumerable<Usage> Usages
     {
-      get { return _usages.Values; }
+      get { return _usages; }
     }
 
-    public void Add(TypeName typeName)
+    public void Add(Node node)
     {
-      if (_usages.ContainsKey(typeName))
+      Add(node.Usage());
+    }
+
+    public void Add(Usage usage)
+    {
+      if (_usages.Contains(usage))
       {
         return;
       }
-      _usages[typeName] = new TypeUsage(typeName);
+      _usages.Add(usage);
     }
   }
 }

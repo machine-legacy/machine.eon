@@ -19,13 +19,14 @@ namespace Machine.Eon.Mapping
       _name = name;
     }
 
-    public void UseType(TypeName name)
+    public override Usage Usage()
     {
-      _usages.Add(name);
+      return new MethodUsage(_name);
     }
 
     public void Use(Node node)
     {
+      _usages.Add(node);
     }
   }
 }
