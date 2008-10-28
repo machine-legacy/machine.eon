@@ -88,6 +88,20 @@ namespace Machine.Eon.Mapping
     {
     }
 
+    public void SetPropertyGetter(PropertyName propertyName, MethodName methodName)
+    {
+      AssemblyName assemblyName = _assemblies.Peek();
+      Property property = _memberRepository.FindProperty(assemblyName, propertyName);
+      property.Getter = _memberRepository.FindMethod(assemblyName, methodName);
+    }
+
+    public void SetPropertySetter(PropertyName propertyName, MethodName methodName)
+    {
+      AssemblyName assemblyName = _assemblies.Peek();
+      Property property = _memberRepository.FindProperty(assemblyName, propertyName);
+      property.Setter = _memberRepository.FindMethod(assemblyName, methodName);
+    }
+
     public void EndMethod()
     {
       _methods.Pop();

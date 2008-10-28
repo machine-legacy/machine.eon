@@ -286,12 +286,14 @@ namespace Machine.Eon.Mapping
         _listener.StartMethod(property.GetMethod.ToName());
         property.GetMethod.Accept(this);
         _listener.EndMethod();
+        _listener.SetPropertyGetter(property.ToName(), property.GetMethod.ToMethodName());
       }
       if (property.SetMethod != null)
       {
         _listener.StartMethod(property.SetMethod.ToName());
         property.SetMethod.Accept(this);
         _listener.EndMethod();
+        _listener.SetPropertySetter(property.ToName(), property.SetMethod.ToMethodName());
       }
       _listener.EndProperty();
     }
