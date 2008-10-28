@@ -68,7 +68,6 @@
     <Compile Include="Mapping\Repositories\ITypeRepository.cs" />
     <Compile Include="Mapping\Type.cs" />
     <Compile Include="Mapping\TypeName.cs" />
-    <Compile Include="Mapping\TypeUsage.cs" />
     <Compile Include="Mapping\Usage.cs" />
     <Compile Include="Mapping\UsageSet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
