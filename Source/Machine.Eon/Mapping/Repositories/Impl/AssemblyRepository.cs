@@ -14,6 +14,11 @@ namespace Machine.Eon.Mapping.Repositories.Impl
       return Storage.InMemory.Assemblies[name];
     }
 
+    public IEnumerable<Assembly> FindAll()
+    {
+      return Storage.InMemory.Assemblies.Values;
+    }
+
     public void SaveAssembly(Assembly assembly)
     {
       Storage.InMemory.Assemblies[assembly.Name] = assembly;

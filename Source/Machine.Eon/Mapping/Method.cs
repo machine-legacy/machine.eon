@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class Method : Member
+  public class Method : Member, ICanUse
   {
     private readonly MethodName _name;
     private readonly UsageSet _usages = new UsageSet();
@@ -22,6 +22,10 @@ namespace Machine.Eon.Mapping
     public void UseType(TypeName name)
     {
       _usages.Add(name);
+    }
+
+    public void Use(Node node)
+    {
     }
   }
 }

@@ -50,6 +50,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mapping\AssemblyName.cs" />
+    <Compile Include="Mapping\ICanUse.cs" />
     <Compile Include="Mapping\Member.cs" />
     <Compile Include="Mapping\Method.cs" />
     <Compile Include="Mapping\Namespace.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Mapping\Type.cs" />
     <Compile Include="Mapping\TypeName.cs" />
     <Compile Include="Mapping\TypeUsage.cs" />
+    <Compile Include="Mapping\Usage.cs" />
     <Compile Include="Mapping\UsageSet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Querying\Condition.cs">

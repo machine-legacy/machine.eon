@@ -55,37 +55,29 @@ namespace Machine.Eon.Mapping
 
     public void UseType(TypeName name)
     {
-      AssemblyName assemblyName = _assemblies.Peek();
-      TypeName typeName = _types.Peek();
-      MethodName methodName = _methods.Peek();
-      PropertyName propertyName = _properties.Peek();
-      if (typeName == TypeName.None)
+      ICanUse can = GetCurrentCanUse();
+      if (can != null)
       {
-        return;
-      }
-      if (propertyName != PropertyName.None)
-      {
-        Property property = _memberRepository.FindProperty(assemblyName, propertyName);
-        property.UseType(name);
-      }
-      if (methodName != MethodName.None)
-      {
-        Method method = _memberRepository.FindMethod(assemblyName, methodName);
-        method.UseType(name);
-      }
-      else
-      {
-        Type type = _typeRepository.FindType(assemblyName, typeName);
-        type.UseType(name);
+        can.Use(_typeRepository.FindType(name));
       }
     }
 
     public void UseMethod(MethodName name)
     {
+      ICanUse can = GetCurrentCanUse();
+      if (can != null)
+      {
+        //can.Use(_memberRepository.FindMethod());
+      }
     }
 
     public void UseProperty(PropertyName name)
     {
+      ICanUse can = GetCurrentCanUse();
+      if (can != null)
+      {
+        //can.Use(_memberRepository.FindProperty());
+      }
     }
 
     public void SetPropertyGetter(PropertyName propertyName, MethodName methodName)
@@ -120,6 +112,48 @@ namespace Machine.Eon.Mapping
     public void EndAssembly()
     {
       _assemblies.Pop();
+    }
+
+    private Type GetCurrentType()
+    {
+      AssemblyName assemblyName = _assemblies.Peek();
+      TypeName typeName = _types.Peek();
+      if (typeName == TypeName.None)
+      {
+        return null;
+      }
+      return _typeRepository.FindType(assemblyName, typeName);
+    }
+
+    private Method GetCurrentMethod()
+    {
+      AssemblyName assemblyName = _assemblies.Peek();
+      MethodName methodName = _methods.Peek();
+      TypeName typeName = _types.Peek();
+      if (typeName == TypeName.None)
+      {
+        return null;
+      }
+      if (methodName == MethodName.None)
+      {
+        return null;
+      }
+      return _memberRepository.FindMethod(assemblyName, methodName);
+    }
+
+    private ICanUse GetCurrentCanUse()
+    {
+      Method method = GetCurrentMethod();
+      if (method != null)
+      {
+        return method;
+      }
+      Type type = GetCurrentType();
+      if (type != null)
+      {
+        return type;
+      }
+      return null;
     }
   }
 }

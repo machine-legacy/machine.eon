@@ -6,7 +6,6 @@ namespace Machine.Eon.Mapping.Repositories.Impl
   {
     private readonly AssemblyRepository _assemblyRepository = new AssemblyRepository();
 
-    #region ITypeRepository Members
     public Type FindType(AssemblyName assemblyName, TypeName name)
     {
       Assembly assembly = _assemblyRepository.FindAssembly(assemblyName);
@@ -17,6 +16,18 @@ namespace Machine.Eon.Mapping.Repositories.Impl
       }
       return assembly.FindOrCreateType(name);
     }
-    #endregion
+
+    public Type FindType(TypeName name)
+    {
+      foreach (Assembly assembly in _assemblyRepository.FindAll())
+      {
+        Type type = assembly.FindType(name);
+        if (type != null)
+        {
+          return type;
+        }
+      }
+      throw new InvalidOperationException();
+    }
   }
 }

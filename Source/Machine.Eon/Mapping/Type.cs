@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class Type : Node
+  public class Type : Node, ICanUse
   {
     private readonly TypeName _name;
     private readonly List<Method> _methods = new List<Method>();
@@ -53,6 +53,10 @@ namespace Machine.Eon.Mapping
     public void UseType(TypeName name)
     {
       _usages.Add(name);
+    }
+
+    public void Use(Node node)
+    {
     }
   }
 }

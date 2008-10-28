@@ -26,6 +26,18 @@ namespace Machine.Eon.Mapping
     public Type FindOrCreateType(TypeName name)
     {
       if (!name.Namespace.Equals(_name)) throw new ArgumentException("name");
+      Type type = FindType(name);
+      if (type != null)
+      {
+        return type;
+      }
+      type = new Type(name);
+      _types.Add(type);
+      return type;
+    }
+
+    public Type FindType(TypeName name)
+    {
       foreach (Type type in _types)
       {
         if (type.Name.Equals(name))
@@ -33,9 +45,7 @@ namespace Machine.Eon.Mapping
           return type;
         }
       }
-      Type newType = new Type(name);
-      _types.Add(newType);
-      return newType;
+      return null;
     }
   }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class TypeUsage
+  public class TypeUsage : Usage
   {
     private readonly TypeName _typeName;
 
