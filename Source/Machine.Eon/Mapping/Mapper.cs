@@ -24,7 +24,6 @@ namespace Machine.Eon.Mapping
       _listener = listener;
     }
 
-    #region IReflectionStructureVisitor Members
     public override void VisitAssemblyDefinition(AssemblyDefinition asm)
     {
       _listener.StartAssembly(asm.ToName());
@@ -95,7 +94,6 @@ namespace Machine.Eon.Mapping
         resource.Accept(this);
       }
     }
-    #endregion
   }
   public class MyReflectionVisitor : BaseReflectionVisitor
   {
@@ -106,7 +104,6 @@ namespace Machine.Eon.Mapping
       _listener = listener;
     }
 
-    #region IReflectionVisitor Members
     public override void TerminateModuleDefinition(ModuleDefinition module)
     {
     }
@@ -347,7 +344,6 @@ namespace Machine.Eon.Mapping
         reference.Accept(this);
       }
     }
-    #endregion
   }
   public class MyCodeVisitor : BaseCodeVisitor
   {
@@ -358,7 +354,6 @@ namespace Machine.Eon.Mapping
       _listener = listener;
     }
 
-    #region ICodeVisitor Members
     public override void TerminateMethodBody(MethodBody body)
     {
     }
@@ -427,7 +422,6 @@ namespace Machine.Eon.Mapping
         variable.Accept(this);
       }
     }
-    #endregion
   }
 
   public static class Mapping
