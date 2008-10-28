@@ -14,18 +14,38 @@ namespace Machine.Eon.Querying
   }
   public class AnyAssemblyCondition : Condition
   {
+    public override bool Matches(Node node)
+    {
+      return node is Assembly;
+    }
   }
   public class AnyNamespaceCondition : Condition
   {
+    public override bool Matches(Node node)
+    {
+      return node is Namespace;
+    }
   }
   public class AnyTypeCondition : Condition
   {
+    public override bool Matches(Node node)
+    {
+      return node is Machine.Eon.Mapping.Type;
+    }
   }
   public class AnyMethodCondition : Condition
   {
+    public override bool Matches(Node node)
+    {
+      return node is Method;
+    }
   }
   public class AnyPropertyCondition : Condition
   {
+    public override bool Matches(Node node)
+    {
+      return node is Property;
+    }
   }
   public class SpecificNamespaceCondition : Condition
   {

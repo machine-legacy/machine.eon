@@ -17,7 +17,7 @@ namespace Machine.Eon.Mapping
       Add(node.Usage());
     }
 
-    public void Add(Usage usage)
+    private void Add(Usage usage)
     {
       if (_usages.Contains(usage))
       {
