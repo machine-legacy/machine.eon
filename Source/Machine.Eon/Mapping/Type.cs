@@ -7,6 +7,7 @@ namespace Machine.Eon.Mapping
   {
     private readonly TypeName _name;
     private readonly List<Method> _methods = new List<Method>();
+    private readonly List<Property> _properties = new List<Property>();
     private readonly UsageSet _usages = new UsageSet();
 
     public TypeName Name
@@ -34,9 +35,24 @@ namespace Machine.Eon.Mapping
           return method;
         }
       }
-      Method newMethod = new Method(name);
-      _methods.Add(newMethod);
-      return newMethod;
+      Method newMember = new Method(name);
+      _methods.Add(newMember);
+      return newMember;
+    }
+
+    public Property FindOrCreateProperty(PropertyName name)
+    {
+      if (!name.TypeName.Equals(_name)) throw new ArgumentException("name");
+      foreach (Property property in _properties)
+      {
+        if (property.Name.Equals(name))
+        {
+          return property;
+        }
+      }
+      Property newMember = new Property(name);
+      _properties.Add(newMember);
+      return newMember;
     }
 
     public void UseType(TypeName name)

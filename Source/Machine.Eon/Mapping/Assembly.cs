@@ -48,5 +48,11 @@ namespace Machine.Eon.Mapping
       Type type = FindOrCreateType(methodName.TypeName);
       return type.FindOrCreateMethod(methodName);
     }
+
+    public Property FindOrCreateProperty(PropertyName propertyName)
+    {
+      Type type = FindOrCreateType(propertyName.TypeName);
+      return type.FindOrCreateProperty(propertyName);
+    }
   }
 }
