@@ -33,7 +33,7 @@ namespace Machine.Eon.Mapping
         {
           return NamespaceName.None;
         }
-        return new NamespaceName(_fullName.Substring(0, _fullName.LastIndexOf('.') - 1));
+        return new NamespaceName(_fullName.Substring(0, _fullName.LastIndexOf('.')));
       }
     }
 
