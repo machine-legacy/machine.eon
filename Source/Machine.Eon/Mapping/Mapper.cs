@@ -283,6 +283,20 @@ namespace Machine.Eon.Mapping
 
     public override void VisitPropertyDefinition(PropertyDefinition property)
     {
+      _listener.StartProperty(property.ToName());
+      if (property.GetMethod != null)
+      {
+        _listener.StartMethod(property.GetMethod.ToName());
+        property.GetMethod.Accept(this);
+        _listener.EndMethod();
+      }
+      if (property.SetMethod != null)
+      {
+        _listener.StartMethod(property.SetMethod.ToName());
+        property.SetMethod.Accept(this);
+        _listener.EndMethod();
+      }
+      _listener.EndProperty();
     }
 
     public override void VisitPropertyDefinitionCollection(PropertyDefinitionCollection properties)
@@ -436,6 +450,11 @@ namespace Machine.Eon.Mapping
     public static MethodName ToName(this MethodDefinition definition)
     {
       return new MethodName(definition.DeclaringType.ToTypeName(), definition.Name);
+    }
+
+    public static PropertyName ToName(this PropertyDefinition definition)
+    {
+      return new PropertyName(definition.DeclaringType.ToTypeName(), definition.Name);
     }
 
     public static TypeName ToTypeName(this TypeReference reference)

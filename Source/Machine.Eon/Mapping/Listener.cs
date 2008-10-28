@@ -14,6 +14,7 @@ namespace Machine.Eon.Mapping
     private readonly Stack<NamespaceName> _namespaces = new Stack<NamespaceName>();
     private readonly Stack<TypeName> _types = new Stack<TypeName>();
     private readonly Stack<MethodName> _methods = new Stack<MethodName>();
+    private readonly Stack<PropertyName> _properties = new Stack<PropertyName>();
 
     public Listener()
     {
@@ -34,6 +35,16 @@ namespace Machine.Eon.Mapping
     public void StartType(TypeName name)
     {
       _types.Push(name);
+    }
+
+    public void StartProperty(PropertyName name)
+    {
+      _properties.Push(name);
+    }
+
+    public void EndProperty()
+    {
+      _properties.Pop();
     }
 
     public void StartMethod(MethodName name)
