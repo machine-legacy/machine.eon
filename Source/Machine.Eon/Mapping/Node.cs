@@ -11,7 +11,7 @@ namespace Machine.Eon.Mapping
     }
     public abstract Usage Usage();
   }
-  public class NodeName
+  public abstract class NodeName
   {
   }
 }

@@ -241,8 +241,9 @@ namespace Machine.Eon.Mapping
     {
       foreach (TypeDefinition type in nestedTypes)
       {
-        _listener.StartNamespace(type.ToNamespaceName());
-        _listener.StartType(type.ToTypeName());
+        TypeName typeName = type.ToTypeName();
+        _listener.StartNamespace(typeName.Namespace);
+        _listener.StartType(typeName);
         type.Accept(this);
         _listener.EndType();
         _listener.EndNamespace();
@@ -326,8 +327,9 @@ namespace Machine.Eon.Mapping
     {
       foreach (TypeDefinition type in types)
       {
-        _listener.StartNamespace(type.ToNamespaceName());
-        _listener.StartType(type.ToTypeName());
+        TypeName typeName = type.ToTypeName();
+        _listener.StartNamespace(typeName.Namespace);
+        _listener.StartType(typeName);
         type.Accept(this);
         _listener.EndType();
         _listener.EndNamespace();
@@ -447,11 +449,6 @@ namespace Machine.Eon.Mapping
     {
       AssemblyName assemblyName = definition.Scope.ToAssemblyName();
       return new TypeName(assemblyName, definition.FullName);
-    }
-
-    public static NamespaceName ToNamespaceName(this TypeDefinition definition)
-    {
-      return new NamespaceName(definition.Namespace);
     }
 
     public static MethodName ToName(this MethodDefinition definition)

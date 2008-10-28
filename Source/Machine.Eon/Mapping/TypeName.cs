@@ -13,12 +13,12 @@ namespace Machine.Eon.Mapping
   public class TypeName : NodeName
   {
     public static readonly TypeName None = new TypeName(AssemblyName.None, String.Empty);
-    private readonly AssemblyName _assemblyName;
+    private readonly NamespaceName _namespaceName;
     private readonly string _fullName;
 
     public AssemblyName AssemblyName
     {
-      get { return _assemblyName; }
+      get { return _namespaceName.AssemblyName; }
     }
 
     public string FullName
@@ -40,19 +40,19 @@ namespace Machine.Eon.Mapping
 
     public NamespaceName Namespace
     {
-      get
-      {
-        if (_fullName.LastIndexOf('.') < 0)
-        {
-          return NamespaceName.None;
-        }
-        return new NamespaceName(_fullName.Substring(0, _fullName.LastIndexOf('.')));
-      }
+      get { return _namespaceName; }
     }
 
     public TypeName(AssemblyName assemblyName, string name)
     {
-      _assemblyName = assemblyName;
+      if (name.LastIndexOf('.') > 0)
+      {
+        _namespaceName = new NamespaceName(assemblyName, name.Substring(0, name.LastIndexOf('.')));
+      }
+      else
+      {
+        _namespaceName = new NamespaceName(assemblyName);
+      }
       _fullName = name;
     }
 
@@ -60,7 +60,7 @@ namespace Machine.Eon.Mapping
     {
       if (obj is TypeName)
       {
-        return ((TypeName)obj).FullName.Equals(this.FullName) && ((TypeName)obj).AssemblyName.Equals(this.AssemblyName);
+        return ((TypeName)obj).Name.Equals(this.Name) && ((TypeName)obj).Namespace.Equals(this.Namespace);
       }
       return false;
     }
@@ -77,7 +77,7 @@ namespace Machine.Eon.Mapping
 
     public override Int32 GetHashCode()
     {
-      return _fullName.GetHashCode() ^ _assemblyName.GetHashCode();
+      return _fullName.GetHashCode() ^ _namespaceName.GetHashCode();
     }
 
     public override string ToString()
