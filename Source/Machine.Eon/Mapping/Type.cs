@@ -15,11 +15,6 @@ namespace Machine.Eon.Mapping
       get { return _name; }
     }
 
-    public IEnumerable<Method> Methods
-    {
-      get { return _methods; }
-    }
-
     public Type(TypeName name)
     {
       _name = name;

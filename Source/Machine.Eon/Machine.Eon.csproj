@@ -50,6 +50,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mapping\AssemblyName.cs" />
+    <Compile Include="Mapping\Member.cs" />
     <Compile Include="Mapping\Method.cs" />
     <Compile Include="Mapping\Namespace.cs" />
     <Compile Include="Mapping\Property.cs" />
