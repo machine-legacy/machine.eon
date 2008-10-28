@@ -60,7 +60,7 @@ namespace Machine.Eon.Mapping
     {
       if (obj is TypeName)
       {
-        return ((TypeName)obj).FullName.Equals(this.FullName);
+        return ((TypeName)obj).FullName.Equals(this.FullName) && ((TypeName)obj).AssemblyName.Equals(this.AssemblyName);
       }
       return false;
     }
@@ -77,7 +77,7 @@ namespace Machine.Eon.Mapping
 
     public override Int32 GetHashCode()
     {
-      return _fullName.GetHashCode();
+      return _fullName.GetHashCode() ^ _assemblyName.GetHashCode();
     }
 
     public override string ToString()

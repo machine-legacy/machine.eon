@@ -44,7 +44,7 @@ namespace Machine.Eon.Mapping
 
     public override bool Equals(object obj)
     {
-      MethodName other = obj as MethodName;
+      MemberName other = obj as MemberName;
       if (other != null)
       {
         return other.TypeName.Equals(this.TypeName) && other.Name.Equals(this.Name);
