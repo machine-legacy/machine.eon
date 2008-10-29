@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class Property : Member, IInProperty
+  public class Property : Member, IProperty
   {
     private readonly PropertyName _name;
     private Method _getter;

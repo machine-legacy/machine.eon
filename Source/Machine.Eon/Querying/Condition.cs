@@ -41,7 +41,7 @@ namespace Machine.Eon.Querying
   {
     public override bool Matches(Node node)
     {
-      IInType type = node as IInType;
+      IType type = node as IType;
       if (type == null)
       {
         throw new InvalidOperationException("This condition only applies to Type's");

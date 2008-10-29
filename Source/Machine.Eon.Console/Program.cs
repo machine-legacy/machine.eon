@@ -20,7 +20,7 @@ namespace Machine.Eon.Console
 
       Querier querier = new Querier();
       querier.FindAll(new Query()).Print(_log);
-      querier.FindAll(new Query()).Print(_log);
+      querier.FindAll(new Query() { Types = new NoneCondition() }).Print(_log);
     }
   }
   public static class Printers

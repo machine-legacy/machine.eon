@@ -3,27 +3,31 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public interface IInAssembly
+  public interface INode
+  {
+    NodeName NodeName { get; }
+  }
+  public interface IAssembly : INode
   {
     AssemblyName AssemblyName { get; }
   }
-  public interface IInNamespace
+  public interface INamespace : INode
   {
     NamespaceName NamespaceName { get; }
   }
-  public interface IInType
+  public interface IType : INode
   {
     TypeName TypeName { get; }
   }
-  public interface IInMember
+  public interface IMember : INode
   {
     MemberName MemberName { get; }
   }
-  public interface IInProperty : IInMember
+  public interface IProperty : IMember
   {
     PropertyName PropertyName { get; }
   }
-  public interface IInMethod : IInMember
+  public interface IMethod : IMember
   {
     MethodName MethodName { get; }
   }
