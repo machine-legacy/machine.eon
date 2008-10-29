@@ -33,11 +33,6 @@ namespace Machine.Eon.Mapping
       get { return _name; }
     }
 
-    public override Usage CreateUsage()
-    {
-      throw new InvalidOperationException();
-    }
-
     public Namespace FindOrCreateNamespace(NamespaceName name)
     {
       foreach (Namespace ns in _namespaces)

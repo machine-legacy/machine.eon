@@ -70,11 +70,6 @@ namespace Machine.Eon.Mapping
       get { return _name; }
     }
 
-    public override Usage CreateUsage()
-    {
-      throw new InvalidOperationException();
-    }
-
     public override string ToString()
     {
       return _name.ToString();

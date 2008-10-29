@@ -49,7 +49,7 @@ namespace Machine.Eon.Mapping
 
     public override Usage CreateUsage()
     {
-      throw new InvalidOperationException();
+      return new PropertyUsage(this);
     }
   }
 }

@@ -9,7 +9,10 @@ namespace Machine.Eon.Mapping
     {
       get;
     }
-    public abstract Usage CreateUsage();
+    public virtual Usage CreateUsage()
+    {
+      throw new InvalidOperationException();
+    }
   }
   public abstract class NodeName
   {
