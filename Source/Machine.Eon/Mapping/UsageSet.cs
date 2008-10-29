@@ -34,7 +34,7 @@ namespace Machine.Eon.Mapping
 
     public void Add(Node node)
     {
-      Add(node.Usage());
+      Add(node.CreateUsage());
     }
 
     private void AddAll(IEnumerable<Usage> usages)

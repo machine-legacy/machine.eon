@@ -33,7 +33,7 @@ namespace Machine.Eon.Mapping
       get { return _name; }
     }
 
-    public override Usage Usage()
+    public override Usage CreateUsage()
     {
       throw new InvalidOperationException();
     }

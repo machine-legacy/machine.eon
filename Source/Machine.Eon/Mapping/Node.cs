@@ -9,7 +9,7 @@ namespace Machine.Eon.Mapping
     {
       get;
     }
-    public abstract Usage Usage();
+    public abstract Usage CreateUsage();
   }
   public abstract class NodeName
   {
