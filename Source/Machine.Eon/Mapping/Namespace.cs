@@ -5,8 +5,14 @@ namespace Machine.Eon.Mapping
 {
   public class Namespace : Node, INamespace
   {
+    private readonly Assembly _assembly;
     private readonly NamespaceName _name;
     private readonly List<Type> _types = new List<Type>();
+
+    public Assembly Assembly
+    {
+      get { return _assembly; }
+    }
 
     public NamespaceName Name
     {
@@ -23,8 +29,9 @@ namespace Machine.Eon.Mapping
       get { return _types; }
     }
 
-    public Namespace(NamespaceName name)
+    public Namespace(Assembly assembly, NamespaceName name)
     {
+      _assembly = assembly;
       _name = name;
     }
 
@@ -36,7 +43,7 @@ namespace Machine.Eon.Mapping
       {
         return type;
       }
-      type = new Type(name);
+      type = new Type(this, name);
       _types.Add(type);
       return type;
     }

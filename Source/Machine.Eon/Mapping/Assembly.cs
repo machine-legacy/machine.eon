@@ -47,7 +47,7 @@ namespace Machine.Eon.Mapping
           return ns;
         }
       }
-      Namespace newNs = new Namespace(name);
+      Namespace newNs = new Namespace(this, name);
       _namespaces.Add(newNs);
       return newNs;
     }

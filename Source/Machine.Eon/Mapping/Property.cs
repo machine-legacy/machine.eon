@@ -31,8 +31,8 @@ namespace Machine.Eon.Mapping
       set { _setter = value; }
     }
 
-    public Property(PropertyName name)
-      : base(name)
+    public Property(Type type, PropertyName name)
+      : base(type, name)
     {
       _name = name;
     }

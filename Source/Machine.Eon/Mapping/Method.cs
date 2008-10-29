@@ -28,8 +28,8 @@ namespace Machine.Eon.Mapping
       get { return _name.Name.StartsWith("get_"); }
     }
 
-    public Method(MethodName name)
-      : base(name)
+    public Method(Type type, MethodName name)
+      : base(type, name)
     {
       _name = name;
     }

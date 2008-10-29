@@ -5,6 +5,7 @@ namespace Machine.Eon.Mapping
 {
   public class Type : Node, IType, ICanUse
   {
+    private readonly Namespace _namespace;
     private readonly TypeName _name;
     private readonly List<Method> _methods = new List<Method>();
     private readonly List<Property> _properties = new List<Property>();
@@ -20,9 +21,34 @@ namespace Machine.Eon.Mapping
       get { return _name; }
     }
 
-    public Type(TypeName name)
+    public Type(Namespace ns, TypeName name)
     {
+      _namespace = ns;
       _name = name;
+    }
+
+    public IEnumerable<Property> Properties
+    {
+      get { return _properties; }
+    }
+
+    public IEnumerable<Method> Methods
+    {
+      get { return _methods; }
+    }
+
+    public IEnumerable<Method> MethodsNotPartOfProperties
+    {
+      get
+      {
+        List<Method> methods = new List<Method>(_methods);
+        foreach (Property property in _properties)
+        {
+          methods.Remove(property.Getter);
+          methods.Remove(property.Setter);
+        }
+        return methods;
+      }
     }
 
     public IEnumerable<Member> Members
@@ -44,7 +70,7 @@ namespace Machine.Eon.Mapping
           return method;
         }
       }
-      Method newMember = new Method(name);
+      Method newMember = new Method(this, name);
       _methods.Add(newMember);
       return newMember;
     }
@@ -59,7 +85,7 @@ namespace Machine.Eon.Mapping
           return property;
         }
       }
-      Property newMember = new Property(name);
+      Property newMember = new Property(this, name);
       _properties.Add(newMember);
       return newMember;
     }
