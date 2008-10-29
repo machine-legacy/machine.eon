@@ -10,6 +10,7 @@ namespace Machine.Eon.Mapping
     private readonly List<Method> _methods = new List<Method>();
     private readonly List<Property> _properties = new List<Property>();
     private readonly UsageSet _usages = new UsageSet();
+    private Type _baseType;
 
     public Namespace Namespace
     {
@@ -26,10 +27,22 @@ namespace Machine.Eon.Mapping
       get { return _name; }
     }
 
+    public Type BaseType
+    {
+      get { return _baseType; }
+      set { _baseType = value; }
+    }
+
     public Type(Namespace ns, TypeName name)
+      : this(ns, name, null)
+    {
+    }
+
+    private Type(Namespace ns, TypeName name, Type baseType)
     {
       _namespace = ns;
       _name = name;
+      _baseType = baseType;
     }
 
     public IEnumerable<Property> Properties

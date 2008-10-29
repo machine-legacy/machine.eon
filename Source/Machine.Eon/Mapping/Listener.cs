@@ -92,6 +92,12 @@ namespace Machine.Eon.Mapping
       property.Setter = _memberRepository.FindMethod(methodName);
     }
 
+    public void SetBaseType(TypeName baseTypeName)
+    {
+      Type baseType = _typeRepository.FindType(baseTypeName);
+      GetCurrentType().BaseType = baseType;
+    }
+
     public void EndMethod()
     {
       _methods.Pop();

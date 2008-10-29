@@ -249,6 +249,10 @@ namespace Machine.Eon.Mapping
         TypeName typeName = type.ToTypeName();
         _listener.StartNamespace(typeName.Namespace);
         _listener.StartType(typeName);
+        if (type.BaseType != null)
+        {
+          _listener.SetBaseType(type.BaseType.ToTypeName());
+        }
         type.Accept(this);
         _listener.EndType();
         _listener.EndNamespace();
@@ -335,6 +339,10 @@ namespace Machine.Eon.Mapping
         TypeName typeName = type.ToTypeName();
         _listener.StartNamespace(typeName.Namespace);
         _listener.StartType(typeName);
+        if (type.BaseType != null)
+        {
+          _listener.SetBaseType(type.BaseType.ToTypeName());
+        }
         type.Accept(this);
         _listener.EndType();
         _listener.EndNamespace();

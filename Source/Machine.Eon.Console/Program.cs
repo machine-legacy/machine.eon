@@ -61,6 +61,18 @@ namespace Machine.Eon.Console
       {
         _log.Info(used);
       }
+
+      _log.Info("Types that have Node as a BaseType");
+
+      var nodeTypes = from type in qr.Types
+                      where type.BaseType != null && type.BaseType.Name.Equals(new TypeName(AssemblyName.Any, "Machine.Eon.Mapping.Node"))
+                      select type
+                      ;
+      
+      foreach (Type type in nodeTypes)
+      {
+        _log.Info(type);
+      }
     }
   }
 }
