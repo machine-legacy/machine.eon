@@ -3,13 +3,18 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class Type : Node, IType, ICanUse
+  public class Type : Node, IType, ICanUse, IHaveUses
   {
     private readonly Namespace _namespace;
     private readonly TypeName _name;
     private readonly List<Method> _methods = new List<Method>();
     private readonly List<Property> _properties = new List<Property>();
     private readonly UsageSet _usages = new UsageSet();
+
+    public Namespace Namespace
+    {
+      get { return _namespace; }
+    }
 
     public TypeName Name
     {
@@ -103,6 +108,16 @@ namespace Machine.Eon.Mapping
     public void Use(Node node)
     {
       _usages.Add(node);
+    }
+
+    public UsageSet DirectUses
+    {
+      get { return _usages; }
+    }
+
+    public UsageSet Uses
+    {
+      get { return UsageSet.Union(this.DirectUses, UsageSet.Union(_methods)); }
     }
 
     public override string ToString()

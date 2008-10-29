@@ -23,8 +23,8 @@ namespace Machine.Eon.Console
 
       ICollection<Assembly> assemblies = Storage.InMemory.Assemblies.Values;
 
-      var types = from a in assemblies 
-                  from ns in a.Namespaces
+      var types = from assembly in assemblies 
+                  from ns in assembly.Namespaces
                   from type in ns.Types
                   where type.Name.FullName.StartsWith("Machine")
                   select type
@@ -35,8 +35,8 @@ namespace Machine.Eon.Console
         _log.Info(type);
       }
       
-      var getters = from a in assemblies 
-                    from ns in a.Namespaces
+      var getters = from assembly in assemblies 
+                    from ns in assembly.Namespaces
                     from type in ns.Types
                     from method in type.Methods
                     where
@@ -49,6 +49,20 @@ namespace Machine.Eon.Console
       foreach (Method setter in getters)
       {
         _log.Info(setter);
+      }
+
+      _log.Info("Types used by Namespace Machine.Eon.Console");
+
+      var usedByConsole = from assembly in assemblies 
+                          from ns in assembly.Namespaces
+                          from usage in ns.Uses.Types
+                          where ns.Name.Name.Equals("Machine.Eon.Console")
+                          select usage
+                          ;
+      
+      foreach (Type used in usedByConsole)
+      {
+        _log.Info(used);
       }
     }
   }

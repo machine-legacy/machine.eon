@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class Assembly : Node, IAssembly
+  public class Assembly : Node, IAssembly, IHaveUses
   {
     private readonly List<Namespace> _namespaces = new List<Namespace>();
     private readonly AssemblyName _name;
@@ -73,6 +73,11 @@ namespace Machine.Eon.Mapping
     public override string ToString()
     {
       return _name.ToString();
+    }
+
+    public UsageSet Uses
+    {
+      get { return UsageSet.Union(_namespaces); }
     }
   }
 }

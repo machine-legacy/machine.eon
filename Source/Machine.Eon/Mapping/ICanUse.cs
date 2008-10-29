@@ -7,4 +7,11 @@ namespace Machine.Eon.Mapping
   {
     void Use(Node node);
   }
+  public interface IHaveUses
+  {
+    UsageSet Uses
+    {
+      get;
+    }
+  }
 }

@@ -31,6 +31,11 @@ namespace Machine.Eon.Mapping
       set { _setter = value; }
     }
 
+    public UsageSet Usages
+    {
+      get { throw new InvalidOperationException(); }
+    }
+
     public Property(Type type, PropertyName name)
       : base(type, name)
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class Namespace : Node, INamespace
+  public class Namespace : Node, INamespace, IHaveUses
   {
     private readonly Assembly _assembly;
     private readonly NamespaceName _name;
@@ -27,6 +27,11 @@ namespace Machine.Eon.Mapping
     public IEnumerable<Type> Types
     {
       get { return _types; }
+    }
+
+    public UsageSet Uses
+    {
+      get { return UsageSet.Union(_types); }
     }
 
     public Namespace(Assembly assembly, NamespaceName name)
