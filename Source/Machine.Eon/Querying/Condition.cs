@@ -65,14 +65,24 @@ namespace Machine.Eon.Querying
   {
     public override bool Matches(Node node)
     {
-      throw new NotImplementedException();
+      IMethod method = node as IMethod;
+      if (method == null)
+      {
+        return false;
+      }
+      return method.IsGetter;
     }
   }
   public class PropertySetterCondition : Condition
   {
     public override bool Matches(Node node)
     {
-      throw new NotImplementedException();
+      IMethod method = node as IMethod;
+      if (method == null)
+      {
+        return false;
+      }
+      return method.IsSetter;
     }
   }
 }

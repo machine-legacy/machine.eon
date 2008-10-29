@@ -30,5 +30,7 @@ namespace Machine.Eon.Mapping
   public interface IMethod : IMember
   {
     MethodName MethodName { get; }
+    bool IsGetter { get; }
+    bool IsSetter { get; }
   }
 }
