@@ -250,6 +250,7 @@ namespace Machine.Eon.Mapping
         TypeName typeName = type.ToTypeName();
         _listener.StartNamespace(typeName.Namespace);
         _listener.StartType(typeName);
+        _listener.SetTypeFlags(type.IsInterface, type.IsAbstract);
         if (type.BaseType != null)
         {
           _listener.SetBaseType(type.BaseType.ToTypeName());
@@ -340,6 +341,7 @@ namespace Machine.Eon.Mapping
         TypeName typeName = type.ToTypeName();
         _listener.StartNamespace(typeName.Namespace);
         _listener.StartType(typeName);
+        _listener.SetTypeFlags(type.IsInterface, type.IsAbstract);
         if (type.BaseType != null)
         {
           _listener.SetBaseType(type.BaseType.ToTypeName());

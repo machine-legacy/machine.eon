@@ -104,6 +104,14 @@ namespace Machine.Eon.Mapping
       GetCurrentType().AddInterface(type);
     }
 
+    public void SetTypeFlags(bool isInterface, bool isAbstract)
+    {
+      TypeAttributes typeAttributes = TypeAttributes.None;
+      if (isInterface) typeAttributes |= TypeAttributes.Interface;
+      if (isAbstract) typeAttributes |= TypeAttributes.Abstract;
+      GetCurrentType().TypeAttributes = typeAttributes;
+    }
+
     public void EndMethod()
     {
       _methods.Pop();

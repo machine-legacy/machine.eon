@@ -73,6 +73,18 @@ namespace Machine.Eon.Console
       {
         _log.Info(type);
       }
+
+      _log.Info("Types that are INode's");
+
+      var inodeTypes = from type in qr.Types
+                       where type.IsA(new TypeName(AssemblyName.Any, "Machine.Eon.Mapping.INode")) && !type.IsInterface
+                       select type
+                       ;
+      
+      foreach (Type type in inodeTypes)
+      {
+        _log.Info(type);
+      }
     }
   }
 }

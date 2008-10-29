@@ -3,6 +3,13 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
+  [Flags]
+  public enum TypeAttributes
+  {
+    None,
+    Interface,
+    Abstract
+  }
   public class Type : Node, IType, ICanUse, IHaveUses
   {
     private readonly Namespace _namespace;
@@ -12,6 +19,7 @@ namespace Machine.Eon.Mapping
     private readonly List<Type> _interfaces = new List<Type>();
     private readonly UsageSet _usages = new UsageSet();
     private Type _baseType;
+    private TypeAttributes _typeAttributes;
 
     public Namespace Namespace
     {
@@ -26,6 +34,27 @@ namespace Machine.Eon.Mapping
     public TypeName TypeName
     {
       get { return _name; }
+    }
+
+    public TypeAttributes TypeAttributes
+    {
+      get { return _typeAttributes; }
+      set { _typeAttributes = value; }
+    }
+
+    public bool IsClass
+    {
+      get { return !IsInterface; }
+    }
+
+    public bool IsInterface
+    {
+      get { return (this.TypeAttributes & TypeAttributes.Interface) == TypeAttributes.Interface; }
+    }
+
+    public bool IsAbstract
+    {
+      get { return (this.TypeAttributes & TypeAttributes.Abstract) == TypeAttributes.Abstract; }
     }
 
     public Type BaseType
@@ -145,6 +174,20 @@ namespace Machine.Eon.Mapping
     public override string ToString()
     {
       return _name.ToString();
+    }
+
+    public bool IsA(TypeName name)
+    {
+      if (this.TypeName.Equals(name)) return true;
+      foreach (Type interfaceType in _interfaces)
+      {
+        if (interfaceType.IsA(name)) return true;
+      }
+      if (_baseType == null)
+      {
+        return false;
+      }
+      return _baseType.IsA(name);
     }
   }
 }
