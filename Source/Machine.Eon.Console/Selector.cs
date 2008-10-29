@@ -12,19 +12,7 @@ namespace Machine.Eon.Console
     public SelectResult Select(QueryResult qr)
     {
       List<Node> nodes = new List<Node>();
-      foreach (Node node in qr.Nodes)
-      {
-      }
       return new SelectResult(nodes);
-    }
-  }
-  public interface INodeSelector
-  {
-  }
-  public class NamespaceSelector : INodeSelector
-  {
-    public void Select()
-    {
     }
   }
   public class SelectResult
