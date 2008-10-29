@@ -30,16 +30,25 @@ namespace Machine.Eon.Console
                   select type
                   ;
       
-      var types2 = from a in assemblies 
-                  from ns in a.Namespaces
-                  from type in ns.Types
-                  where type.Name.FullName.StartsWith("Machine")
-                  select type
-                  ;
-      
       foreach (Type type in types)
       {
         _log.Info(type);
+      }
+      
+      var getters = from a in assemblies 
+                    from ns in a.Namespaces
+                    from type in ns.Types
+                    from method in type.Methods
+                    where
+                      type.Name.FullName.StartsWith("Machine")
+                      &&
+                      method.IsGetter
+                    select method
+                    ;
+      
+      foreach (Method setter in getters)
+      {
+        _log.Info(setter);
       }
     }
   }
