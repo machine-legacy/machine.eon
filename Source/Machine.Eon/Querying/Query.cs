@@ -9,6 +9,8 @@ namespace Machine.Eon.Querying
     private Condition _namespaceCondition = AllCondition.All;
     private Condition _typeCondition = AllCondition.All;
     private Condition _memberCondition = AllCondition.All;
+    private Condition _propertyCondition = AllCondition.All;
+    private Condition _methodCondition = AllCondition.All;
 
     public Condition Assemblies
     {
@@ -32,6 +34,18 @@ namespace Machine.Eon.Querying
     {
       get { return _memberCondition; }
       set { _memberCondition = value; }
+    }
+
+    public Condition Properties
+    {
+      get { return _propertyCondition; }
+      set { _propertyCondition = value; }
+    }
+
+    public Condition Methods
+    {
+      get { return _methodCondition; }
+      set { _methodCondition = value; }
     }
 
     public bool IsValid()
