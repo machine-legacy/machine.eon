@@ -18,6 +18,16 @@ namespace Machine.Eon.Mapping
       get { return _name; }
     }
 
+    public bool IsSetter
+    {
+      get { return _name.Name.StartsWith("set_"); }
+    }
+
+    public bool IsGetter
+    {
+      get { return _name.Name.StartsWith("get_"); }
+    }
+
     public Method(MethodName name)
       : base(name)
     {
