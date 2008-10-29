@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Machine.Eon.Mapping;
-using Machine.Eon.Querying;
+using Machine.Eon.Mapping.Repositories.Impl;
+
+using Type = Machine.Eon.Mapping.Type;
 
 namespace Machine.Eon.Console
 {
@@ -18,20 +21,25 @@ namespace Machine.Eon.Console
       mapper.Include(typeof(Program).Assembly.Location);
       mapper.Include(typeof(Mapper).Assembly.Location);
 
-      Querier querier = new Querier();
-      _log.Info("QUERY");
-      querier.FindAll(new Query()).Print(_log);
-      _log.Info("QUERY");
-      querier.FindAll(new Query()).Print(_log);
-    }
-  }
-  public static class Printers
-  {
-    public static void Print(this QueryResult qr, log4net.ILog log)
-    {
-      foreach (Node node in qr.Nodes)
+      ICollection<Assembly> assemblies = Storage.InMemory.Assemblies.Values;
+
+      var types = from a in assemblies 
+                  from ns in a.Namespaces
+                  from type in ns.Types
+                  where type.Name.FullName.StartsWith("Machine")
+                  select type
+                  ;
+      
+      var types2 = from a in assemblies 
+                  from ns in a.Namespaces
+                  from type in ns.Types
+                  where type.Name.FullName.StartsWith("Machine")
+                  select type
+                  ;
+      
+      foreach (Type type in types)
       {
-        log.Info(node);
+        _log.Info(type);
       }
     }
   }
