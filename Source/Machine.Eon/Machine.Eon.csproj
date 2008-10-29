@@ -52,7 +52,7 @@
     </Compile>
     <Compile Include="Mapping\AssemblyName.cs" />
     <Compile Include="Mapping\ICanUse.cs" />
-    <Compile Include="Mapping\IInNodes.cs" />
+    <Compile Include="Mapping\INodes.cs" />
     <Compile Include="Mapping\Member.cs" />
     <Compile Include="Mapping\Method.cs" />
     <Compile Include="Mapping\Namespace.cs" />
