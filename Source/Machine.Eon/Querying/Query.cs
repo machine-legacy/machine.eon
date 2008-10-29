@@ -5,10 +5,10 @@ namespace Machine.Eon.Querying
 {
   public class Query
   {
-    private Condition _assemblyCondition = new AllCondition();
-    private Condition _namespaceCondition = new AllCondition();
-    private Condition _typeCondition = new AllCondition();
-    private Condition _memberCondition = new AllCondition();
+    private Condition _assemblyCondition = AllCondition.All;
+    private Condition _namespaceCondition = AllCondition.All;
+    private Condition _typeCondition = AllCondition.All;
+    private Condition _memberCondition = AllCondition.All;
 
     public Condition Assemblies
     {
@@ -32,6 +32,15 @@ namespace Machine.Eon.Querying
     {
       get { return _memberCondition; }
       set { _memberCondition = value; }
+    }
+
+    public bool IsValid()
+    {
+      if (_assemblyCondition == null)
+      {
+        return false;
+      }
+      return true;
     }
   }
 }

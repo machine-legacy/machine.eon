@@ -19,8 +19,10 @@ namespace Machine.Eon.Console
       mapper.Include(typeof(Mapper).Assembly.Location);
 
       Querier querier = new Querier();
+      _log.Info("QUERY");
       querier.FindAll(new Query()).Print(_log);
-      querier.FindAll(new Query() { Types = new NoneCondition() }).Print(_log);
+      _log.Info("QUERY");
+      querier.FindAll(new Query()).Print(_log);
     }
   }
   public static class Printers

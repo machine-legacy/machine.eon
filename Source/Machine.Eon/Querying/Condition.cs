@@ -11,6 +11,12 @@ namespace Machine.Eon.Querying
   }
   public class NoneCondition : Condition
   {
+    public static readonly Condition None = new NoneCondition();
+
+    private NoneCondition()
+    {
+    }
+
     public override bool Matches(Node node)
     {
       return false;
@@ -18,6 +24,12 @@ namespace Machine.Eon.Querying
   }
   public class AllCondition : Condition
   {
+    public static readonly Condition All = new AllCondition();
+
+    private AllCondition()
+    {
+    }
+
     public override bool Matches(Node node)
     {
       return true;
