@@ -61,7 +61,7 @@ namespace Machine.Eon.Mapping
       {
         return "Ns<Null>";
       }
-      return _name;
+      return "Ns<" + _name + ">";
     }
   }
 }

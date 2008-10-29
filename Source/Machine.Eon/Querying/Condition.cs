@@ -5,143 +5,62 @@ using Machine.Eon.Mapping;
 
 namespace Machine.Eon.Querying
 {
-  public class Condition
+  public abstract class Condition
   {
-    public virtual bool Matches(Node node)
+    public abstract bool Matches(Node node);
+  }
+  public class NoneCondition : Condition
+  {
+    public override bool Matches(Node node)
     {
       return false;
     }
   }
-  public class AnyAssemblyCondition : Condition
+  public class AllCondition : Condition
   {
     public override bool Matches(Node node)
     {
-      return node is Assembly;
+      return true;
     }
   }
-  public class AnyNamespaceCondition : Condition
+  public class NamedCondition : Condition
   {
-    public override bool Matches(Node node)
-    {
-      return node is Namespace;
-    }
-  }
-  public class AnyTypeCondition : Condition
-  {
-    public override bool Matches(Node node)
-    {
-      return node is Machine.Eon.Mapping.Type;
-    }
-  }
-  public class AnyMethodCondition : Condition
-  {
-    public override bool Matches(Node node)
-    {
-      return node is Method;
-    }
-  }
-  public class AnyPropertyCondition : Condition
-  {
-    public override bool Matches(Node node)
-    {
-      return node is Property;
-    }
-  }
-  public class SpecificNamespaceCondition : Condition
-  {
-    private readonly NamespaceName _name;
+    private readonly NodeName _name;
 
-    public SpecificNamespaceCondition(NamespaceName name)
+    public NamedCondition(NodeName name)
     {
       _name = name;
     }
-  }
-  public class SpecificTypeCondition : Condition
-  {
-    private readonly TypeName _name;
 
-    public SpecificTypeCondition(TypeName name)
+    public override bool Matches(Node node)
     {
-      _name = name;
+      return node.NodeName.Equals(_name);
     }
   }
   public class SystemTypeCondition : Condition
   {
-  }
-  public class SpecificPropertyCondition : Condition
-  {
-    private readonly PropertyName _name;
-
-    public SpecificPropertyCondition(PropertyName name)
+    public override bool Matches(Node node)
     {
-      _name = name;
+      IInType type = node as IInType;
+      if (type == null)
+      {
+        throw new InvalidOperationException("This condition only applies to Type's");
+      }
+      return type.TypeName.AssemblyName.Name.StartsWith("System");
     }
   }
   public class PropertyGetterCondition : Condition
   {
+    public override bool Matches(Node node)
+    {
+      throw new NotImplementedException();
+    }
   }
   public class PropertySetterCondition : Condition
   {
-  }
-  public abstract class BooleanCondition : Condition
-  {
-    protected Condition[] _conditions;
-
-    protected BooleanCondition(params Condition[] conditions)
-    {
-      _conditions = conditions;
-    }
-  }
-  public class AndCondition : BooleanCondition
-  {
-    public AndCondition(params Condition[] conditions)
-      : base(conditions)
-    {
-    }
-
     public override bool Matches(Node node)
     {
-      foreach (Condition c in _conditions)
-      {
-        if (!c.Matches(node))
-        {
-          return false;
-        }
-      }
-      return true;
-    }
-  }
-  public class OrCondition : BooleanCondition
-  {
-    public OrCondition(params Condition[] conditions)
-      : base(conditions)
-    {
-    }
-
-    public override bool Matches(Node node)
-    {
-      foreach (Condition c in _conditions)
-      {
-        if (c.Matches(node))
-        {
-          return true;
-        }
-      }
-      return false;
-    }
-  }
-  public class NotCondition : Condition
-  {
-    private readonly Condition _condition;
-
-    public NotCondition(Condition condition)
-    {
-      _condition = condition;
-    }
-
-    public override bool Matches(Node node)
-    {
-      return !_condition.Matches(node);
+      throw new NotImplementedException();
     }
   }
 }

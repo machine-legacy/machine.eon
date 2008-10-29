@@ -45,7 +45,7 @@ namespace Machine.Eon.Mapping
 
     public override string ToString()
     {
-      return _name;
+      return "Assembly< " + _name + ">";
     }
   }
 }
