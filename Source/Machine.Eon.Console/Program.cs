@@ -52,10 +52,8 @@ namespace Machine.Eon.Console
 
       _log.Info("Types used by Namespace Machine.Eon.Console");
 
-      var usedByConsole = from assembly in qr.Assemblies 
-                          from ns in assembly.Namespaces
+      var usedByConsole = from ns in qr.NamespacesNamed("Machine.Eon.Console")
                           from usage in ns.Uses.Types
-                          where ns.Name.Name.Equals("Machine.Eon.Console")
                           select usage
                           ;
       
