@@ -35,6 +35,7 @@ namespace Machine.Eon.Mapping
     {
       if (obj is NamespaceName)
       {
+        if (ReferenceEquals(Any, obj) || ReferenceEquals(Any, this)) return true;
         return ((NamespaceName)obj).AssemblyName.Equals(this.AssemblyName) && ((NamespaceName)obj).Name.Equals(this.Name);
       }
       return false;

@@ -61,6 +61,7 @@ namespace Machine.Eon.Mapping
     {
       if (obj is TypeName)
       {
+        if (ReferenceEquals(Any, obj) || ReferenceEquals(Any, this)) return true;
         return ((TypeName)obj).Name.Equals(this.Name) && ((TypeName)obj).Namespace.Equals(this.Namespace);
       }
       return false;

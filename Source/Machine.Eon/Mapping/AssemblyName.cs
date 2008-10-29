@@ -23,6 +23,7 @@ namespace Machine.Eon.Mapping
     {
       if (obj is AssemblyName)
       {
+        if (ReferenceEquals(Any, obj) || ReferenceEquals(Any, this)) return true;
         return ((AssemblyName)obj).Name.Equals(this.Name);
       }
       return false;
