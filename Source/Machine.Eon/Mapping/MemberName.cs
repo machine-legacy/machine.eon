@@ -6,6 +6,7 @@ namespace Machine.Eon.Mapping
   public class PropertyName : MemberName
   {
     public static readonly PropertyName None = new PropertyName(TypeName.None, String.Empty);
+    public static readonly PropertyName Any = new PropertyName(TypeName.Any, "*");
 
     public PropertyName(TypeName typeName, string name)
       : base(typeName, name)
@@ -15,6 +16,7 @@ namespace Machine.Eon.Mapping
   public class MethodName : MemberName
   {
     public static readonly MethodName None = new MethodName(TypeName.None, String.Empty);
+    public static readonly MethodName Any = new MethodName(TypeName.Any, "*");
 
     public MethodName(TypeName typeName, string name)
       : base(typeName, name)

@@ -13,6 +13,7 @@ namespace Machine.Eon.Mapping
   public class TypeName : NodeName
   {
     public static readonly TypeName None = new TypeName(AssemblyName.None, String.Empty);
+    public static readonly TypeName Any = new TypeName(AssemblyName.Any, "*");
     private readonly NamespaceName _namespaceName;
     private readonly string _fullName;
 

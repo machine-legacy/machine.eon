@@ -6,6 +6,7 @@ namespace Machine.Eon.Mapping
   public class NamespaceName : NodeName
   {
     public static readonly NamespaceName None = new NamespaceName(AssemblyName.None, String.Empty);
+    public static readonly NamespaceName Any = new NamespaceName(AssemblyName.Any, "*");
     private readonly AssemblyName _assemblyName;
     private readonly string _name;
 
