@@ -9,6 +9,7 @@ namespace Machine.Eon.Mapping
     private readonly TypeName _name;
     private readonly List<Method> _methods = new List<Method>();
     private readonly List<Property> _properties = new List<Property>();
+    private readonly List<Type> _interfaces = new List<Type>();
     private readonly UsageSet _usages = new UsageSet();
     private Type _baseType;
 
@@ -131,6 +132,14 @@ namespace Machine.Eon.Mapping
     public UsageSet Uses
     {
       get { return UsageSet.Union(this.DirectUses, UsageSet.Union(_methods)); }
+    }
+
+    public void AddInterface(Type type)
+    {
+      if (!_interfaces.Contains(type))
+      {
+        _interfaces.Add(type);
+      }
     }
 
     public override string ToString()

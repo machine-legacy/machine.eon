@@ -94,8 +94,14 @@ namespace Machine.Eon.Mapping
 
     public void SetBaseType(TypeName baseTypeName)
     {
-      Type baseType = _typeRepository.FindType(baseTypeName);
-      GetCurrentType().BaseType = baseType;
+      Type type = _typeRepository.FindType(baseTypeName);
+      GetCurrentType().BaseType = type;
+    }
+
+    public void ImplementsInterface(TypeName interfaceTypeName)
+    {
+      Type type = _typeRepository.FindType(interfaceTypeName);
+      GetCurrentType().AddInterface(type);
     }
 
     public void EndMethod()

@@ -196,6 +196,7 @@ namespace Machine.Eon.Mapping
     {
       foreach (TypeReference type in interfaces)
       {
+        _listener.ImplementsInterface(type.ToTypeName());
         type.Accept(this);
       }
     }
