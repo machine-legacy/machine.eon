@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class Type : Node, ICanUse
+  public class Type : Node, IInType, ICanUse
   {
     private readonly TypeName _name;
     private readonly List<Method> _methods = new List<Method>();
@@ -15,9 +15,23 @@ namespace Machine.Eon.Mapping
       get { return _name; }
     }
 
+    public TypeName TypeName
+    {
+      get { return _name; }
+    }
+
     public Type(TypeName name)
     {
       _name = name;
+    }
+
+    public IEnumerable<Member> Members
+    {
+      get
+      {
+        foreach (Property property in _properties) yield return property;
+        foreach (Method method in _methods) yield return method;
+      }
     }
 
     public Method FindOrCreateMethod(MethodName name)

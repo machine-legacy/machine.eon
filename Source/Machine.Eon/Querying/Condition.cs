@@ -49,15 +49,33 @@ namespace Machine.Eon.Querying
   }
   public class SpecificNamespaceCondition : Condition
   {
+    private readonly NamespaceName _name;
+
+    public SpecificNamespaceCondition(NamespaceName name)
+    {
+      _name = name;
+    }
   }
   public class SpecificTypeCondition : Condition
   {
+    private readonly TypeName _name;
+
+    public SpecificTypeCondition(TypeName name)
+    {
+      _name = name;
+    }
   }
   public class SystemTypeCondition : Condition
   {
   }
   public class SpecificPropertyCondition : Condition
   {
+    private readonly PropertyName _name;
+
+    public SpecificPropertyCondition(PropertyName name)
+    {
+      _name = name;
+    }
   }
   public class PropertyGetterCondition : Condition
   {

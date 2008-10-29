@@ -3,13 +3,18 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class Property : Member
+  public class Property : Member, IInProperty
   {
     private readonly PropertyName _name;
     private Method _getter;
     private Method _setter;
 
     public PropertyName Name
+    {
+      get { return _name; }
+    }
+
+    public PropertyName PropertyName
     {
       get { return _name; }
     }

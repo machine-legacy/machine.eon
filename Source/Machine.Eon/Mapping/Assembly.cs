@@ -3,12 +3,17 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class Assembly : Node
+  public class Assembly : Node, IInAssembly
   {
     private readonly List<Namespace> _namespaces = new List<Namespace>();
     private readonly AssemblyName _name;
 
     public AssemblyName Name
+    {
+      get { return _name; }
+    }
+
+    public AssemblyName AssemblyName
     {
       get { return _name; }
     }

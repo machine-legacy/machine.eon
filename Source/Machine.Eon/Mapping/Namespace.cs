@@ -3,22 +3,17 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class Namespace : Node
+  public class Namespace : Node, IInNamespace
   {
     private readonly NamespaceName _name;
     private readonly List<Type> _types = new List<Type>();
 
-    public override NodeName NodeName
+    public NamespaceName Name
     {
       get { return _name; }
     }
 
-    public override Usage Usage()
-    {
-      throw new InvalidOperationException();
-    }
-
-    public NamespaceName Name
+    public NamespaceName NamespaceName
     {
       get { return _name; }
     }
@@ -56,6 +51,16 @@ namespace Machine.Eon.Mapping
         }
       }
       return null;
+    }
+
+    public override NodeName NodeName
+    {
+      get { return _name; }
+    }
+
+    public override Usage Usage()
+    {
+      throw new InvalidOperationException();
     }
 
     public override string ToString()

@@ -3,12 +3,17 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class Method : Member, ICanUse
+  public class Method : Member, IInMethod, ICanUse
   {
     private readonly MethodName _name;
     private readonly UsageSet _usages = new UsageSet();
 
     public MethodName Name
+    {
+      get { return _name; }
+    }
+
+    public MethodName MethodName
     {
       get { return _name; }
     }
