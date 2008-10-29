@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Machine.Eon.Mapping;
-using Machine.Eon.Mapping.Repositories.Impl;
 
 using Type = Machine.Eon.Mapping.Type;
 
@@ -21,9 +20,9 @@ namespace Machine.Eon.Console
       mapper.Include(typeof(Program).Assembly.Location);
       mapper.Include(typeof(Mapper).Assembly.Location);
 
-      ICollection<Assembly> assemblies = Storage.InMemory.Assemblies.Values;
+      QueryRoot qr = mapper.ToQueryRoot();
 
-      var types = from assembly in assemblies 
+      var types = from assembly in qr.Assemblies 
                   from ns in assembly.Namespaces
                   from type in ns.Types
                   where type.Name.FullName.StartsWith("Machine")
@@ -35,7 +34,7 @@ namespace Machine.Eon.Console
         _log.Info(type);
       }
       
-      var getters = from assembly in assemblies 
+      var getters = from assembly in qr.Assemblies 
                     from ns in assembly.Namespaces
                     from type in ns.Types
                     from method in type.Methods
@@ -53,7 +52,7 @@ namespace Machine.Eon.Console
 
       _log.Info("Types used by Namespace Machine.Eon.Console");
 
-      var usedByConsole = from assembly in assemblies 
+      var usedByConsole = from assembly in qr.Assemblies 
                           from ns in assembly.Namespaces
                           from usage in ns.Uses.Types
                           where ns.Name.Name.Equals("Machine.Eon.Console")

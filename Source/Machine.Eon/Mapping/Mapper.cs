@@ -14,6 +14,11 @@ namespace Machine.Eon.Mapping
       MyReflectionStructureVisitor visitor = new MyReflectionStructureVisitor(listener);
       definition.Accept(visitor);
     }
+
+    public QueryRoot ToQueryRoot()
+    {
+      return new QueryRoot();
+    }
   }
   public class MyReflectionStructureVisitor : BaseStructureVisitor
   {
