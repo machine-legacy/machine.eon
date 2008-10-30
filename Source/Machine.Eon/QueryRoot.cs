@@ -3,16 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Machine.Eon.Mapping;
-using Machine.Eon.Mapping.Repositories.Impl;
 using Type = Machine.Eon.Mapping.Type;
 
 namespace Machine.Eon
 {
   public class QueryRoot
   {
+    private readonly IEnumerable<Assembly> _assemblies;
+
+    public QueryRoot(IEnumerable<Assembly> assemblies)
+    {
+      _assemblies = assemblies;
+    }
+
     public IEnumerable<Assembly> Assemblies
     {
-      get { return Storage.InMemory.Assemblies.Values; }
+      get { return _assemblies; }
     }
 
     public IEnumerable<Namespace> Namespaces

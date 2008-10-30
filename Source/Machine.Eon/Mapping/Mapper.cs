@@ -3,6 +3,8 @@ using System;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 
+using Machine.Eon.Mapping.Repositories.Impl;
+
 namespace Machine.Eon.Mapping
 {
   public class Mapper
@@ -17,7 +19,7 @@ namespace Machine.Eon.Mapping
 
     public QueryRoot ToQueryRoot()
     {
-      return new QueryRoot();
+      return new QueryRoot(Storage.InMemory.Assemblies.Values);
     }
   }
   public class MyReflectionStructureVisitor : BaseStructureVisitor
