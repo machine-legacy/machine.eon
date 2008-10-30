@@ -152,10 +152,18 @@ namespace Machine.Eon.Mapping
 
     public void SetTypeFlags(bool isInterface, bool isAbstract)
     {
-      TypeFlags typeFlags = TypeFlags.None;
-      if (isInterface) typeFlags |= TypeFlags.Interface;
-      if (isAbstract) typeFlags |= TypeFlags.Abstract;
-      GetCurrentType().TypeFlags = typeFlags;
+      TypeFlags flags = TypeFlags.None;
+      if (isInterface) flags |= TypeFlags.Interface;
+      if (isAbstract) flags |= TypeFlags.Abstract;
+      GetCurrentType().TypeFlags = flags;
+    }
+
+    public void SetMethodFlags(bool isConstructor, bool isAbstract)
+    {
+      MethodFlags flags = MethodFlags.None;
+      if (isConstructor) flags |= MethodFlags.Constructor;
+      if (isAbstract) flags |= MethodFlags.Abstract;
+      GetCurrentMethod().MethodFlags = flags;
     }
 
     public void EndMethod()

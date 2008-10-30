@@ -4,7 +4,7 @@ using System.Linq;
 
 using Machine.Specifications;
 
-namespace Machine.Eon.Specs
+namespace Machine.Eon.Specs.DirectUses
 {
   [Subject("Direct Uses")]
   public class with_empty_type : with_eon

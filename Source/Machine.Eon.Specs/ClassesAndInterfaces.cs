@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Machine.Specifications;
 
-namespace Machine.Eon.Specs
+namespace Machine.Eon.Specs.ClassesAndInterfaces
 {
   public class AClass
   {

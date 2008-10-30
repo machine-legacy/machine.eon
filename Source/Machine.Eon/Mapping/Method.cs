@@ -17,17 +17,20 @@ namespace Machine.Eon.Mapping
       _type = type;
     }
   }
+  [Flags]
+  public enum MethodFlags
+  {
+    None,
+    Constructor,
+    Abstract
+  }
+
   public class Method : Member, IMethod, IHaveIndirectUses
   {
     private readonly MethodName _name;
     private List<Parameter> _parameters;
     private Type _returnType;
-
-    public Type ReturnType
-    {
-      get { return _returnType; }
-      set { _returnType = value; }
-    }
+    private MethodFlags _flags;
 
     public IEnumerable<Parameter> Parameters
     {
@@ -47,6 +50,27 @@ namespace Machine.Eon.Mapping
     public bool IsGetter
     {
       get { return _name.Name.StartsWith("get_"); }
+    }
+
+    public Type ReturnType
+    {
+      get { return _returnType; }
+      set { _returnType = value; }
+    }
+
+    public bool IsConstructor
+    {
+      get { return (_flags & MethodFlags.Constructor) == MethodFlags.Constructor; }
+    }
+
+    public bool IsAbstract
+    {
+      get { return (_flags & MethodFlags.Abstract) == MethodFlags.Abstract; }
+    }
+
+    public MethodFlags MethodFlags
+    {
+      set { _flags = value;}
     }
 
     public Method(Type type, MethodName name)

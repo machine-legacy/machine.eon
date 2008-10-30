@@ -35,7 +35,6 @@ namespace Machine.Eon.Mapping
 
     public TypeFlags TypeFlags
     {
-      get { return _typeFlags; }
       set { _typeFlags = value; }
     }
 
@@ -46,12 +45,12 @@ namespace Machine.Eon.Mapping
 
     public bool IsInterface
     {
-      get { return (this.TypeFlags & TypeFlags.Interface) == TypeFlags.Interface; }
+      get { return (_typeFlags & TypeFlags.Interface) == TypeFlags.Interface; }
     }
 
     public bool IsAbstract
     {
-      get { return (this.TypeFlags & TypeFlags.Abstract) == TypeFlags.Abstract; }
+      get { return (_typeFlags & TypeFlags.Abstract) == TypeFlags.Abstract; }
     }
 
     public Type BaseType

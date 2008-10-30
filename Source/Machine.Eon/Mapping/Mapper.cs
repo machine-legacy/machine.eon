@@ -381,6 +381,7 @@ namespace Machine.Eon.Mapping
     {
       _listener.StartMethod(method.ToName());
       _listener.SetMethodPrototype(method.ToReturnTypeName(), method.ToParameterTypeNames());
+      _listener.SetMethodFlags(method.IsConstructor, method.IsAbstract);
       _listener.UseType(method.ToReturnTypeName());
       foreach (TypeName typeName in method.ToParameterTypeNames())
       {
