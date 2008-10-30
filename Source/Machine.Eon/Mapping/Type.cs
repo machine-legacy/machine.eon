@@ -194,7 +194,7 @@ namespace Machine.Eon.Mapping
       }
     }
 
-    public UsageSet DirectlyUsesAndMethods
+    public UsageSet DirectUsesAttributesInterfacesAndMethods
     {
       get
       {
@@ -209,7 +209,7 @@ namespace Machine.Eon.Mapping
 
     public IndirectUses IndirectlyUses
     {
-      get { return DirectlyUsesAndMethods.CreateIndirectUses(); }
+      get { return DirectUsesAttributesInterfacesAndMethods.CreateIndirectUses(); }
     }
 
     public void AddInterface(Type type)

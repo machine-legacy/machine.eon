@@ -123,7 +123,7 @@ namespace Machine.Eon.Mapping
           log4net.LogManager.GetLogger("DEBUG").Info(prefix + "  Adding: " + node);
           visited.Add(node);
           set.Add(depth, node);
-          node.DirectlyUsesAndMethods.AddIndirectUses(depth + 1, visited, set);
+          node.DirectUsesAttributesInterfacesAndMethods.AddIndirectUses(depth + 1, visited, set);
         }
         else
         {
