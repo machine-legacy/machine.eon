@@ -155,15 +155,4 @@ namespace Machine.Eon.Console
       */
     }
   }
-  public class Test
-  {
-    public void Test1()
-    {
-      Test2();
-    }
-    public void Test2()
-    {
-      Test1();
-    }
-  }
 }

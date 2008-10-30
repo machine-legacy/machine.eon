@@ -124,7 +124,7 @@ namespace Machine.Eon.Mapping
     {
       foreach (MethodDefinition ctor in ctors)
       {
-        ApplyListenersForMethod(ctor);
+        ApplyMethodListeners(ctor);
       }
     }
 
@@ -173,6 +173,7 @@ namespace Machine.Eon.Mapping
     {
       foreach (FieldDefinition field in fields)
       {
+        _listener.UseType(field.FieldType.ToTypeName());
         _listener.StartField(field.ToFieldName());
         _listener.SetFieldType(field.FieldType.ToTypeName());
         field.Accept(this);
@@ -200,6 +201,7 @@ namespace Machine.Eon.Mapping
     {
       foreach (TypeReference type in interfaces)
       {
+        _listener.UseType(type.ToTypeName());
         _listener.ImplementsInterface(type.ToTypeName());
         type.Accept(this);
       }
@@ -233,7 +235,7 @@ namespace Machine.Eon.Mapping
     {
       foreach (MethodDefinition method in methods)
       {
-        ApplyListenersForMethod(method);
+        ApplyMethodListeners(method);
       }
     }
 
@@ -284,17 +286,18 @@ namespace Machine.Eon.Mapping
 
     public override void VisitPropertyDefinition(PropertyDefinition property)
     {
+      _listener.UseType(property.PropertyType.ToTypeName());
       _listener.StartProperty(property.ToName());
       _listener.SetPropertyType(property.PropertyType.ToTypeName());
       property.CustomAttributes.Accept(this);
       if (property.GetMethod != null)
       {
-        ApplyListenersForMethod(property.GetMethod);
+        ApplyMethodListeners(property.GetMethod);
         _listener.SetPropertyGetter(property.ToName(), property.GetMethod.ToMethodName());
       }
       if (property.SetMethod != null)
       {
-        ApplyListenersForMethod(property.SetMethod);
+        ApplyMethodListeners(property.SetMethod);
         _listener.SetPropertySetter(property.ToName(), property.SetMethod.ToMethodName());
       }
       _listener.EndProperty();
@@ -341,6 +344,7 @@ namespace Machine.Eon.Mapping
       if (type.BaseType != null)
       {
         _listener.SetBaseType(type.BaseType.ToTypeName());
+        _listener.UseType(type.BaseType.ToTypeName());
       }
       type.Accept(this);
       _listener.EndType();
@@ -360,8 +364,13 @@ namespace Machine.Eon.Mapping
       }
     }
 
-    private void ApplyListenersForMethod(MethodDefinition method)
+    private void ApplyMethodListeners(MethodDefinition method)
     {
+      _listener.UseType(method.ToReturnTypeName());
+      foreach (ParameterDefinition parameter in method.Parameters)
+      {
+        _listener.UseType(parameter.ParameterType.ToTypeName());
+      }
       _listener.StartMethod(method.ToName());
       _listener.SetMethodPrototype(method.ToReturnTypeName(), method.ToParameterTypeNames());
       _listener.UseType(method.ToReturnTypeName());

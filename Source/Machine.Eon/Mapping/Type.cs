@@ -82,6 +82,11 @@ namespace Machine.Eon.Mapping
       get { return _interfaces; }
     }
 
+    public IEnumerable<Field> Fields
+    {
+      get { return _fields; }
+    }
+
     public IEnumerable<Property> Properties
     {
       get { return _properties; }

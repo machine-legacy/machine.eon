@@ -74,5 +74,24 @@ namespace Machine.Eon
              where assembly.Name.Equals(new AssemblyName(name))
              select assembly;
     }
+
+    public Type SystemObject
+    {
+      get { return FromSystemType(typeof(Object)); }
+    }
+
+    public IEnumerable<Type> FromSystemType(params System.Type[] runtimeTypes)
+    {
+      foreach (System.Type runtimeType in runtimeTypes)
+      {
+        yield return FromSystemType(runtimeType);
+      }
+    }
+
+    public Type FromSystemType(System.Type runtimeType)
+    {
+      var query = from type in Types where type.Name.FullName.Equals(runtimeType.FullName) select type;
+      return query.Single();
+    }
   }
 }
