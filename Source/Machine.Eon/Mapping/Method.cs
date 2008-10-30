@@ -20,19 +20,19 @@ namespace Machine.Eon.Mapping
   [Flags]
   public enum MethodFlags
   {
-    None,
-    Constructor,
-    Abstract,
-    Virtual,
-    Static
+    None = 0,
+    Invalid = 1,
+    Constructor = 2,
+    Abstract = 4,
+    Virtual = 8,
+    Static = 16
   }
-
   public class Method : Member, IMethod, IHaveIndirectUses
   {
     private readonly MethodName _name;
     private List<Parameter> _parameters;
     private Type _returnType;
-    private MethodFlags _flags;
+    private MethodFlags _flags = MethodFlags.Invalid;
 
     public IEnumerable<Parameter> Parameters
     {
@@ -58,6 +58,11 @@ namespace Machine.Eon.Mapping
     {
       get { return _returnType; }
       set { _returnType = value; }
+    }
+
+    public bool IsPendingCreation
+    {
+      get { return (_flags & MethodFlags.Invalid) == MethodFlags.Invalid; }
     }
 
     public bool IsConstructor
