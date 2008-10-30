@@ -198,6 +198,7 @@ namespace Machine.Eon.Mapping
       get
       {
         UsageSet set = UsageSet.Union(_usages, UsageSet.MakeFrom(_attributes), UsageSet.MakeFrom(_interfaces), UsageSet.MakeFrom(_methods));
+        set.Add(this);
         if (this.BaseType != null)
         {
           set.Add(this.BaseType);

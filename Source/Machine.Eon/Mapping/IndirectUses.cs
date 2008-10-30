@@ -106,17 +106,22 @@ namespace Machine.Eon.Mapping
   {
     public static IEnumerable<Type> ExtractTypes(this IEnumerable<RelativeUsage> usages) 
     {
-      foreach (RelativeUsage usage in usages)
-      {
-        yield return (Type)usage.Node;
-      }
+      return ExtractNodesOfType<Type>(usages);
     }
     
     public static IEnumerable<Method> ExtractMethods(this IEnumerable<RelativeUsage> usages) 
     {
+      return ExtractNodesOfType<Method>(usages);
+    }
+
+    private static IEnumerable<T> ExtractNodesOfType<T>(this IEnumerable<RelativeUsage> usages) where T : Node
+    {
       foreach (RelativeUsage usage in usages)
       {
-        yield return (Method)usage.Node;
+        if (usage.Node is T)
+        {
+          yield return (T)usage.Node;
+        }
       }
     }
   }

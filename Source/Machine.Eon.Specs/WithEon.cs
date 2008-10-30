@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using Machine.Eon.Mapping;
+using Type = Machine.Eon.Mapping.Type;
 
 using Machine.Specifications;
 
@@ -10,8 +11,8 @@ namespace Machine.Eon.Specs
   public class with_eon
   {
     protected static QueryRoot qr;
-    protected static Machine.Eon.Mapping.Type systemVoid;
-    protected static Machine.Eon.Mapping.Type systemString;
+    protected static Type systemVoid;
+    protected static Type systemString;
 
     Establish context = () =>
     {

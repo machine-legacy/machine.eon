@@ -23,56 +23,32 @@ namespace Machine.Eon
 
     public IEnumerable<Namespace> Namespaces
     {
-      get
-      {
-        return from assembly in Assemblies
-               from ns in assembly.Namespaces
-               select ns;
-      }
+      get { return from assembly in Assemblies from ns in assembly.Namespaces select ns; }
     }
 
     public IEnumerable<Type> Types
     {
-      get
-      {
-        return from ns in Namespaces
-               from type in ns.Types
-               select type;
-      }
+      get { return from ns in Namespaces from type in ns.Types select type; }
     }
 
     public IEnumerable<Method> Methods
     {
-      get
-      {
-        return from type in Types
-               from method in type.Methods
-               select method;
-      }
+      get { return from type in Types from method in type.Methods select method; }
     }
 
     public IEnumerable<Property> Properties
     {
-      get
-      {
-        return from type in Types
-               from property in type.Properties
-               select property;
-      }
+      get { return from type in Types from property in type.Properties select property; }
     }
 
     public IEnumerable<Namespace> NamespacesNamed(string name)
     {
-      return from ns in Namespaces
-             where ns.Name.Equals(new NamespaceName(AssemblyName.Any, name))
-             select ns;
+      return from ns in Namespaces where ns.Name.Equals(new NamespaceName(AssemblyName.Any, name)) select ns;
     }
 
     public IEnumerable<Assembly> AssembliesNamed(string name)
     {
-      return from assembly in Assemblies
-             where assembly.Name.Equals(new AssemblyName(name))
-             select assembly;
+      return from assembly in Assemblies where assembly.Name.Equals(new AssemblyName(name)) select assembly;
     }
 
     public Type SystemObject
@@ -80,18 +56,25 @@ namespace Machine.Eon
       get { return FromSystemType(typeof(Object)); }
     }
 
-    public IEnumerable<Type> FromSystemType(params System.Type[] runtimeTypes)
+    public ICollection<Type> FromSystemType(params System.Type[] runtimeTypes)
     {
+      List<Type> types = new List<Type>();
       foreach (System.Type runtimeType in runtimeTypes)
       {
-        yield return FromSystemType(runtimeType);
+        types.Add(FromSystemType(runtimeType));
       }
+      return types.ToArray();
     }
 
     public Type FromSystemType(System.Type runtimeType)
     {
       var query = from type in Types where type.Name.FullName.Equals(runtimeType.FullName) select type;
       return query.Single();
+    }
+
+    public Type this[System.Type runtimeType]
+    {
+      get { return FromSystemType(runtimeType); }
     }
   }
 }
