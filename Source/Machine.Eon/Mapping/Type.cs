@@ -18,23 +18,23 @@ namespace Machine.Eon.Mapping
     private readonly List<Property> _properties = new List<Property>();
     private readonly List<Type> _interfaces = new List<Type>();
     private readonly UsageSet _usages = new UsageSet();
-    private Type _baseType;
     private TypeAttributes _typeAttributes;
+    private Type _baseType;
 
     public TypeName Name
     {
       get { return _name; }
     }
 
+    public Namespace Namespace
+    {
+      get { return _namespace; }
+    }
+
     public TypeAttributes TypeAttributes
     {
       get { return _typeAttributes; }
       set { _typeAttributes = value; }
-    }
-
-    public Namespace Namespace
-    {
-      get { return _namespace; }
     }
 
     public bool IsClass

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class UsageSet
+  public class UsageSet : IEnumerable<Node>
   {
     public static readonly UsageSet Empty = new UsageSet();
     private readonly List<Usage> _usages = new List<Usage>();
@@ -103,5 +103,17 @@ namespace Machine.Eon.Mapping
       }
       return Union(sets.ToArray());
     }
+
+    #region IEnumerable<Node> Members
+    public IEnumerator<Node> GetEnumerator()
+    {
+      return this.All.GetEnumerator();
+    }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+    {
+      return this.All.GetEnumerator();
+    }
+    #endregion
   }
 }
