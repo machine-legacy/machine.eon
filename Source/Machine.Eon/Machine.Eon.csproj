@@ -53,6 +53,7 @@
     <Compile Include="Mapping\AssemblyName.cs" />
     <Compile Include="Mapping\Field.cs" />
     <Compile Include="Mapping\ICanUseNodes.cs" />
+    <Compile Include="Mapping\IndirectUses.cs" />
     <Compile Include="Mapping\INodes.cs" />
     <Compile Include="Mapping\Inspection\CecilVisitors.cs" />
     <Compile Include="Mapping\Inspection\NameMapping.cs" />
