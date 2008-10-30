@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Machine.Eon.Mapping
 {
   [Flags]
-  public enum TypeAttributes
+  public enum TypeFlags
   {
     None,
     Interface,
@@ -18,7 +18,7 @@ namespace Machine.Eon.Mapping
     private readonly List<Property> _properties = new List<Property>();
     private readonly List<Type> _interfaces = new List<Type>();
     private readonly UsageSet _usages = new UsageSet();
-    private TypeAttributes _typeAttributes;
+    private TypeFlags _typeFlags;
     private Type _baseType;
 
     public TypeName Name
@@ -31,10 +31,10 @@ namespace Machine.Eon.Mapping
       get { return _namespace; }
     }
 
-    public TypeAttributes TypeAttributes
+    public TypeFlags TypeFlags
     {
-      get { return _typeAttributes; }
-      set { _typeAttributes = value; }
+      get { return _typeFlags; }
+      set { _typeFlags = value; }
     }
 
     public bool IsClass
@@ -44,12 +44,12 @@ namespace Machine.Eon.Mapping
 
     public bool IsInterface
     {
-      get { return (this.TypeAttributes & TypeAttributes.Interface) == TypeAttributes.Interface; }
+      get { return (this.TypeFlags & TypeFlags.Interface) == TypeFlags.Interface; }
     }
 
     public bool IsAbstract
     {
-      get { return (this.TypeAttributes & TypeAttributes.Abstract) == TypeAttributes.Abstract; }
+      get { return (this.TypeFlags & TypeFlags.Abstract) == TypeFlags.Abstract; }
     }
 
     public Type BaseType

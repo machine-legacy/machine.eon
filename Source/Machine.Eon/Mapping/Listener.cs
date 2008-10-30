@@ -106,10 +106,10 @@ namespace Machine.Eon.Mapping
 
     public void SetTypeFlags(bool isInterface, bool isAbstract)
     {
-      TypeAttributes typeAttributes = TypeAttributes.None;
-      if (isInterface) typeAttributes |= TypeAttributes.Interface;
-      if (isAbstract) typeAttributes |= TypeAttributes.Abstract;
-      GetCurrentType().TypeAttributes = typeAttributes;
+      TypeFlags typeFlags = TypeFlags.None;
+      if (isInterface) typeFlags |= TypeFlags.Interface;
+      if (isAbstract) typeFlags |= TypeFlags.Abstract;
+      GetCurrentType().TypeFlags = typeFlags;
     }
 
     public void EndMethod()
