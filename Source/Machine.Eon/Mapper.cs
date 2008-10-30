@@ -1,16 +1,20 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Mono.Cecil;
 
+using Machine.Eon.Mapping;
 using Machine.Eon.Mapping.Inspection;
 using Machine.Eon.Mapping.Repositories;
 using Machine.Eon.Mapping.Repositories.Impl;
+using Type = Machine.Eon.Mapping.Type;
 
 namespace Machine.Eon
 {
   public class Mapper
   {
+    private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(typeof(Mapper));
     private readonly IAssemblyRepository _assemblyRepository;
     private readonly ITypeRepository _typeRepository;
     private readonly IMemberRepository _memberRepository;

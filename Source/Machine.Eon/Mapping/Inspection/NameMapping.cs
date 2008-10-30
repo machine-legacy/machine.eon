@@ -31,6 +31,10 @@ namespace Machine.Eon.Mapping.Inspection
 
     public static TypeName ToTypeName(this TypeReference reference)
     {
+      if (reference is FunctionPointerType)
+      {
+        return null;
+      }
       if (reference.Scope == null)
       {
         return new GenericParameterTypeName(AssemblyName.None, reference.Name);
@@ -39,7 +43,7 @@ namespace Machine.Eon.Mapping.Inspection
       GenericInstanceType genericInstanceType = reference as GenericInstanceType;
       if (genericInstanceType != null)
       {
-        return new TypeName(assemblyName, reference.FullName.Substring(0, reference.FullName.IndexOf('`')));
+        return new TypeName(assemblyName, reference.FullName);
       }
       return new TypeName(assemblyName, reference.FullName);
     }

@@ -16,7 +16,12 @@ namespace Machine.Eon.Specs
         Assert.Contains(item, actualList);
         remainingList.Remove(item);
       }
-      Assert.IsEmpty(remainingList, "Has more items?");
+      Assert.IsEmpty(remainingList, "Actual collection has unexpected items.");
+    }
+
+    public static void MyShouldContainOnly<T>(this IEnumerable<T> actual, params T[] expected)
+    {
+      MyShouldContainOnly(actual, new List<T>(expected));
     }
 
     public static bool ContainsAny<T>(this IEnumerable<T> collection, IEnumerable<T> values)

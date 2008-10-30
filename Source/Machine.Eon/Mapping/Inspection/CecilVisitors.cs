@@ -77,7 +77,7 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitResourceCollection(ResourceCollection resources)
     {
-      foreach (ResourceCollection resource in resources)
+      foreach (Resource resource in resources)
       {
         resource.Accept(this);
       }

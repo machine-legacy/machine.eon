@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Machine.Eon.Mapping;
 using Type = Machine.Eon.Mapping.Type;
@@ -18,6 +19,7 @@ namespace Machine.Eon.Specs
     {
       log4net.Config.XmlConfigurator.Configure();
       Mapper mapper = new Mapper();
+      mapper.Include(typeof(Mapper).Assembly.Location);
       mapper.Include(typeof(with_eon).Assembly.Location);
       qr = mapper.ToQueryRoot();
       systemVoid = qr.FromSystemType(typeof(void));

@@ -6,10 +6,11 @@ namespace Machine.Eon.Mapping
   [Flags]
   public enum TypeFlags
   {
-    None,
-    Interface,
-    Abstract,
-    Static
+    None = 0,
+    Invalid = 1,
+    Interface = 2,
+    Abstract = 4,
+    Static = 8
   }
   public class Type : Node, IType, ICanUseNodes, IHaveDirectUses, IHaveIndirectUses, ICanHaveAttributes
   {
@@ -21,7 +22,7 @@ namespace Machine.Eon.Mapping
     private readonly List<Type> _interfaces = new List<Type>();
     private readonly List<Type> _attributes = new List<Type>();
     private readonly UsageSet _usages = new UsageSet();
-    private TypeFlags _flags;
+    private TypeFlags _flags = TypeFlags.Invalid;
     private Type _baseType;
 
     public TypeName Name
@@ -36,7 +37,18 @@ namespace Machine.Eon.Mapping
 
     public TypeFlags TypeFlags
     {
+      get { return _flags; }
       set { _flags = value; }
+    }
+
+    public bool IsValid
+    {
+      get { return !IsPendingCreation; }
+    }
+
+    public bool IsPendingCreation
+    {
+      get { return (_flags & TypeFlags.Invalid) == TypeFlags.Invalid; }
     }
 
     public bool IsClass
@@ -53,12 +65,14 @@ namespace Machine.Eon.Mapping
     {
       get { return (_flags & TypeFlags.Abstract) == TypeFlags.Abstract; }
     }
+
     /*
     public bool IsStatic
     {
       get { return (_flags & TypeFlags.Static) == TypeFlags.Static; }
     }
     */
+    
     public Type BaseType
     {
       get { return _baseType; }
