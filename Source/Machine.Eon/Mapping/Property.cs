@@ -14,11 +14,6 @@ namespace Machine.Eon.Mapping
       get { return _name; }
     }
 
-    public PropertyName PropertyName
-    {
-      get { return _name; }
-    }
-
     public Method Getter
     {
       get { return _getter; }
@@ -40,11 +35,6 @@ namespace Machine.Eon.Mapping
       : base(type, name)
     {
       _name = name;
-    }
-
-    public override NodeName NodeName
-    {
-      get { return _name; }
     }
 
     public override Usage CreateUsage()

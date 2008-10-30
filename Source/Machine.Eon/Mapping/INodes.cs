@@ -5,31 +5,24 @@ namespace Machine.Eon.Mapping
 {
   public interface INode
   {
-    NodeName NodeName { get; }
   }
-  public interface IAssembly : INode
+  public interface IAssembly : INode, INodeNamed<AssemblyName>
   {
-    AssemblyName AssemblyName { get; }
   }
-  public interface INamespace : INode
+  public interface INamespace : INode, INodeNamed<NamespaceName>
   {
-    NamespaceName NamespaceName { get; }
   }
-  public interface IType : INode
+  public interface IType : INode, INodeNamed<TypeName>
   {
-    TypeName TypeName { get; }
   }
   public interface IMember : INode
   {
-    MemberName MemberName { get; }
   }
-  public interface IProperty : IMember
+  public interface IProperty : IMember, INodeNamed<PropertyName>
   {
-    PropertyName PropertyName { get; }
   }
-  public interface IMethod : IMember
+  public interface IMethod : IMember, INodeNamed<MethodName>
   {
-    MethodName MethodName { get; }
     bool IsGetter { get; }
     bool IsSetter { get; }
   }

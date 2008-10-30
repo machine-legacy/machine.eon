@@ -13,11 +13,6 @@ namespace Machine.Eon.Mapping
       get { return _type; }
     }
 
-    public MemberName MemberName
-    {
-      get { return _name; }
-    }
-
     protected Member(Type type, MemberName name)
     {
       _type = type;

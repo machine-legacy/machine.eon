@@ -21,17 +21,7 @@ namespace Machine.Eon.Mapping
     private Type _baseType;
     private TypeAttributes _typeAttributes;
 
-    public Namespace Namespace
-    {
-      get { return _namespace; }
-    }
-
     public TypeName Name
-    {
-      get { return _name; }
-    }
-
-    public TypeName TypeName
     {
       get { return _name; }
     }
@@ -40,6 +30,11 @@ namespace Machine.Eon.Mapping
     {
       get { return _typeAttributes; }
       set { _typeAttributes = value; }
+    }
+
+    public Namespace Namespace
+    {
+      get { return _namespace; }
     }
 
     public bool IsClass
@@ -138,11 +133,6 @@ namespace Machine.Eon.Mapping
       return newMember;
     }
 
-    public override NodeName NodeName
-    {
-      get { return _name; }
-    }
-
     public override Usage CreateUsage()
     {
       return new TypeUsage(this);
@@ -178,7 +168,7 @@ namespace Machine.Eon.Mapping
 
     public bool IsA(TypeName name)
     {
-      if (this.TypeName.Equals(name)) return true;
+      if (this.Name.Equals(name)) return true;
       foreach (Type interfaceType in _interfaces)
       {
         if (interfaceType.IsA(name)) return true;

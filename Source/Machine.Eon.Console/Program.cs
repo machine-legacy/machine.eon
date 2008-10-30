@@ -85,6 +85,20 @@ namespace Machine.Eon.Console
       {
         _log.Info(type);
       }
+
+      _log.Info("Types that use System.String's");
+
+      var systemString = (from type in qr.Types where type.Name.FullName.Equals("System.String") select type).FirstOrDefault();
+
+      var usesString = from type in qr.Types
+                       where type.IndirectlyUses.Types.Contains(systemString)
+                       select type
+                       ;
+      
+      foreach (Type type in usesString)
+      {
+        _log.Info(type);
+      }
     }
   }
 }

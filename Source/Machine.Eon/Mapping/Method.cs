@@ -13,11 +13,6 @@ namespace Machine.Eon.Mapping
       get { return _name; }
     }
 
-    public MethodName MethodName
-    {
-      get { return _name; }
-    }
-
     public bool IsSetter
     {
       get { return _name.Name.StartsWith("set_"); }
@@ -32,11 +27,6 @@ namespace Machine.Eon.Mapping
       : base(type, name)
     {
       _name = name;
-    }
-
-    public override NodeName NodeName
-    {
-      get { return _name; }
     }
 
     public override Usage CreateUsage()

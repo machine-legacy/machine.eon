@@ -13,11 +13,6 @@ namespace Machine.Eon.Mapping
       get { return _name; }
     }
 
-    public AssemblyName AssemblyName
-    {
-      get { return _name; }
-    }
-
     public IEnumerable<Namespace> Namespaces
     {
       get { return _namespaces; }
@@ -26,11 +21,6 @@ namespace Machine.Eon.Mapping
     public Assembly(AssemblyName name)
     {
       _name = name;
-    }
-
-    public override NodeName NodeName
-    {
-      get { return _name; }
     }
 
     public Namespace FindOrCreateNamespace(NamespaceName name)

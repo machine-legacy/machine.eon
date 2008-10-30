@@ -72,7 +72,7 @@ namespace Machine.Eon.Mapping
     }
 
     private IEnumerable<TNode> NodesOfType<TNode, TName>()
-      where TNode : Node
+      where TNode : Node, INodeNamed<TName>
       where TName : NodeName
     {
       foreach (UsageByName<TNode, TName> usage in OfType<UsageByName<TNode, TName>>())

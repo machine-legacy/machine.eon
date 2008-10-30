@@ -7,7 +7,7 @@ namespace Machine.Eon.Mapping
   {
   }
 
-  public abstract class UsageByName<TNode, TName> : Usage where TNode : Node where TName : NodeName
+  public abstract class UsageByName<TNode, TName> : Usage where TNode : Node, INodeNamed<TName> where TName : NodeName
   {
     private readonly TNode _node;
 
@@ -21,9 +21,9 @@ namespace Machine.Eon.Mapping
       get { return _node; }
     }
 
-    public TName Name
+    private TName Name
     {
-      get { return (TName)_node.NodeName; }
+      get { return _node.Name; }
     }
 
     public override bool Equals(object obj)

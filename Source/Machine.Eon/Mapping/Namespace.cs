@@ -19,11 +19,6 @@ namespace Machine.Eon.Mapping
       get { return _name; }
     }
 
-    public NamespaceName NamespaceName
-    {
-      get { return _name; }
-    }
-
     public IEnumerable<Type> Types
     {
       get { return _types; }
@@ -68,11 +63,6 @@ namespace Machine.Eon.Mapping
         }
       }
       return null;
-    }
-
-    public override NodeName NodeName
-    {
-      get { return _name; }
     }
 
     public override string ToString()
