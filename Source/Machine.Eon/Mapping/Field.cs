@@ -3,10 +3,9 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class Field : Member, IField, ICanUseNodes
+  public class Field : Member, IField
   {
     private readonly FieldName _name;
-    private readonly UsageSet _usages = new UsageSet();
     private Type _fieldType;
 
     public FieldName Name
@@ -24,16 +23,6 @@ namespace Machine.Eon.Mapping
       : base(type, name)
     {
       _name = name;
-    }
-
-    public void Use(Node node)
-    {
-      _usages.Add(node);
-    }
-
-    public override UsageSet DirectlyUses
-    {
-      get { return _usages; }
     }
   }
 }

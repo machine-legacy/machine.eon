@@ -214,8 +214,8 @@ namespace Machine.Eon.Mapping
     {
       foreach (TypeReference type in interfaces)
       {
-        _listener.UseType(type.ToTypeName());
         _listener.ImplementsInterface(type.ToTypeName());
+        _listener.UseType(type.ToTypeName());
         type.Accept(this);
       }
     }
@@ -301,6 +301,7 @@ namespace Machine.Eon.Mapping
     {
       _listener.StartProperty(property.ToName());
       _listener.SetPropertyType(property.PropertyType.ToTypeName());
+      _listener.UseType(property.PropertyType.ToTypeName());
       property.CustomAttributes.Accept(this);
       if (property.GetMethod != null)
       {

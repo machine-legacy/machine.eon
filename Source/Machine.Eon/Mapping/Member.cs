@@ -3,11 +3,12 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public abstract class Member : Node, IMember, ICanHaveAttributes, IHaveDirectUses
+  public abstract class Member : Node, IMember, ICanUseNodes, ICanHaveAttributes, IHaveDirectUses
   {
     private readonly Type _type;
     private readonly MemberName _name;
     private readonly List<Type> _attributes = new List<Type>();
+    private readonly UsageSet _usages = new UsageSet();
 
     public Type Type
     {
@@ -38,9 +39,14 @@ namespace Machine.Eon.Mapping
       return _name.ToString();
     }
 
+    public void Use(Node node)
+    {
+      _usages.Add(node);
+    }
+
     public virtual UsageSet DirectlyUses
     {
-      get { return UsageSet.Empty; }
+      get { return _usages; }
     }
   }
 }
