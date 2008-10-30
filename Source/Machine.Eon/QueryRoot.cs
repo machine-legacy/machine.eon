@@ -35,10 +35,29 @@ namespace Machine.Eon
     {
       get
       {
-        return from assembly in Assemblies
-               from ns in assembly.Namespaces
+        return from ns in Namespaces
                from type in ns.Types
                select type;
+      }
+    }
+
+    public IEnumerable<Method> Methods
+    {
+      get
+      {
+        return from type in Types
+               from method in type.Methods
+               select method;
+      }
+    }
+
+    public IEnumerable<Property> Properties
+    {
+      get
+      {
+        return from type in Types
+               from property in type.Properties
+               select property;
       }
     }
 
