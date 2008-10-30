@@ -83,9 +83,9 @@ namespace Machine.Eon.Mapping
     {
       if (String.IsNullOrEmpty(_name))
       {
-        return "Member<Null>";
+        return GetType().Name.Replace("Name", "") +  "<Null>";
       }
-      return "Member<" + _typeName + "->" + _name + ">";
+      return GetType().Name.Replace("Name", "") + "<" + _typeName + "->" + _name + ">";
     }
   }
 }
