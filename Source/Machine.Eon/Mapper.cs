@@ -36,7 +36,46 @@ namespace Machine.Eon
 
     public QueryRoot ToQueryRoot()
     {
+      CheckForInvalidTypes();
       return new QueryRoot(_assemblyRepository.FindAll());
+    }
+
+    public void CheckForInvalidTypes()
+    {
+      var invalids = from assembly in _assemblyRepository.FindAll()
+                     from ns in assembly.Namespaces
+                     from type in ns.Types
+                     where type.IsPendingCreation
+                     select type;
+      foreach (Type type in invalids.Distinct())
+      {
+        _log.Info("Invalid: " + type);
+      }
+
+      var assemblies = from assembly in _assemblyRepository.FindAll()
+                       where assembly.Name.Name.Equals("Machine.Eon.Specs")
+                       select assembly;
+      
+      var methods = from assembly in assemblies
+                    from ns in assembly.Namespaces
+                    from type in ns.Types
+                    from method in type.Methods
+                    where method.IsPendingCreation
+                    select method;
+      foreach (Method method in methods)
+      {
+        _log.Info("Invalid: " + method);
+      }
+
+      var types = from assembly in assemblies
+                  from ns in assembly.Namespaces
+                  from type in ns.Types
+                  where ns.Name.Name.Equals("Machine.Eon.Specs.ClassesAndInterfaces")
+                  select type;
+      foreach (Type type in types)
+      {
+        _log.Info(type);
+      }
     }
   }
 }
