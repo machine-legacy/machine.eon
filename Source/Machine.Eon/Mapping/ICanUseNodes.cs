@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public interface ICanUse
+  public interface ICanUseNodes
   {
     void Use(Node node);
   }

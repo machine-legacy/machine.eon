@@ -10,7 +10,7 @@ namespace Machine.Eon.Mapping
     Interface,
     Abstract
   }
-  public class Type : Node, IType, ICanUse, ICanHaveAttributes, IHaveUses
+  public class Type : Node, IType, ICanUseNodes, ICanHaveAttributes, IHaveUses
   {
     private readonly Namespace _namespace;
     private readonly TypeName _name;

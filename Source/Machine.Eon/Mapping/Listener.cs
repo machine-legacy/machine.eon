@@ -176,7 +176,7 @@ namespace Machine.Eon.Mapping
       return type;
     }
 
-    private ICanUse GetCurrentCanUse()
+    private ICanUseNodes GetCurrentCanUse()
     {
       Method method = GetCurrentMethod();
       if (method != null) return method;
@@ -186,7 +186,7 @@ namespace Machine.Eon.Mapping
 
     private void UseInCurrentContext(Node node)
     {
-      ICanUse can = GetCurrentCanUse();
+      ICanUseNodes can = GetCurrentCanUse();
       if (can != null)
       {
         can.Use(node);
