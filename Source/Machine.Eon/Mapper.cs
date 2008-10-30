@@ -7,7 +7,7 @@ using Machine.Eon.Mapping.Inspection;
 using Machine.Eon.Mapping.Repositories;
 using Machine.Eon.Mapping.Repositories.Impl;
 
-namespace Machine.Eon.Mapping
+namespace Machine.Eon
 {
   public class Mapper
   {
