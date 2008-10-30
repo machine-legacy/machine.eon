@@ -138,6 +138,7 @@ namespace Machine.Eon.Mapping
     {
       foreach (CustomAttribute customAttribute in customAttrs)
       {
+        _listener.HasAttribute(customAttribute.Constructor.DeclaringType.ToTypeName());
         customAttribute.Accept(this);
       }
     }
@@ -295,6 +296,7 @@ namespace Machine.Eon.Mapping
     public override void VisitPropertyDefinition(PropertyDefinition property)
     {
       _listener.StartProperty(property.ToName());
+      property.CustomAttributes.Accept(this);
       if (property.GetMethod != null)
       {
         _listener.StartMethod(property.GetMethod.ToName());

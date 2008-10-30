@@ -10,13 +10,14 @@ namespace Machine.Eon.Mapping
     Interface,
     Abstract
   }
-  public class Type : Node, IType, ICanUse, IHaveUses
+  public class Type : Node, IType, ICanUse, ICanHaveAttributes, IHaveUses
   {
     private readonly Namespace _namespace;
     private readonly TypeName _name;
     private readonly List<Method> _methods = new List<Method>();
     private readonly List<Property> _properties = new List<Property>();
     private readonly List<Type> _interfaces = new List<Type>();
+    private readonly List<Type> _attributes = new List<Type>();
     private readonly UsageSet _usages = new UsageSet();
     private TypeFlags _typeFlags;
     private Type _baseType;
@@ -68,6 +69,16 @@ namespace Machine.Eon.Mapping
       _namespace = ns;
       _name = name;
       _baseType = baseType;
+    }
+
+    public IEnumerable<Type> Attributes
+    {
+      get { return _attributes; }
+    }
+
+    public IEnumerable<Type> Interfaces
+    {
+      get { return _interfaces; }
     }
 
     public IEnumerable<Property> Properties
@@ -158,6 +169,14 @@ namespace Machine.Eon.Mapping
       if (!_interfaces.Contains(type))
       {
         _interfaces.Add(type);
+      }
+    }
+
+    public void AddAttribute(Type type)
+    {
+      if (!_attributes.Contains(type))
+      {
+        _attributes.Add(type);
       }
     }
 

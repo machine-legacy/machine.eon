@@ -104,6 +104,12 @@ namespace Machine.Eon.Mapping
       GetCurrentType().AddInterface(type);
     }
 
+    public void HasAttribute(TypeName interfaceTypeName)
+    {
+      Type type = _typeRepository.FindType(interfaceTypeName);
+      GetCurrentCanHaveAttributes().AddAttribute(type);
+    }
+
     public void SetTypeFlags(bool isInterface, bool isAbstract)
     {
       TypeFlags typeFlags = TypeFlags.None;
@@ -146,30 +152,36 @@ namespace Machine.Eon.Mapping
     {
       MethodName methodName = _methods.Peek();
       TypeName typeName = _types.Peek();
-      if (typeName == TypeName.None)
-      {
-        return null;
-      }
-      if (methodName == MethodName.None)
-      {
-        return null;
-      }
+      if (typeName == TypeName.None) return null;
+      if (methodName == MethodName.None) return null;
       return _memberRepository.FindMethod(methodName);
+    }
+
+    private Property GetCurrentProperty()
+    {
+      PropertyName propertyName = _properties.Peek();
+      TypeName typeName = _types.Peek();
+      if (typeName == TypeName.None) return null;
+      if (propertyName == MethodName.None) return null;
+      return _memberRepository.FindProperty(propertyName);
+    }
+
+    private ICanHaveAttributes GetCurrentCanHaveAttributes()
+    {
+      Method method = GetCurrentMethod();
+      if (method != null) return method;
+      Property property = GetCurrentProperty();
+      if (property != null) return property;
+      Type type = GetCurrentType();
+      return type;
     }
 
     private ICanUse GetCurrentCanUse()
     {
       Method method = GetCurrentMethod();
-      if (method != null)
-      {
-        return method;
-      }
+      if (method != null) return method;
       Type type = GetCurrentType();
-      if (type != null)
-      {
-        return type;
-      }
-      return null;
+      return type;
     }
 
     private void UseInCurrentContext(Node node)

@@ -7,6 +7,10 @@ namespace Machine.Eon.Mapping
   {
     void Use(Node node);
   }
+  public interface ICanHaveAttributes
+  {
+    void AddAttribute(Type type);
+  }
   public interface IHaveUses
   {
     UsageSet IndirectlyUses
