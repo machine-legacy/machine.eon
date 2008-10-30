@@ -16,6 +16,7 @@ namespace Machine.Eon.Mapping
     private readonly TypeName _name;
     private readonly List<Method> _methods = new List<Method>();
     private readonly List<Property> _properties = new List<Property>();
+    private readonly List<Field> _fields = new List<Field>();
     private readonly List<Type> _interfaces = new List<Type>();
     private readonly List<Type> _attributes = new List<Type>();
     private readonly UsageSet _usages = new UsageSet();
@@ -109,6 +110,7 @@ namespace Machine.Eon.Mapping
     {
       get
       {
+        foreach (Field field in _fields) yield return field;
         foreach (Property property in _properties) yield return property;
         foreach (Method method in _methods) yield return method;
       }
@@ -141,6 +143,21 @@ namespace Machine.Eon.Mapping
       }
       Property newMember = new Property(this, name);
       _properties.Add(newMember);
+      return newMember;
+    }
+
+    public Field FindOrCreateField(FieldName name)
+    {
+      if (!name.TypeName.Equals(_name)) throw new ArgumentException("name");
+      foreach (Field field in _fields)
+      {
+        if (field.Name.Equals(name))
+        {
+          return field;
+        }
+      }
+      Field newMember = new Field(this, name);
+      _fields.Add(newMember);
       return newMember;
     }
 

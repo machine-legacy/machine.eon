@@ -23,6 +23,16 @@ namespace Machine.Eon.Mapping
     {
     }
   }
+  public class FieldName : MemberName
+  {
+    public static readonly FieldName None = new FieldName(TypeName.None, String.Empty);
+    public static readonly FieldName Any = new FieldName(TypeName.Any, "*");
+
+    public FieldName(TypeName typeName, string name)
+      : base(typeName, name)
+    {
+    }
+  }
   public abstract class MemberName : NodeName
   {
     private readonly TypeName _typeName;

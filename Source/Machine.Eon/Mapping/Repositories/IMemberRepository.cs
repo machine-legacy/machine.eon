@@ -7,5 +7,6 @@ namespace Machine.Eon.Mapping.Repositories
   {
     Method FindMethod(MethodName name);
     Property FindProperty(PropertyName name);
+    Field FindField(FieldName name);
   }
 }

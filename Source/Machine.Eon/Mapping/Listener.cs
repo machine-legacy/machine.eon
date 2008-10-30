@@ -15,12 +15,14 @@ namespace Machine.Eon.Mapping
     private readonly Stack<TypeName> _types = new Stack<TypeName>();
     private readonly Stack<MethodName> _methods = new Stack<MethodName>();
     private readonly Stack<PropertyName> _properties = new Stack<PropertyName>();
+    private readonly Stack<FieldName> _fields = new Stack<FieldName>();
 
     public Listener()
     {
       _types.Push(TypeName.None);
       _methods.Push(MethodName.None);
       _properties.Push(PropertyName.None);
+      _fields.Push(FieldName.None);
     }
 
     public void StartAssembly(AssemblyName name)
@@ -39,12 +41,14 @@ namespace Machine.Eon.Mapping
     {
       if (name == null) throw new ArgumentNullException("name");
       _types.Push(name);
+      GetCurrentType();
     }
 
     public void StartProperty(PropertyName name)
     {
       if (name == null) throw new ArgumentNullException("name");
       _properties.Push(name);
+      GetCurrentProperty();
     }
 
     public void EndProperty()
@@ -52,10 +56,23 @@ namespace Machine.Eon.Mapping
       _properties.Pop();
     }
 
+    public void StartField(FieldName name)
+    {
+      if (name == null) throw new ArgumentNullException("name");
+      _fields.Push(name);
+      GetCurrentField();
+    }
+
+    public void EndField()
+    {
+      _fields.Pop();
+    }
+
     public void StartMethod(MethodName name)
     {
       if (name == null) throw new ArgumentNullException("name");
       _methods.Push(name);
+      GetCurrentMethod();
     }
 
     public void UseType(TypeName name)
@@ -162,8 +179,17 @@ namespace Machine.Eon.Mapping
       PropertyName propertyName = _properties.Peek();
       TypeName typeName = _types.Peek();
       if (typeName == TypeName.None) return null;
-      if (propertyName == MethodName.None) return null;
+      if (propertyName == PropertyName.None) return null;
       return _memberRepository.FindProperty(propertyName);
+    }
+
+    private Field GetCurrentField()
+    {
+      FieldName fieldName = _fields.Peek();
+      TypeName typeName = _types.Peek();
+      if (typeName == TypeName.None) return null;
+      if (fieldName == FieldName.None) return null;
+      return _memberRepository.FindField(fieldName);
     }
 
     private ICanHaveAttributes GetCurrentCanHaveAttributes()
@@ -172,6 +198,8 @@ namespace Machine.Eon.Mapping
       if (method != null) return method;
       Property property = GetCurrentProperty();
       if (property != null) return property;
+      Field field = GetCurrentField();
+      if (field != null) return field;
       Type type = GetCurrentType();
       return type;
     }

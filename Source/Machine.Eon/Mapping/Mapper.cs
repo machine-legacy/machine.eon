@@ -169,13 +169,17 @@ namespace Machine.Eon.Mapping
 
     public override void VisitFieldDefinition(FieldDefinition field)
     {
+      _listener.StartField(field.ToFieldName());
+      _listener.EndField();
     }
 
     public override void VisitFieldDefinitionCollection(FieldDefinitionCollection fields)
     {
       foreach (FieldDefinition field in fields)
       {
-        // field.Accept(this);
+        _listener.StartField(field.ToFieldName());
+        field.Accept(this);
+        _listener.EndField();
       }
     }
 
@@ -504,6 +508,11 @@ namespace Machine.Eon.Mapping
     public static PropertyName ToPropertyName(this PropertyReference reference)
     {
       return new PropertyName(reference.DeclaringType.ToTypeName(), reference.Name);
+    }
+
+    public static FieldName ToFieldName(this FieldDefinition definition)
+    {
+      return new FieldName(definition.DeclaringType.ToTypeName(), definition.Name);
     }
 
     public static TypeName ToTypeName(this VariableDefinition definition)

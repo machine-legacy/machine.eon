@@ -29,4 +29,7 @@ namespace Machine.Eon.Mapping
     bool IsGetter { get; }
     bool IsSetter { get; }
   }
+  public interface IField : IMember, INodeNamed<FieldName>
+  {
+  }
 }

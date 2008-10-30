@@ -55,6 +55,12 @@ namespace Machine.Eon.Mapping
       return type.FindOrCreateProperty(propertyName);
     }
 
+    public Field FindOrCreateField(FieldName fieldName)
+    {
+      Type type = FindOrCreateType(fieldName.TypeName);
+      return type.FindOrCreateField(fieldName);
+    }
+
     public override string ToString()
     {
       return _name.ToString();
