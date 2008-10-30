@@ -161,7 +161,9 @@ namespace Machine.Eon.Specs.DirectUses
 
   public class Type7
   {
+#pragma warning disable 169
     private string _name;
+#pragma warning restore 169
   }
 
   public abstract class Type8
