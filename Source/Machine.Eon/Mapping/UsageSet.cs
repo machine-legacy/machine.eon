@@ -6,6 +6,7 @@ namespace Machine.Eon.Mapping
   public class UsageSet : IEnumerable<Node>
   {
     public static readonly UsageSet Empty = new UsageSet();
+    private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(typeof(UsageSet));
     private readonly List<Usage> _usages = new List<Usage>();
 
     public IEnumerable<Node> All
@@ -115,33 +116,24 @@ namespace Machine.Eon.Mapping
     private void AddIndirectUses(Int32 depth, ICollection<Node> visited, IndirectUses set)
     {
       string prefix = new string(' ', depth * 4);
-      // log4net.LogManager.GetLogger("DEBUG").Info(prefix + "In: " + depth + " Uses: " + _usages.Count);
       foreach (Type node in this.Types)
       {
         if (!visited.Contains(node))
         {
-          log4net.LogManager.GetLogger("DEBUG").Info(prefix + "  Adding: " + node);
+          _log.Debug(prefix + "  Adding: " + node);
           visited.Add(node);
           set.Add(depth, node);
           node.DirectUsesAttributesInterfacesAndMethods.AddIndirectUses(depth + 1, visited, set);
-        }
-        else
-        {
-          // log4net.LogManager.GetLogger("DEBUG").Info(prefix + "  Already visited: " + node);
         }
       }
       foreach (Method node in this.Methods)
       {
         if (!visited.Contains(node))
         {
-          log4net.LogManager.GetLogger("DEBUG").Info(prefix + "  Adding: " + node);
+          _log.Debug(prefix + "  Adding: " + node);
           visited.Add(node);
           set.Add(depth, node);
           node.DirectlyUses.AddIndirectUses(depth + 1, visited, set);
-        }
-        else
-        {
-          // log4net.LogManager.GetLogger("DEBUG").Info(prefix + "  Already visited: " + node);
         }
       }
     }
