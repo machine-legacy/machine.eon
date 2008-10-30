@@ -8,7 +8,8 @@ namespace Machine.Eon.Mapping
   {
     None,
     Interface,
-    Abstract
+    Abstract,
+    Static
   }
   public class Type : Node, IType, ICanUseNodes, IHaveDirectUses, IHaveIndirectUses, ICanHaveAttributes
   {
@@ -20,7 +21,7 @@ namespace Machine.Eon.Mapping
     private readonly List<Type> _interfaces = new List<Type>();
     private readonly List<Type> _attributes = new List<Type>();
     private readonly UsageSet _usages = new UsageSet();
-    private TypeFlags _typeFlags;
+    private TypeFlags _flags;
     private Type _baseType;
 
     public TypeName Name
@@ -35,7 +36,7 @@ namespace Machine.Eon.Mapping
 
     public TypeFlags TypeFlags
     {
-      set { _typeFlags = value; }
+      set { _flags = value; }
     }
 
     public bool IsClass
@@ -45,14 +46,19 @@ namespace Machine.Eon.Mapping
 
     public bool IsInterface
     {
-      get { return (_typeFlags & TypeFlags.Interface) == TypeFlags.Interface; }
+      get { return (_flags & TypeFlags.Interface) == TypeFlags.Interface; }
     }
 
     public bool IsAbstract
     {
-      get { return (_typeFlags & TypeFlags.Abstract) == TypeFlags.Abstract; }
+      get { return (_flags & TypeFlags.Abstract) == TypeFlags.Abstract; }
     }
-
+    /*
+    public bool IsStatic
+    {
+      get { return (_flags & TypeFlags.Static) == TypeFlags.Static; }
+    }
+    */
     public Type BaseType
     {
       get { return _baseType; }
@@ -231,6 +237,11 @@ namespace Machine.Eon.Mapping
     public override string ToString()
     {
       return _name.ToString();
+    }
+
+    public bool IsA(Type type)
+    {
+      return IsA(type.Name);
     }
 
     public bool IsA(TypeName name)

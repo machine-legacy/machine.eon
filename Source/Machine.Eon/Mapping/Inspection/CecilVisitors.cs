@@ -321,7 +321,7 @@ namespace Machine.Eon.Mapping.Inspection
       TypeName typeName = type.ToTypeName();
       _listener.StartNamespace(typeName.Namespace);
       _listener.StartType(typeName);
-      _listener.SetTypeFlags(type.IsInterface, type.IsAbstract);
+      _listener.SetTypeFlags(type.IsInterface, type.IsAbstract, false);
       if (type.BaseType != null)
       {
         _listener.SetBaseType(type.BaseType.ToTypeName());
@@ -349,7 +349,7 @@ namespace Machine.Eon.Mapping.Inspection
     {
       _listener.StartMethod(method.ToName());
       _listener.SetMethodPrototype(method.ToReturnTypeName(), method.ToParameterTypeNames());
-      _listener.SetMethodFlags(method.IsConstructor, method.IsAbstract, method.IsVirtual);
+      _listener.SetMethodFlags(method.IsConstructor, method.IsAbstract, method.IsVirtual, method.IsStatic);
       _listener.UseType(method.ToReturnTypeName());
       foreach (TypeName typeName in method.ToParameterTypeNames())
       {

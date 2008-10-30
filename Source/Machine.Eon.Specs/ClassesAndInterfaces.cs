@@ -105,4 +105,17 @@ namespace Machine.Eon.Specs.ClassesAndInterfaces
     It should_have_interface = () =>
       type.Interfaces.ShouldContainOnly(qr.FromSystemType(typeof(IAmInterface)));
   }
+
+  public static class StaticClass
+  {
+  }
+
+  [Subject("ClassesAndInterfaces")]
+  public class with_a_static_class : with_eon
+  {
+    static Machine.Eon.Mapping.Type type;
+
+    Because of = () =>
+      type = qr.FromSystemType(typeof(StaticClass));
+  }
 }
