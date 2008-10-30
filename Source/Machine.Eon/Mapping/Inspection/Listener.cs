@@ -112,22 +112,27 @@ namespace Machine.Eon.Mapping.Inspection
 
     public void SetBaseType(TypeName baseTypeName)
     {
+      if (baseTypeName == null) throw new ArgumentNullException("baseTypeName");
       Type type = _typeRepository.FindType(baseTypeName);
       GetCurrentType().BaseType = type;
     }
 
     public void SetFieldType(TypeName name)
     {
+      if (name == null) throw new ArgumentNullException("name");
       GetCurrentField().FieldType = _typeRepository.FindType(name);
     }
 
     public void SetPropertyType(TypeName name)
     {
+      if (name == null) throw new ArgumentNullException("name");
       GetCurrentProperty().PropertyType = _typeRepository.FindType(name);
     }
 
     public void SetMethodPrototype(TypeName returnTypeName, ICollection<TypeName> parameterTypeNames)
     {
+      if (returnTypeName == null) throw new ArgumentNullException("returnTypeName");
+      if (parameterTypeNames == null) throw new ArgumentNullException("parameterTypeNames");
       List<Parameter> parameters = new List<Parameter>();
       foreach (TypeName name in parameterTypeNames)
       {
@@ -140,13 +145,15 @@ namespace Machine.Eon.Mapping.Inspection
 
     public void ImplementsInterface(TypeName interfaceTypeName)
     {
+      if (interfaceTypeName == null) throw new ArgumentNullException("interfaceTypeName");
       Type type = _typeRepository.FindType(interfaceTypeName);
       GetCurrentType().AddInterface(type);
     }
 
-    public void HasAttribute(TypeName interfaceTypeName)
+    public void HasAttribute(TypeName typeName)
     {
-      Type type = _typeRepository.FindType(interfaceTypeName);
+      if (typeName == null) throw new ArgumentNullException("typeName");
+      Type type = _typeRepository.FindType(typeName);
       GetCurrentCanHaveAttributes().AddAttribute(type);
     }
 
