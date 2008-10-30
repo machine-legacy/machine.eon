@@ -8,6 +8,8 @@ namespace Machine.Eon.Mapping.Inspection
 {
   public static class NameMapping
   {
+    private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(typeof(NameMapping));
+
     public static AssemblyName ToName(this AssemblyDefinition definition)
     {
       return new AssemblyName(definition.Name.Name);
@@ -31,19 +33,19 @@ namespace Machine.Eon.Mapping.Inspection
 
     public static TypeName ToTypeName(this TypeReference reference)
     {
-      if (reference is FunctionPointerType)
-      {
-        return null;
-      }
       if (reference.Scope == null)
       {
         return new GenericParameterTypeName(AssemblyName.None, reference.Name);
       }
       AssemblyName assemblyName = reference.Scope.ToAssemblyName();
+      if (reference.FullName.EndsWith("[]"))
+      {
+        return new TypeName(assemblyName, reference.FullName.Substring(0, reference.FullName.IndexOf("[]")));
+      }
       GenericInstanceType genericInstanceType = reference as GenericInstanceType;
       if (genericInstanceType != null)
       {
-        return new TypeName(assemblyName, reference.FullName);
+        return new TypeName(assemblyName, reference.FullName.Substring(0, reference.FullName.IndexOf('`') + 2));
       }
       return new TypeName(assemblyName, reference.FullName);
     }
