@@ -15,6 +15,7 @@ namespace Machine.Eon.Specs
 
     Establish context = () =>
     {
+      log4net.Config.XmlConfigurator.Configure();
       Mapper mapper = new Mapper();
       mapper.Include(typeof(with_eon).Assembly.Location);
       qr = mapper.ToQueryRoot();
