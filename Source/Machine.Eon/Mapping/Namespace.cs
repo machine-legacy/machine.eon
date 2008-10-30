@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class Namespace : Node, INamespace, IHaveUses
+  public class Namespace : Node, INamespace, IHaveIndirectUses
   {
     private readonly Assembly _assembly;
     private readonly NamespaceName _name;
@@ -22,16 +22,6 @@ namespace Machine.Eon.Mapping
     public IEnumerable<Type> Types
     {
       get { return _types; }
-    }
-
-    public UsageSet IndirectlyUses
-    {
-      get { return UsageSet.Union(_types); }
-    }
-
-    public UsageSet DirectlyUses
-    {
-      get { return UsageSet.Empty; }
     }
 
     public Namespace(Assembly assembly, NamespaceName name)
@@ -68,6 +58,11 @@ namespace Machine.Eon.Mapping
     public override string ToString()
     {
       return _name.ToString();
+    }
+
+    public IndirectUses IndirectlyUses
+    {
+      get { return UsageSet.MakeFrom(_types).CreateIndirectUses(); }
     }
   }
 }

@@ -11,13 +11,16 @@ namespace Machine.Eon.Mapping
   {
     void AddAttribute(Type type);
   }
-  public interface IHaveUses
+  public interface IHaveDirectUses
   {
-    UsageSet IndirectlyUses
+    UsageSet DirectlyUses
     {
       get;
     }
-    UsageSet DirectlyUses
+  }
+  public interface IHaveIndirectUses
+  {
+    IndirectUses IndirectlyUses
     {
       get;
     }

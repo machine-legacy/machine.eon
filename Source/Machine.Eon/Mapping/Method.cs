@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class Method : Member, IMethod, ICanUseNodes, IHaveUses
+  public class Method : Member, IMethod, ICanUseNodes, IHaveDirectUses, IHaveIndirectUses
   {
     private readonly MethodName _name;
     private readonly UsageSet _usages = new UsageSet();
@@ -44,9 +44,9 @@ namespace Machine.Eon.Mapping
       get { return _usages; }
     }
 
-    public UsageSet IndirectlyUses
+    public IndirectUses IndirectlyUses
     {
-      get { return _usages; }
+      get { return _usages.CreateIndirectUses(); }
     }
   }
 }

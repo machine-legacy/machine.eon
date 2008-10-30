@@ -10,7 +10,7 @@ namespace Machine.Eon.Mapping
     Interface,
     Abstract
   }
-  public class Type : Node, IType, ICanUseNodes, ICanHaveAttributes, IHaveUses
+  public class Type : Node, IType, ICanUseNodes, IHaveDirectUses, IHaveIndirectUses, ICanHaveAttributes
   {
     private readonly Namespace _namespace;
     private readonly TypeName _name;
@@ -159,9 +159,22 @@ namespace Machine.Eon.Mapping
       get { return _usages; }
     }
 
-    public UsageSet IndirectlyUses
+    public UsageSet DirectlyUsesAndMethods
     {
-      get { return UsageSet.Union(this.DirectlyUses, UsageSet.Union(_methods)); }
+      get
+      {
+        UsageSet set = UsageSet.Union(_usages, UsageSet.MakeFrom(_attributes), UsageSet.MakeFrom(_interfaces), UsageSet.MakeFrom(_methods));
+        if (this.BaseType != null)
+        {
+          set.Add(this.BaseType);
+        }
+        return set;
+      }
+    }
+
+    public IndirectUses IndirectlyUses
+    {
+      get { return DirectlyUsesAndMethods.CreateIndirectUses(); }
     }
 
     public void AddInterface(Type type)

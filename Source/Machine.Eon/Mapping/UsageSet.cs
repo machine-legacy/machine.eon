@@ -94,14 +94,56 @@ namespace Machine.Eon.Mapping
       return union;
     }
 
-    public static UsageSet Union<T>(IEnumerable<T> uses) where T : IHaveUses
+    public static UsageSet MakeFrom<T>(IEnumerable<T> nodes) where T : Node
     {
-      List<UsageSet> sets = new List<UsageSet>();
-      foreach (T hasUses in uses)
+      UsageSet set = new UsageSet();
+      foreach (T node in nodes)
       {
-        sets.Add(hasUses.IndirectlyUses);
+        set.Add(node);
       }
-      return Union(sets.ToArray());
+      return set;
+    }
+
+    public IndirectUses CreateIndirectUses()
+    {
+      List<Node> visited = new List<Node>();
+      IndirectUses set = new IndirectUses();
+      AddIndirectUses(0, visited, set);
+      return set;
+    }
+
+    private void AddIndirectUses(Int32 depth, ICollection<Node> visited, IndirectUses set)
+    {
+      string prefix = new string(' ', depth * 4);
+      // log4net.LogManager.GetLogger("DEBUG").Info(prefix + "In: " + depth + " Uses: " + _usages.Count);
+      foreach (Type node in this.Types)
+      {
+        if (!visited.Contains(node))
+        {
+          log4net.LogManager.GetLogger("DEBUG").Info(prefix + "  Adding: " + node);
+          visited.Add(node);
+          set.Add(depth, node);
+          node.DirectlyUsesAndMethods.AddIndirectUses(depth + 1, visited, set);
+        }
+        else
+        {
+          // log4net.LogManager.GetLogger("DEBUG").Info(prefix + "  Already visited: " + node);
+        }
+      }
+      foreach (Method node in this.Methods)
+      {
+        if (!visited.Contains(node))
+        {
+          log4net.LogManager.GetLogger("DEBUG").Info(prefix + "  Adding: " + node);
+          visited.Add(node);
+          set.Add(depth, node);
+          node.DirectlyUses.AddIndirectUses(depth + 1, visited, set);
+        }
+        else
+        {
+          // log4net.LogManager.GetLogger("DEBUG").Info(prefix + "  Already visited: " + node);
+        }
+      }
     }
 
     #region IEnumerable<Node> Members
@@ -113,6 +155,68 @@ namespace Machine.Eon.Mapping
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
     {
       return this.All.GetEnumerator();
+    }
+    #endregion
+
+    public override string ToString()
+    {
+      return "UsageSet<" + _usages.Count + ">";
+    }
+  }
+
+  public class IndirectUses : IEnumerable<RelativeUsage>
+  {
+    private readonly List<RelativeUsage> _usages = new List<RelativeUsage>();
+    private readonly Dictionary<Node, RelativeUsage> _byNode = new Dictionary<Node, RelativeUsage>();
+
+    public void Add(Int32 depth, Node node)
+    {
+      if (_byNode.ContainsKey(node))
+      {
+        return;
+      }
+      RelativeUsage usage = new RelativeUsage(depth, node);
+      _byNode[node] = usage;
+      _usages.Add(usage);
+    }
+
+    public IEnumerable<RelativeUsage> Types
+    {
+      get
+      {
+        foreach (RelativeUsage usage in _usages)
+        {
+          if (usage.Node is Type)
+          {
+            yield return usage;
+          }
+        }
+      }
+    }
+
+    public IEnumerable<RelativeUsage> Methods
+    {
+      get
+      {
+        foreach (RelativeUsage usage in _usages)
+        {
+          if (usage.Node is Method)
+          {
+            yield return usage;
+          }
+        }
+      }
+    }
+
+    #region IEnumerable<RelativeUsage> Members
+    public IEnumerator<RelativeUsage> GetEnumerator()
+    {
+      return _usages.GetEnumerator();
+    }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+    {
+      return _usages.GetEnumerator();
     }
     #endregion
   }

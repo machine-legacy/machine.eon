@@ -3,6 +3,33 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
+  public class RelativeUsage
+  {
+    private readonly Int32 _depth;
+    private readonly Node _node;
+
+    public Int32 Depth
+    {
+      get { return _depth; }
+    }
+
+    public Node Node
+    {
+      get { return _node; }
+    }
+
+    public RelativeUsage(Int32 depth, Node node)
+    {
+      _depth = depth;
+      _node = node;
+    }
+
+    public override string ToString()
+    {
+      return "Relative<" + _depth + ", " + _node + ">";
+    }
+  }
+
   public abstract class Usage
   {
   }
