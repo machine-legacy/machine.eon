@@ -128,7 +128,7 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitEventDefinitionCollection(EventDefinitionCollection events)
     {
-      foreach (EventDefinitionCollection eventDefinition in events)
+      foreach (EventDefinition eventDefinition in events)
       {
         eventDefinition.Accept(this);
       }
