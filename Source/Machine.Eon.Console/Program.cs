@@ -22,9 +22,7 @@ namespace Machine.Eon.Console
 
       QueryRoot qr = mapper.ToQueryRoot();
 
-      var types = from assembly in qr.Assemblies 
-                  from ns in assembly.Namespaces
-                  from type in ns.Types
+      var types = from type in qr.Types
                   where type.Name.FullName.StartsWith("Machine")
                   select type
                   ;
@@ -34,9 +32,7 @@ namespace Machine.Eon.Console
         _log.Info(type);
       }
       
-      var getters = from assembly in qr.Assemblies 
-                    from ns in assembly.Namespaces
-                    from type in ns.Types
+      var getters = from type in qr.Types
                     from method in type.Methods
                     where
                       type.Name.FullName.StartsWith("Machine")

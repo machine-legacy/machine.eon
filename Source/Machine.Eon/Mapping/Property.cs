@@ -14,6 +14,21 @@ namespace Machine.Eon.Mapping
       get { return _name; }
     }
 
+    public bool IsWriteOnly
+    {
+      get { return _setter != null && _getter == null;}
+    }
+
+    public bool IsReadWrite
+    {
+      get { return _setter != null && _getter != null;}
+    }
+
+    public bool IsReadOnly
+    {
+      get { return _setter == null && _getter != null;}
+    }
+
     public Method Getter
     {
       get { return _getter; }

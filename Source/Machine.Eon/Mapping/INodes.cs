@@ -20,6 +20,9 @@ namespace Machine.Eon.Mapping
   }
   public interface IProperty : IMember, INodeNamed<PropertyName>
   {
+    bool IsReadOnly { get; }
+    bool IsWriteOnly { get; }
+    bool IsReadWrite { get; }
   }
   public interface IMethod : IMember, INodeNamed<MethodName>
   {
