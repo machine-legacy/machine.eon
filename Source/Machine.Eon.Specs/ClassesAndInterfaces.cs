@@ -118,4 +118,23 @@ namespace Machine.Eon.Specs.ClassesAndInterfaces
     Because of = () =>
       type = qr.FromSystemType(typeof(StaticClass));
   }
+
+  public class AGeneric1<T>
+  {
+    public T Value;
+  }
+
+  public class AGeneric2<T, U>
+  {
+    public T Value1;
+    public U Value2;
+  }
+
+  public class Generic1AsString : AGeneric1<string>
+  {
+  }
+
+  public class Generic1AsObject : AGeneric1<object>
+  {
+  }
 }
