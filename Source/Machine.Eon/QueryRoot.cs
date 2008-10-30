@@ -72,9 +72,30 @@ namespace Machine.Eon
       return query.Single();
     }
 
+    public Type FromTypeName(TypeName typeName)
+    {
+      var query = from type in Types where type.Name.Equals(typeName) select type;
+      return query.Single();
+    }
+
     public Type this[System.Type runtimeType]
     {
       get { return FromSystemType(runtimeType); }
+    }
+
+    public Type this[TypeName typeName]
+    {
+      get { return FromTypeName(typeName); }
+    }
+
+    public IEnumerable<Type> TypesThatAre(System.Type runtimeType)
+    {
+      return TypesThatAre(FromSystemType(runtimeType));
+    }
+
+    public IEnumerable<Type> TypesThatAre(Type baseType)
+    {
+      return from type in Types where type.IsA(baseType.Name) select type;
     }
   }
 }
