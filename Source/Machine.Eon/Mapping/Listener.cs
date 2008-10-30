@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 
 using Machine.Eon.Mapping.Repositories;
-using Machine.Eon.Mapping.Repositories.Impl;
 
 namespace Machine.Eon.Mapping
 {
   public class Listener
   {
-    private readonly IMemberRepository _memberRepository = new MemberRepository();
-    private readonly ITypeRepository _typeRepository = new TypeRepository();
+    private readonly ITypeRepository _typeRepository;
+    private readonly IMemberRepository _memberRepository;
     private readonly Stack<AssemblyName> _assemblies = new Stack<AssemblyName>();
     private readonly Stack<NamespaceName> _namespaces = new Stack<NamespaceName>();
     private readonly Stack<TypeName> _types = new Stack<TypeName>();
@@ -17,12 +16,14 @@ namespace Machine.Eon.Mapping
     private readonly Stack<PropertyName> _properties = new Stack<PropertyName>();
     private readonly Stack<FieldName> _fields = new Stack<FieldName>();
 
-    public Listener()
+    public Listener(ITypeRepository typeRepository, IMemberRepository memberRepository)
     {
       _types.Push(TypeName.None);
       _methods.Push(MethodName.None);
       _properties.Push(PropertyName.None);
       _fields.Push(FieldName.None);
+      _typeRepository = typeRepository;
+      _memberRepository = memberRepository;
     }
 
     public void StartAssembly(AssemblyName name)

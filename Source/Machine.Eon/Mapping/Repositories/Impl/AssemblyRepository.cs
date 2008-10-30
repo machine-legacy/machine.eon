@@ -3,25 +3,27 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping.Repositories.Impl
 {
-  public class AssemblyRepository
+  public class AssemblyRepository : IAssemblyRepository
   {
+    private readonly Dictionary<AssemblyName, Assembly> _assemblies = new Dictionary<AssemblyName, Assembly>();
+
     public Assembly FindAssembly(AssemblyName name)
     {
-      if (!Storage.InMemory.Assemblies.ContainsKey(name))
+      if (!_assemblies.ContainsKey(name))
       {
         return null;
       }
-      return Storage.InMemory.Assemblies[name];
+      return _assemblies[name];
     }
 
     public IEnumerable<Assembly> FindAll()
     {
-      return Storage.InMemory.Assemblies.Values;
+      return _assemblies.Values;
     }
 
     public void SaveAssembly(Assembly assembly)
     {
-      Storage.InMemory.Assemblies[assembly.Name] = assembly;
+      _assemblies[assembly.Name] = assembly;
     }
   }
 }

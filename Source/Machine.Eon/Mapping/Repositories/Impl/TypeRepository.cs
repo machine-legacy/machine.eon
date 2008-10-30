@@ -4,7 +4,12 @@ namespace Machine.Eon.Mapping.Repositories.Impl
 {
   public class TypeRepository : ITypeRepository
   {
-    private readonly AssemblyRepository _assemblyRepository = new AssemblyRepository();
+    private readonly IAssemblyRepository _assemblyRepository;
+
+    public TypeRepository(IAssemblyRepository assemblyRepository)
+    {
+      _assemblyRepository = assemblyRepository;
+    }
 
     public Type FindType(TypeName name)
     {

@@ -4,7 +4,12 @@ namespace Machine.Eon.Mapping.Repositories.Impl
 {
   public class MemberRepository : IMemberRepository
   {
-    private readonly AssemblyRepository _assemblyRepository = new AssemblyRepository();
+    private readonly IAssemblyRepository _assemblyRepository;
+
+    public MemberRepository(IAssemblyRepository assemblyRepository)
+    {
+      _assemblyRepository = assemblyRepository;
+    }
 
     public Method FindMethod(MethodName name)
     {

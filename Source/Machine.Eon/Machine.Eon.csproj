@@ -59,6 +59,7 @@
     <Compile Include="Mapping\Namespace.cs" />
     <Compile Include="Mapping\Node.cs" />
     <Compile Include="Mapping\Property.cs" />
+    <Compile Include="Mapping\Repositories\IAssemblyRepository.cs" />
     <Compile Include="Mapping\Repositories\IMemberRepository.cs" />
     <Compile Include="Mapping\Mapper.cs" />
     <Compile Include="Mapping\Listener.cs" />
@@ -66,7 +67,6 @@
     <Compile Include="Mapping\NamespaceName.cs" />
     <Compile Include="Mapping\Repositories\Impl\AssemblyRepository.cs" />
     <Compile Include="Mapping\Repositories\Impl\MemberRepository.cs" />
-    <Compile Include="Mapping\Repositories\Impl\Storage.cs" />
     <Compile Include="Mapping\Repositories\Impl\TypeRepository.cs" />
     <Compile Include="Mapping\Repositories\ITypeRepository.cs" />
     <Compile Include="Mapping\Type.cs" />
