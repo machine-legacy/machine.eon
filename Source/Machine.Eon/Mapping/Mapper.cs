@@ -175,7 +175,7 @@ namespace Machine.Eon.Mapping
     {
       foreach (FieldDefinition field in fields)
       {
-        field.Accept(this);
+        // field.Accept(this);
       }
     }
 
