@@ -51,5 +51,22 @@ namespace Machine.Eon.Mapping
     {
       return new PropertyUsage(this);
     }
+    /*
+    public UsageSet IndirectlyUses
+    {
+      get { return DirectlyUses.IndirectUses(); }
+    }
+
+    public UsageSet DirectlyUses
+    {
+      get
+      {
+        List<IHaveUses> uses = new List<IHaveUses>();
+        if (this.Getter != null) uses.Add(this.Getter);
+        if (this.Setter != null) uses.Add(this.Setter);
+        return UsageSet.Union(uses.ToArray());
+      }
+    }
+    */
   }
 }
