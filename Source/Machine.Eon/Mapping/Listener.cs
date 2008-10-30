@@ -231,6 +231,8 @@ namespace Machine.Eon.Mapping
     {
       Method method = GetCurrentMethod();
       if (method != null) return method;
+      Field field = GetCurrentField();
+      if (field != null) return field;
       Type type = GetCurrentType();
       return type;
     }

@@ -17,7 +17,7 @@ namespace Machine.Eon.Mapping
       _type = type;
     }
   }
-  public class Method : Member, IMethod, ICanUseNodes, IHaveDirectUses, IHaveIndirectUses
+  public class Method : Member, IMethod, ICanUseNodes, IHaveIndirectUses
   {
     private readonly MethodName _name;
     private readonly UsageSet _usages = new UsageSet();
@@ -66,7 +66,7 @@ namespace Machine.Eon.Mapping
       _usages.Add(node);
     }
 
-    public UsageSet DirectlyUses
+    public override UsageSet DirectlyUses
     {
       get { return _usages; }
     }

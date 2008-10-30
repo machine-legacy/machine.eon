@@ -186,9 +186,9 @@ namespace Machine.Eon.Mapping
     {
       foreach (FieldDefinition field in fields)
       {
-        _listener.UseType(field.FieldType.ToTypeName());
         _listener.StartField(field.ToFieldName());
         _listener.SetFieldType(field.FieldType.ToTypeName());
+        _listener.UseType(field.FieldType.ToTypeName());
         field.Accept(this);
         _listener.EndField();
       }
@@ -299,7 +299,6 @@ namespace Machine.Eon.Mapping
 
     public override void VisitPropertyDefinition(PropertyDefinition property)
     {
-      _listener.UseType(property.PropertyType.ToTypeName());
       _listener.StartProperty(property.ToName());
       _listener.SetPropertyType(property.PropertyType.ToTypeName());
       property.CustomAttributes.Accept(this);
@@ -379,11 +378,6 @@ namespace Machine.Eon.Mapping
 
     private void ApplyMethodListeners(MethodDefinition method)
     {
-      _listener.UseType(method.ToReturnTypeName());
-      foreach (ParameterDefinition parameter in method.Parameters)
-      {
-        _listener.UseType(parameter.ParameterType.ToTypeName());
-      }
       _listener.StartMethod(method.ToName());
       _listener.SetMethodPrototype(method.ToReturnTypeName(), method.ToParameterTypeNames());
       _listener.UseType(method.ToReturnTypeName());

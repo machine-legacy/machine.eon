@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public abstract class Member : Node, IMember, ICanHaveAttributes
+  public abstract class Member : Node, IMember, ICanHaveAttributes, IHaveDirectUses
   {
     private readonly Type _type;
     private readonly MemberName _name;
@@ -36,6 +36,11 @@ namespace Machine.Eon.Mapping
     public override string ToString()
     {
       return _name.ToString();
+    }
+
+    public virtual UsageSet DirectlyUses
+    {
+      get { return UsageSet.Empty; }
     }
   }
 }

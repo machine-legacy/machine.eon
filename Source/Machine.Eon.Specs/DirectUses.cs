@@ -14,8 +14,8 @@ namespace Machine.Eon.Specs
     Because of = () =>
       type = qr.FromSystemType(typeof(EmptyType));
 
-    It should_have_two_direct_uses = () =>
-      type.DirectlyUses.Count().ShouldEqual(2);
+    It should_have_three_direct_uses = () =>
+      type.DirectlyUses.Count().ShouldEqual(3);
 
     It should_have_direct_use_of_system_object = () =>
       type.DirectlyUses.ShouldContain(qr.SystemObject);
@@ -33,7 +33,7 @@ namespace Machine.Eon.Specs
       type = qr.FromSystemType(typeof(DerrivedFromEmptyType));
 
     It should_have_three_direct_uses = () =>
-      type.DirectlyUses.Count().ShouldEqual(2);
+      type.DirectlyUses.Count().ShouldEqual(3);
 
     It should_have_direct_use_of_system_void = () =>
       type.DirectlyUses.ShouldContain(systemVoid);
@@ -50,8 +50,8 @@ namespace Machine.Eon.Specs
     Because of = () =>
       type = qr.FromSystemType(typeof(Type6));
 
-    It should_have_three_direct_uses = () =>
-      type.DirectlyUses.Count().ShouldEqual(3);
+    It should_have_six_direct_uses = () =>
+      type.DirectlyUses.Count().ShouldEqual(6);
 
     It should_have_direct_use_of_system_object = () =>
       type.DirectlyUses.ShouldContain(qr.SystemObject);
@@ -117,10 +117,10 @@ namespace Machine.Eon.Specs
     static Machine.Eon.Mapping.Type type;
 
     Because of = () =>
-      type = qr.FromSystemType(typeof(Type2));
+      type = qr.FromSystemType(typeof(Type1));
 
     It should_use_the_type_that_is_taken_directly = () =>
-      type.DirectlyUses.ShouldContain(qr.FromSystemType(typeof(Type1)));
+      type.DirectlyUses.ShouldContain(qr.FromSystemType(typeof(Type2)));
   }
 
   [Subject("Direct Uses")]
@@ -132,11 +132,11 @@ namespace Machine.Eon.Specs
       type = qr.FromSystemType(typeof(Type7));
 
     It should_use_the_fields_type_directly = () =>
-      type.DirectlyUses.ShouldContain(qr.FromSystemType(typeof(string)));
+      type.DirectlyUses.ShouldContain(qr.FromSystemType(typeof(String)));
   }
 
   [Subject("Direct Uses")]
-  public class with_type_that_has_abstract_property : with_eon
+  public class with_type_that_has_an_abstract_property : with_eon
   {
     static Machine.Eon.Mapping.Type type;
 
@@ -144,7 +144,7 @@ namespace Machine.Eon.Specs
       type = qr.FromSystemType(typeof(Type8));
 
     It should_use_the_properties_type_directly = () =>
-      type.DirectlyUses.ShouldContain(qr.FromSystemType(typeof(string)));
+      type.DirectlyUses.ShouldContain(qr.FromSystemType(typeof(String)));
   }
 
   [Subject("Direct Uses")]

@@ -178,7 +178,20 @@ namespace Machine.Eon.Mapping
 
     public UsageSet DirectlyUses
     {
-      get { return _usages; }
+      get { return UsageSet.Union(_usages, DirectUsesOfMembers); }
+    }
+
+    private UsageSet DirectUsesOfMembers
+    {
+      get
+      {
+        List<UsageSet> usages = new List<UsageSet>();
+        foreach (Member member in this.Members)
+        {
+          usages.Add(member.DirectlyUses);
+        }
+        return UsageSet.Union(usages.ToArray());
+      }
     }
 
     public UsageSet DirectlyUsesAndMethods
