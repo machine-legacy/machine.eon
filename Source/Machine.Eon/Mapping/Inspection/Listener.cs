@@ -165,11 +165,12 @@ namespace Machine.Eon.Mapping.Inspection
       GetCurrentType().TypeFlags = flags;
     }
 
-    public void SetMethodFlags(bool isConstructor, bool isAbstract)
+    public void SetMethodFlags(bool isConstructor, bool isAbstract, bool isVirtual)
     {
       MethodFlags flags = MethodFlags.None;
       if (isConstructor) flags |= MethodFlags.Constructor;
       if (isAbstract) flags |= MethodFlags.Abstract;
+      if (isVirtual) flags |= MethodFlags.Virtual;
       GetCurrentMethod().MethodFlags = flags;
     }
 

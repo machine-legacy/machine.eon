@@ -349,7 +349,7 @@ namespace Machine.Eon.Mapping.Inspection
     {
       _listener.StartMethod(method.ToName());
       _listener.SetMethodPrototype(method.ToReturnTypeName(), method.ToParameterTypeNames());
-      _listener.SetMethodFlags(method.IsConstructor, method.IsAbstract);
+      _listener.SetMethodFlags(method.IsConstructor, method.IsAbstract, method.IsVirtual);
       _listener.UseType(method.ToReturnTypeName());
       foreach (TypeName typeName in method.ToParameterTypeNames())
       {

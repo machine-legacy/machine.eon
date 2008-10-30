@@ -119,4 +119,24 @@ namespace Machine.Eon.Specs.Members
     It should_have_a_propery_that_has_no_setter = () =>
       type.Properties.First().Setter.ShouldBeNull();
   }
+
+  public class Type5
+  {
+    public virtual string GetName()
+    {
+      return "Andrea";
+    }
+  }
+
+  [Subject("Members")]
+  public class with_class_that_has_virtual_method : with_eon
+  {
+    static Machine.Eon.Mapping.Type type;
+
+    Because of = () =>
+      type = qr.FromSystemType(typeof(Type5));
+
+    It should_have_method_that_is_virtual = () =>
+      (from method in type.Methods where method.IsVirtual select method).ShouldNotBeEmpty();
+  }
 }

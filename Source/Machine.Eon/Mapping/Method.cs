@@ -22,7 +22,8 @@ namespace Machine.Eon.Mapping
   {
     None,
     Constructor,
-    Abstract
+    Abstract,
+    Virtual
   }
 
   public class Method : Member, IMethod, IHaveIndirectUses
@@ -66,6 +67,11 @@ namespace Machine.Eon.Mapping
     public bool IsAbstract
     {
       get { return (_flags & MethodFlags.Abstract) == MethodFlags.Abstract; }
+    }
+
+    public bool IsVirtual
+    {
+      get { return (_flags & MethodFlags.Virtual) == MethodFlags.Virtual; }
     }
 
     public MethodFlags MethodFlags
