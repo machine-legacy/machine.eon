@@ -111,4 +111,23 @@ namespace Machine.Eon.Specs.IndirectUses
     It should_have_indirect_uses_of_object_void_itself_and_those_types = () =>
       type.IndirectlyUses.ExtractTypes().MyShouldContainOnly(qr.FromSystemType(typeof(Object), typeof(void), typeof(Type2), typeof(Type4), typeof(InvalidOperationException), typeof(ArgumentNullException)));
   }
+
+  [Subject("Indirect Uses")]
+  public class with_namespace_that_uses_another_type_we_tested_above : with_eon
+  {
+    static Machine.Eon.Mapping.Namespace ns;
+
+    Because of = () =>
+      ns = qr.NamespacesNamed("Sample.HasTypeWithType4").Single();
+
+    It should_have_indirect_uses_of_object_void_itself_and_those_types = () =>
+      ns.IndirectlyUses.ExtractTypes().MyShouldContainOnly(qr.FromSystemType(typeof(Object), typeof(void), typeof(Type2), typeof(Type4), typeof(InvalidOperationException), typeof(ArgumentNullException), typeof(Sample.HasTypeWithType4.Type5)));
+  }
+}
+
+namespace Sample.HasTypeWithType4
+{
+  public class Type5 : Machine.Eon.Specs.IndirectUses.Type4
+  {
+  }
 }
