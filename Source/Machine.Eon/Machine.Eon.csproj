@@ -54,6 +54,8 @@
     <Compile Include="Mapping\Field.cs" />
     <Compile Include="Mapping\ICanUseNodes.cs" />
     <Compile Include="Mapping\INodes.cs" />
+    <Compile Include="Mapping\Inspection\CecilVisitors.cs" />
+    <Compile Include="Mapping\Inspection\NameMapping.cs" />
     <Compile Include="Mapping\Member.cs" />
     <Compile Include="Mapping\Method.cs" />
     <Compile Include="Mapping\Namespace.cs" />
@@ -62,7 +64,7 @@
     <Compile Include="Mapping\Repositories\IAssemblyRepository.cs" />
     <Compile Include="Mapping\Repositories\IMemberRepository.cs" />
     <Compile Include="Mapping\Mapper.cs" />
-    <Compile Include="Mapping\Listener.cs" />
+    <Compile Include="Mapping\Inspection\Listener.cs" />
     <Compile Include="Mapping\MemberName.cs" />
     <Compile Include="Mapping\NamespaceName.cs" />
     <Compile Include="Mapping\Repositories\Impl\AssemblyRepository.cs" />

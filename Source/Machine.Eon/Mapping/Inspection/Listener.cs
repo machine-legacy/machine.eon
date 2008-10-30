@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Machine.Eon.Mapping.Repositories;
 
-namespace Machine.Eon.Mapping
+namespace Machine.Eon.Mapping.Inspection
 {
   public class Listener
   {
