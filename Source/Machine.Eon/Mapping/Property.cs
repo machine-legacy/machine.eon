@@ -6,12 +6,19 @@ namespace Machine.Eon.Mapping
   public class Property : Member, IProperty
   {
     private readonly PropertyName _name;
+    private Type _propertyType;
     private Method _getter;
     private Method _setter;
 
     public PropertyName Name
     {
       get { return _name; }
+    }
+
+    public Type PropertyType
+    {
+      get { return _propertyType; }
+      set { _propertyType = value; }
     }
 
     public bool IsWriteOnly
@@ -51,22 +58,5 @@ namespace Machine.Eon.Mapping
     {
       return new PropertyUsage(this);
     }
-    /*
-    public UsageSet IndirectlyUses
-    {
-      get { return DirectlyUses.IndirectUses(); }
-    }
-
-    public UsageSet DirectlyUses
-    {
-      get
-      {
-        List<IHaveUses> uses = new List<IHaveUses>();
-        if (this.Getter != null) uses.Add(this.Getter);
-        if (this.Setter != null) uses.Add(this.Setter);
-        return UsageSet.Union(uses.ToArray());
-      }
-    }
-    */
   }
 }

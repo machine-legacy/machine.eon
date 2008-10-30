@@ -1,5 +1,5 @@
 using System;
-
+using System.Collections.Generic;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 
@@ -124,9 +124,7 @@ namespace Machine.Eon.Mapping
     {
       foreach (MethodDefinition ctor in ctors)
       {
-        _listener.StartMethod(ctor.ToName());
-        ctor.Accept(this);
-        _listener.EndMethod();
+        ApplyListenersForMethod(ctor);
       }
     }
 
@@ -169,8 +167,6 @@ namespace Machine.Eon.Mapping
 
     public override void VisitFieldDefinition(FieldDefinition field)
     {
-      _listener.StartField(field.ToFieldName());
-      _listener.EndField();
     }
 
     public override void VisitFieldDefinitionCollection(FieldDefinitionCollection fields)
@@ -178,6 +174,7 @@ namespace Machine.Eon.Mapping
       foreach (FieldDefinition field in fields)
       {
         _listener.StartField(field.ToFieldName());
+        _listener.SetFieldType(field.FieldType.ToTypeName());
         field.Accept(this);
         _listener.EndField();
       }
@@ -236,9 +233,7 @@ namespace Machine.Eon.Mapping
     {
       foreach (MethodDefinition method in methods)
       {
-        _listener.StartMethod(method.ToName());
-        method.Accept(this);
-        _listener.EndMethod();
+        ApplyListenersForMethod(method);
       }
     }
 
@@ -254,17 +249,7 @@ namespace Machine.Eon.Mapping
     {
       foreach (TypeDefinition type in nestedTypes)
       {
-        TypeName typeName = type.ToTypeName();
-        _listener.StartNamespace(typeName.Namespace);
-        _listener.StartType(typeName);
-        _listener.SetTypeFlags(type.IsInterface, type.IsAbstract);
-        if (type.BaseType != null)
-        {
-          _listener.SetBaseType(type.BaseType.ToTypeName());
-        }
-        type.Accept(this);
-        _listener.EndType();
-        _listener.EndNamespace();
+        ApplyTypeVisitors(type);
       }
     }
 
@@ -300,19 +285,16 @@ namespace Machine.Eon.Mapping
     public override void VisitPropertyDefinition(PropertyDefinition property)
     {
       _listener.StartProperty(property.ToName());
+      _listener.SetPropertyType(property.PropertyType.ToTypeName());
       property.CustomAttributes.Accept(this);
       if (property.GetMethod != null)
       {
-        _listener.StartMethod(property.GetMethod.ToName());
-        property.GetMethod.Accept(this);
-        _listener.EndMethod();
+        ApplyListenersForMethod(property.GetMethod);
         _listener.SetPropertyGetter(property.ToName(), property.GetMethod.ToMethodName());
       }
       if (property.SetMethod != null)
       {
-        _listener.StartMethod(property.SetMethod.ToName());
-        property.SetMethod.Accept(this);
-        _listener.EndMethod();
+        ApplyListenersForMethod(property.SetMethod);
         _listener.SetPropertySetter(property.ToName(), property.SetMethod.ToMethodName());
       }
       _listener.EndProperty();
@@ -346,18 +328,23 @@ namespace Machine.Eon.Mapping
     {
       foreach (TypeDefinition type in types)
       {
-        TypeName typeName = type.ToTypeName();
-        _listener.StartNamespace(typeName.Namespace);
-        _listener.StartType(typeName);
-        _listener.SetTypeFlags(type.IsInterface, type.IsAbstract);
-        if (type.BaseType != null)
-        {
-          _listener.SetBaseType(type.BaseType.ToTypeName());
-        }
-        type.Accept(this);
-        _listener.EndType();
-        _listener.EndNamespace();
+        ApplyTypeVisitors(type);
       }
+    }
+
+    private void ApplyTypeVisitors(TypeDefinition type)
+    {
+      TypeName typeName = type.ToTypeName();
+      _listener.StartNamespace(typeName.Namespace);
+      _listener.StartType(typeName);
+      _listener.SetTypeFlags(type.IsInterface, type.IsAbstract);
+      if (type.BaseType != null)
+      {
+        _listener.SetBaseType(type.BaseType.ToTypeName());
+      }
+      type.Accept(this);
+      _listener.EndType();
+      _listener.EndNamespace();
     }
 
     public override void VisitTypeReference(TypeReference type)
@@ -371,6 +358,19 @@ namespace Machine.Eon.Mapping
       {
         reference.Accept(this);
       }
+    }
+
+    private void ApplyListenersForMethod(MethodDefinition method)
+    {
+      _listener.StartMethod(method.ToName());
+      _listener.SetMethodPrototype(method.ToReturnTypeName(), method.ToParameterTypeNames());
+      _listener.UseType(method.ToReturnTypeName());
+      foreach (TypeName typeName in method.ToParameterTypeNames())
+      {
+        _listener.UseType(typeName);
+      }
+      method.Accept(this);
+      _listener.EndMethod();
     }
   }
   public class MyCodeVisitor : BaseCodeVisitor
@@ -461,7 +461,6 @@ namespace Machine.Eon.Mapping
       }
     }
   }
-
   public static class Mapping
   {
     public static AssemblyName ToName(this AssemblyDefinition definition)
@@ -546,6 +545,21 @@ namespace Machine.Eon.Mapping
         return ((ModuleDefinition)scope).ToAssemblyName();
       }
       throw new InvalidOperationException();
+    }
+
+    public static TypeName ToReturnTypeName(this MethodDefinition definition)
+    {
+      return definition.ReturnType.ReturnType.ToTypeName();
+    }
+
+    public static ICollection<TypeName> ToParameterTypeNames(this MethodDefinition definition)
+    {
+      List<TypeName> names = new List<TypeName>();
+      foreach (ParameterDefinition parameter in definition.Parameters)
+      {
+        names.Add(parameter.ParameterType.ToTypeName());
+      }
+      return names;
     }
   }
 }

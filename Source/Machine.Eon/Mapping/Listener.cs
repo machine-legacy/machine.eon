@@ -115,6 +115,28 @@ namespace Machine.Eon.Mapping
       GetCurrentType().BaseType = type;
     }
 
+    public void SetFieldType(TypeName name)
+    {
+      GetCurrentField().FieldType = _typeRepository.FindType(name);
+    }
+
+    public void SetPropertyType(TypeName name)
+    {
+      GetCurrentProperty().PropertyType = _typeRepository.FindType(name);
+    }
+
+    public void SetMethodPrototype(TypeName returnTypeName, ICollection<TypeName> parameterTypeNames)
+    {
+      List<Parameter> parameters = new List<Parameter>();
+      foreach (TypeName name in parameterTypeNames)
+      {
+        parameters.Add(new Parameter(_typeRepository.FindType(name)));
+      }
+      Method method = GetCurrentMethod();
+      method.ReturnType = _typeRepository.FindType(returnTypeName);
+      method.SetParameters(parameters);
+    }
+
     public void ImplementsInterface(TypeName interfaceTypeName)
     {
       Type type = _typeRepository.FindType(interfaceTypeName);

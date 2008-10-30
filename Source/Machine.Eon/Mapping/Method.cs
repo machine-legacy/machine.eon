@@ -3,10 +3,37 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
+  public class Parameter
+  {
+    private readonly Type _type;
+
+    public Type ParameterType
+    {
+      get { return _type; }
+    }
+
+    public Parameter(Type type)
+    {
+      _type = type;
+    }
+  }
   public class Method : Member, IMethod, ICanUseNodes, IHaveDirectUses, IHaveIndirectUses
   {
     private readonly MethodName _name;
     private readonly UsageSet _usages = new UsageSet();
+    private List<Parameter> _parameters;
+    private Type _returnType;
+
+    public Type ReturnType
+    {
+      get { return _returnType; }
+      set { _returnType = value; }
+    }
+
+    public IEnumerable<Parameter> Parameters
+    {
+      get { return _parameters; }
+    }
 
     public MethodName Name
     {
@@ -47,6 +74,11 @@ namespace Machine.Eon.Mapping
     public IndirectUses IndirectlyUses
     {
       get { return _usages.CreateIndirectUses(); }
+    }
+
+    public void SetParameters(List<Parameter> parameters)
+    {
+      _parameters = parameters;
     }
   }
 }
