@@ -53,7 +53,7 @@ namespace Machine.Eon.Console
       _log.Info("Types used by Namespace Machine.Eon.Console");
 
       var usedByConsole = from ns in qr.NamespacesNamed("Machine.Eon.Console")
-                          from usage in ns.Uses.Types
+                          from usage in ns.IndirectlyUses.Types
                           select usage
                           ;
       

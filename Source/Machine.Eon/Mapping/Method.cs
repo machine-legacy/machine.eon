@@ -49,7 +49,12 @@ namespace Machine.Eon.Mapping
       _usages.Add(node);
     }
 
-    public UsageSet Uses
+    public UsageSet DirectlyUses
+    {
+      get { return _usages; }
+    }
+
+    public UsageSet IndirectlyUses
     {
       get { return _usages; }
     }

@@ -9,7 +9,11 @@ namespace Machine.Eon.Mapping
   }
   public interface IHaveUses
   {
-    UsageSet Uses
+    UsageSet IndirectlyUses
+    {
+      get;
+    }
+    UsageSet DirectlyUses
     {
       get;
     }

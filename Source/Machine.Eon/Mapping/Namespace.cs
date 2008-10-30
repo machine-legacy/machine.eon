@@ -29,9 +29,14 @@ namespace Machine.Eon.Mapping
       get { return _types; }
     }
 
-    public UsageSet Uses
+    public UsageSet IndirectlyUses
     {
       get { return UsageSet.Union(_types); }
+    }
+
+    public UsageSet DirectlyUses
+    {
+      get { return UsageSet.Empty; }
     }
 
     public Namespace(Assembly assembly, NamespaceName name)

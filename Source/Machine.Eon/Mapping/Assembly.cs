@@ -70,7 +70,12 @@ namespace Machine.Eon.Mapping
       return _name.ToString();
     }
 
-    public UsageSet Uses
+    public UsageSet DirectlyUses
+    {
+      get { return UsageSet.Empty; }
+    }
+
+    public UsageSet IndirectlyUses
     {
       get { return UsageSet.Union(_namespaces); }
     }

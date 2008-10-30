@@ -153,14 +153,14 @@ namespace Machine.Eon.Mapping
       _usages.Add(node);
     }
 
-    public UsageSet DirectUses
+    public UsageSet DirectlyUses
     {
       get { return _usages; }
     }
 
-    public UsageSet Uses
+    public UsageSet IndirectlyUses
     {
-      get { return UsageSet.Union(this.DirectUses, UsageSet.Union(_methods)); }
+      get { return UsageSet.Union(this.DirectlyUses, UsageSet.Union(_methods)); }
     }
 
     public void AddInterface(Type type)

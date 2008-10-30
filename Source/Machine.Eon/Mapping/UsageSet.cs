@@ -99,7 +99,7 @@ namespace Machine.Eon.Mapping
       List<UsageSet> sets = new List<UsageSet>();
       foreach (T hasUses in uses)
       {
-        sets.Add(hasUses.Uses);
+        sets.Add(hasUses.IndirectlyUses);
       }
       return Union(sets.ToArray());
     }
