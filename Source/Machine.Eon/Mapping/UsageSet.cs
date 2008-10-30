@@ -5,6 +5,7 @@ namespace Machine.Eon.Mapping
 {
   public class UsageSet
   {
+    public static readonly UsageSet Empty = new UsageSet();
     private readonly List<Usage> _usages = new List<Usage>();
 
     public IEnumerable<Node> All
