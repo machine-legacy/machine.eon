@@ -142,6 +142,7 @@ namespace Machine.Eon.Mapping
       {
         foreach (Field field in _fields) yield return field;
         foreach (Property property in _properties) yield return property;
+        foreach (Event anEvent in _events) yield return anEvent;
         foreach (Method method in _methods) yield return method;
       }
     }

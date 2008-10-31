@@ -54,6 +54,16 @@ namespace Machine.Eon.Mapping
       get { return _key.Name.StartsWith("get_"); }
     }
 
+    public bool IsEventAdder
+    {
+      get { return _key.Name.StartsWith("add_"); }
+    }
+
+    public bool IsEventRemover
+    {
+      get { return _key.Name.StartsWith("remove_"); }
+    }
+
     public Type ReturnType
     {
       get { return _returnType; }

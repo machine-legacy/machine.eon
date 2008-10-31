@@ -120,6 +120,8 @@ namespace Machine.Eon.Mapping.Inspection
       {
         _modelCreator.StartEvent(eventDefinition.ToKey());
         eventDefinition.CustomAttributes.Accept(this);
+        _modelCreator.SetEventType(eventDefinition.EventType.ToTypeKey());
+        _modelCreator.UseType(eventDefinition.EventType.ToTypeKey());
         if (eventDefinition.AddMethod != null)
         {
           ApplyMethodListeners(eventDefinition.AddMethod);

@@ -11,7 +11,7 @@ namespace Machine.Eon.Specs.Members
   }
 
   [Subject("Members")]
-  public class with_class_that_has_no_members : with_eon
+  public class with_a_class_that_has_no_members : with_eon
   {
     static Machine.Eon.Mapping.Type type;
 
@@ -36,7 +36,7 @@ namespace Machine.Eon.Specs.Members
   }
 
   [Subject("Members")]
-  public class with_class_that_has_one_field : with_eon
+  public class with_a_class_that_has_one_field : with_eon
   {
     static Machine.Eon.Mapping.Type type;
 
@@ -65,7 +65,7 @@ namespace Machine.Eon.Specs.Members
   }
 
   [Subject("Members")]
-  public class with_class_that_has_a_property : with_eon
+  public class with_a_class_that_has_a_property : with_eon
   {
     static Machine.Eon.Mapping.Type type;
 
@@ -100,7 +100,7 @@ namespace Machine.Eon.Specs.Members
   }
 
   [Subject("Members")]
-  public class with_class_that_has_an_abstract_read_only_property : with_eon
+  public class with_a_class_that_has_an_abstract_read_only_property : with_eon
   {
     static Machine.Eon.Mapping.Type type;
 
@@ -129,7 +129,7 @@ namespace Machine.Eon.Specs.Members
   }
 
   [Subject("Members")]
-  public class with_class_that_has_virtual_method : with_eon
+  public class with_a_class_that_has_virtual_method : with_eon
   {
     static Machine.Eon.Mapping.Type type;
 
@@ -138,5 +138,28 @@ namespace Machine.Eon.Specs.Members
 
     It should_have_method_that_is_virtual = () =>
       (from method in type.Methods where method.IsVirtual select method).ShouldNotBeEmpty();
+  }
+
+  public class Type6
+  {
+    public event EventHandler EndOfTheWorld;
+  }
+
+  [Subject("Members")]
+  public class with_a_class_that_has_an_event : with_eon
+  {
+    static Machine.Eon.Mapping.Type type;
+
+    Because of = () =>
+      type = qr.FromSystemType(typeof(Type6));
+
+    It should_have_five_members = () =>
+      type.Members.Count().ShouldEqual(5);
+
+    It should_have_a_method_that_is_a_constructor = () =>
+      type.Methods.First().IsConstructor.ShouldBeTrue();
+
+    It should_have_an_event = () =>
+      type.Events.First().ShouldNotBeNull();
   }
 }

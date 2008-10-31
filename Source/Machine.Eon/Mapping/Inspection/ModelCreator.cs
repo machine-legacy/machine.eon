@@ -75,7 +75,7 @@ namespace Machine.Eon.Mapping.Inspection
     {
       if (key == null) throw new ArgumentNullException("key");
       _events.Push(key);
-      GetCurrentField();
+      GetCurrentEvent();
     }
 
     public void EndEvent()
@@ -126,10 +126,18 @@ namespace Machine.Eon.Mapping.Inspection
 
     public void SetEventAdder(EventKey eventKey, MethodKey methodKey)
     {
+      if (eventKey == null) throw new ArgumentNullException("eventKey");
+      if (methodKey == null) throw new ArgumentNullException("methodKey");
+      Event theEvent = _memberRepository.FindEvent(eventKey);
+      theEvent.Adder = _memberRepository.FindMethod(methodKey);
     }
 
     public void SetEventRemover(EventKey eventKey, MethodKey methodKey)
     {
+      if (eventKey == null) throw new ArgumentNullException("eventKey");
+      if (methodKey == null) throw new ArgumentNullException("methodKey");
+      Event theEvent = _memberRepository.FindEvent(eventKey);
+      theEvent.Remover = _memberRepository.FindMethod(methodKey);
     }
 
     public void SetBaseType(TypeKey baseTypeKey)
@@ -149,6 +157,12 @@ namespace Machine.Eon.Mapping.Inspection
     {
       if (key == null) throw new ArgumentNullException("key");
       GetCurrentProperty().PropertyType = _typeRepository.FindType(key);
+    }
+
+    public void SetEventType(TypeKey key)
+    {
+      if (key == null) throw new ArgumentNullException("key");
+      GetCurrentEvent().EventType = _typeRepository.FindType(key);
     }
 
     public void SetMethodPrototype(TypeKey returnTypeKey, ICollection<TypeKey> parameterTypeNames)
