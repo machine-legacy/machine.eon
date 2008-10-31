@@ -14,7 +14,7 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitAssemblyDefinition(AssemblyDefinition asm)
     {
-      _listener.StartAssembly(asm.ToName());
+      _listener.StartAssembly(asm.ToKey());
     }
 
     public override void TerminateAssemblyDefinition(AssemblyDefinition asm)
@@ -117,7 +117,7 @@ namespace Machine.Eon.Mapping.Inspection
     {
       foreach (CustomAttribute customAttribute in customAttrs)
       {
-        _listener.HasAttribute(customAttribute.Constructor.DeclaringType.ToTypeName());
+        _listener.HasAttribute(customAttribute.Constructor.DeclaringType.ToTypeKey());
         customAttribute.Accept(this);
       }
     }
@@ -154,9 +154,9 @@ namespace Machine.Eon.Mapping.Inspection
     {
       foreach (FieldDefinition field in fields)
       {
-        _listener.StartField(field.ToFieldName());
-        _listener.SetFieldType(field.FieldType.ToTypeName());
-        _listener.UseType(field.FieldType.ToTypeName());
+        _listener.StartField(field.ToFieldKey());
+        _listener.SetFieldType(field.FieldType.ToTypeKey());
+        _listener.UseType(field.FieldType.ToTypeKey());
         field.Accept(this);
         _listener.EndField();
       }
@@ -182,8 +182,8 @@ namespace Machine.Eon.Mapping.Inspection
     {
       foreach (TypeReference type in interfaces)
       {
-        _listener.ImplementsInterface(type.ToTypeName());
-        _listener.UseType(type.ToTypeName());
+        _listener.ImplementsInterface(type.ToTypeKey());
+        _listener.UseType(type.ToTypeKey());
         type.Accept(this);
       }
     }
@@ -254,7 +254,7 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitParameterDefinition(ParameterDefinition parameter)
     {
-      _listener.UseType(parameter.ToTypeName());
+      _listener.UseType(parameter.ToTypeKey());
     }
 
     public override void VisitParameterDefinitionCollection(ParameterDefinitionCollection parameters)
@@ -267,19 +267,19 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitPropertyDefinition(PropertyDefinition property)
     {
-      _listener.StartProperty(property.ToName());
-      _listener.SetPropertyType(property.PropertyType.ToTypeName());
-      _listener.UseType(property.PropertyType.ToTypeName());
+      _listener.StartProperty(property.ToKey());
+      _listener.SetPropertyType(property.PropertyType.ToTypeKey());
+      _listener.UseType(property.PropertyType.ToTypeKey());
       property.CustomAttributes.Accept(this);
       if (property.GetMethod != null)
       {
         ApplyMethodListeners(property.GetMethod);
-        _listener.SetPropertyGetter(property.ToName(), property.GetMethod.ToMethodName());
+        _listener.SetPropertyGetter(property.ToKey(), property.GetMethod.ToMethodKey());
       }
       if (property.SetMethod != null)
       {
         ApplyMethodListeners(property.SetMethod);
-        _listener.SetPropertySetter(property.ToName(), property.SetMethod.ToMethodName());
+        _listener.SetPropertySetter(property.ToKey(), property.SetMethod.ToMethodKey());
       }
       _listener.EndProperty();
     }
@@ -318,14 +318,14 @@ namespace Machine.Eon.Mapping.Inspection
 
     private void ApplyTypeVisitors(TypeDefinition type)
     {
-      TypeName typeName = type.ToTypeName();
-      _listener.StartNamespace(typeName.Namespace);
-      _listener.StartType(typeName);
+      TypeKey typeKey = type.ToTypeKey();
+      _listener.StartNamespace(typeKey.Namespace);
+      _listener.StartType(typeKey);
       _listener.SetTypeFlags(type.IsInterface, type.IsAbstract, false);
       if (type.BaseType != null)
       {
-        _listener.SetBaseType(type.BaseType.ToTypeName());
-        _listener.UseType(type.BaseType.ToTypeName());
+        _listener.SetBaseType(type.BaseType.ToTypeKey());
+        _listener.UseType(type.BaseType.ToTypeKey());
       }
       type.Accept(this);
       _listener.EndType();
@@ -334,7 +334,7 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitTypeReference(TypeReference type)
     {
-      _listener.UseType(type.ToTypeName());
+      _listener.UseType(type.ToTypeKey());
     }
 
     public override void VisitTypeReferenceCollection(TypeReferenceCollection refs)
@@ -347,11 +347,11 @@ namespace Machine.Eon.Mapping.Inspection
 
     private void ApplyMethodListeners(MethodDefinition method)
     {
-      _listener.StartMethod(method.ToName());
-      _listener.SetMethodPrototype(method.ToReturnTypeName(), method.ToParameterTypeNames());
+      _listener.StartMethod(method.ToKey());
+      _listener.SetMethodPrototype(method.ToReturnTypeKey(), method.ToParameterTypeKey());
       _listener.SetMethodFlags(method.IsConstructor, method.IsAbstract, method.IsVirtual, method.IsStatic);
-      _listener.UseType(method.ToReturnTypeName());
-      foreach (TypeName typeName in method.ToParameterTypeNames())
+      _listener.UseType(method.ToReturnTypeKey());
+      foreach (TypeKey typeName in method.ToParameterTypeKey())
       {
         _listener.UseType(typeName);
       }
@@ -388,25 +388,25 @@ namespace Machine.Eon.Mapping.Inspection
     {
       if (instr.Operand is TypeReference)
       {
-        _listener.UseType(((TypeReference)instr.Operand).ToTypeName());
+        _listener.UseType(((TypeReference)instr.Operand).ToTypeKey());
       }
       else if (instr.Operand is FieldReference)
       {
-        TypeName typeName = ((FieldReference)instr.Operand).FieldType.ToTypeName();
-        if (typeName != null)
+        TypeKey typeKey = ((FieldReference)instr.Operand).FieldType.ToTypeKey();
+        if (typeKey != null)
         {
-          _listener.UseType(typeName);
+          _listener.UseType(typeKey);
         }
       }
       else if (instr.Operand is MethodReference)
       {
-        _listener.UseType(((MethodReference)instr.Operand).DeclaringType.ToTypeName());
-        _listener.UseMethod(((MethodReference)instr.Operand).ToMethodName());
+        _listener.UseType(((MethodReference)instr.Operand).DeclaringType.ToTypeKey());
+        _listener.UseMethod(((MethodReference)instr.Operand).ToMethodKey());
       }
       else if (instr.Operand is PropertyReference)
       {
-        _listener.UseType(((PropertyReference)instr.Operand).DeclaringType.ToTypeName());
-        _listener.UseProperty(((PropertyReference)instr.Operand).ToPropertyName());
+        _listener.UseType(((PropertyReference)instr.Operand).DeclaringType.ToTypeKey());
+        _listener.UseProperty(((PropertyReference)instr.Operand).ToPropertyKey());
       }
     }
 
@@ -436,7 +436,7 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitVariableDefinition(VariableDefinition variable)
     {
-      _listener.UseType(variable.ToTypeName());
+      _listener.UseType(variable.ToTypeKey());
     }
 
     public override void VisitVariableDefinitionCollection(VariableDefinitionCollection variables)

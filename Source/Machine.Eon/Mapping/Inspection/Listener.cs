@@ -9,46 +9,46 @@ namespace Machine.Eon.Mapping.Inspection
   {
     private readonly ITypeRepository _typeRepository;
     private readonly IMemberRepository _memberRepository;
-    private readonly Stack<AssemblyName> _assemblies = new Stack<AssemblyName>();
-    private readonly Stack<NamespaceName> _namespaces = new Stack<NamespaceName>();
-    private readonly Stack<TypeName> _types = new Stack<TypeName>();
-    private readonly Stack<MethodName> _methods = new Stack<MethodName>();
-    private readonly Stack<PropertyName> _properties = new Stack<PropertyName>();
-    private readonly Stack<FieldName> _fields = new Stack<FieldName>();
+    private readonly Stack<AssemblyKey> _assemblies = new Stack<AssemblyKey>();
+    private readonly Stack<NamespaceKey> _namespaces = new Stack<NamespaceKey>();
+    private readonly Stack<TypeKey> _types = new Stack<TypeKey>();
+    private readonly Stack<MethodKey> _methods = new Stack<MethodKey>();
+    private readonly Stack<PropertyKey> _properties = new Stack<PropertyKey>();
+    private readonly Stack<FieldKey> _fields = new Stack<FieldKey>();
 
     public Listener(ITypeRepository typeRepository, IMemberRepository memberRepository)
     {
-      _types.Push(TypeName.None);
-      _methods.Push(MethodName.None);
-      _properties.Push(PropertyName.None);
-      _fields.Push(FieldName.None);
+      _types.Push(TypeKey.None);
+      _methods.Push(MethodKey.None);
+      _properties.Push(PropertyKey.None);
+      _fields.Push(FieldKey.None);
       _typeRepository = typeRepository;
       _memberRepository = memberRepository;
     }
 
-    public void StartAssembly(AssemblyName name)
+    public void StartAssembly(AssemblyKey key)
     {
-      if (name == null) throw new ArgumentNullException("name");
-      _assemblies.Push(name);
+      if (key == null) throw new ArgumentNullException("key");
+      _assemblies.Push(key);
     }
 
-    public void StartNamespace(NamespaceName name)
+    public void StartNamespace(NamespaceKey key)
     {
-      if (name == null) throw new ArgumentNullException("name");
-      _namespaces.Push(name);
+      if (key == null) throw new ArgumentNullException("key");
+      _namespaces.Push(key);
     }
 
-    public void StartType(TypeName name)
+    public void StartType(TypeKey key)
     {
-      if (name == null) throw new ArgumentNullException("name");
-      _types.Push(name);
+      if (key == null) throw new ArgumentNullException("key");
+      _types.Push(key);
       GetCurrentType();
     }
 
-    public void StartProperty(PropertyName name)
+    public void StartProperty(PropertyKey key)
     {
-      if (name == null) throw new ArgumentNullException("name");
-      _properties.Push(name);
+      if (key == null) throw new ArgumentNullException("key");
+      _properties.Push(key);
       GetCurrentProperty();
     }
 
@@ -57,10 +57,10 @@ namespace Machine.Eon.Mapping.Inspection
       _properties.Pop();
     }
 
-    public void StartField(FieldName name)
+    public void StartField(FieldKey key)
     {
-      if (name == null) throw new ArgumentNullException("name");
-      _fields.Push(name);
+      if (key == null) throw new ArgumentNullException("key");
+      _fields.Push(key);
       GetCurrentField();
     }
 
@@ -69,91 +69,91 @@ namespace Machine.Eon.Mapping.Inspection
       _fields.Pop();
     }
 
-    public void StartMethod(MethodName name)
+    public void StartMethod(MethodKey key)
     {
-      if (name == null) throw new ArgumentNullException("name");
-      _methods.Push(name);
+      if (key == null) throw new ArgumentNullException("key");
+      _methods.Push(key);
       GetCurrentMethod();
     }
 
-    public void UseType(TypeName name)
+    public void UseType(TypeKey key)
     {
-      if (name == null) throw new ArgumentNullException("name");
-      UseInCurrentContext(_typeRepository.FindType(name));
+      if (key == null) throw new ArgumentNullException("key");
+      UseInCurrentContext(_typeRepository.FindType(key));
     }
 
-    public void UseMethod(MethodName name)
+    public void UseMethod(MethodKey key)
     {
-      if (name == null) throw new ArgumentNullException("name");
-      UseInCurrentContext(_memberRepository.FindMethod(name));
+      if (key == null) throw new ArgumentNullException("key");
+      UseInCurrentContext(_memberRepository.FindMethod(key));
     }
 
-    public void UseProperty(PropertyName name)
+    public void UseProperty(PropertyKey key)
     {
-      if (name == null) throw new ArgumentNullException("name");
-      UseInCurrentContext(_memberRepository.FindProperty(name));
+      if (key == null) throw new ArgumentNullException("key");
+      UseInCurrentContext(_memberRepository.FindProperty(key));
     }
 
-    public void SetPropertyGetter(PropertyName propertyName, MethodName methodName)
+    public void SetPropertyGetter(PropertyKey propertyKey, MethodKey methodKey)
     {
-      if (propertyName == null) throw new ArgumentNullException("propertyName");
-      if (methodName == null) throw new ArgumentNullException("methodName");
-      Property property = _memberRepository.FindProperty(propertyName);
-      property.Getter = _memberRepository.FindMethod(methodName);
+      if (propertyKey == null) throw new ArgumentNullException("propertyKey");
+      if (methodKey == null) throw new ArgumentNullException("methodKey");
+      Property property = _memberRepository.FindProperty(propertyKey);
+      property.Getter = _memberRepository.FindMethod(methodKey);
     }
 
-    public void SetPropertySetter(PropertyName propertyName, MethodName methodName)
+    public void SetPropertySetter(PropertyKey propertyKey, MethodKey methodKey)
     {
-      if (propertyName == null) throw new ArgumentNullException("propertyName");
-      if (methodName == null) throw new ArgumentNullException("methodName");
-      Property property = _memberRepository.FindProperty(propertyName);
-      property.Setter = _memberRepository.FindMethod(methodName);
+      if (propertyKey == null) throw new ArgumentNullException("propertyKey");
+      if (methodKey == null) throw new ArgumentNullException("methodKey");
+      Property property = _memberRepository.FindProperty(propertyKey);
+      property.Setter = _memberRepository.FindMethod(methodKey);
     }
 
-    public void SetBaseType(TypeName baseTypeName)
+    public void SetBaseType(TypeKey baseTypeKey)
     {
-      if (baseTypeName == null) throw new ArgumentNullException("baseTypeName");
-      Type type = _typeRepository.FindType(baseTypeName);
+      if (baseTypeKey == null) throw new ArgumentNullException("baseTypeKey");
+      Type type = _typeRepository.FindType(baseTypeKey);
       GetCurrentType().BaseType = type;
     }
 
-    public void SetFieldType(TypeName name)
+    public void SetFieldType(TypeKey key)
     {
-      if (name == null) throw new ArgumentNullException("name");
-      GetCurrentField().FieldType = _typeRepository.FindType(name);
+      if (key == null) throw new ArgumentNullException("key");
+      GetCurrentField().FieldType = _typeRepository.FindType(key);
     }
 
-    public void SetPropertyType(TypeName name)
+    public void SetPropertyType(TypeKey key)
     {
-      if (name == null) throw new ArgumentNullException("name");
-      GetCurrentProperty().PropertyType = _typeRepository.FindType(name);
+      if (key == null) throw new ArgumentNullException("key");
+      GetCurrentProperty().PropertyType = _typeRepository.FindType(key);
     }
 
-    public void SetMethodPrototype(TypeName returnTypeName, ICollection<TypeName> parameterTypeNames)
+    public void SetMethodPrototype(TypeKey returnTypeKey, ICollection<TypeKey> parameterTypeNames)
     {
-      if (returnTypeName == null) throw new ArgumentNullException("returnTypeName");
+      if (returnTypeKey == null) throw new ArgumentNullException("returnTypeKey");
       if (parameterTypeNames == null) throw new ArgumentNullException("parameterTypeNames");
       List<Parameter> parameters = new List<Parameter>();
-      foreach (TypeName name in parameterTypeNames)
+      foreach (TypeKey name in parameterTypeNames)
       {
         parameters.Add(new Parameter(_typeRepository.FindType(name)));
       }
       Method method = GetCurrentMethod();
-      method.ReturnType = _typeRepository.FindType(returnTypeName);
+      method.ReturnType = _typeRepository.FindType(returnTypeKey);
       method.SetParameters(parameters);
     }
 
-    public void ImplementsInterface(TypeName interfaceTypeName)
+    public void ImplementsInterface(TypeKey interfaceTypeKey)
     {
-      if (interfaceTypeName == null) throw new ArgumentNullException("interfaceTypeName");
-      Type type = _typeRepository.FindType(interfaceTypeName);
+      if (interfaceTypeKey == null) throw new ArgumentNullException("interfaceTypeKey");
+      Type type = _typeRepository.FindType(interfaceTypeKey);
       GetCurrentType().AddInterface(type);
     }
 
-    public void HasAttribute(TypeName typeName)
+    public void HasAttribute(TypeKey typeKey)
     {
-      if (typeName == null) throw new ArgumentNullException("typeName");
-      Type type = _typeRepository.FindType(typeName);
+      if (typeKey == null) throw new ArgumentNullException("typeKey");
+      Type type = _typeRepository.FindType(typeKey);
       GetCurrentCanHaveAttributes().AddAttribute(type);
     }
 
@@ -198,39 +198,39 @@ namespace Machine.Eon.Mapping.Inspection
 
     private Type GetCurrentType()
     {
-      TypeName typeName = _types.Peek();
-      if (typeName == TypeName.None)
+      TypeKey typeKey = _types.Peek();
+      if (typeKey == TypeKey.None)
       {
         return null;
       }
-      return _typeRepository.FindType(typeName);
+      return _typeRepository.FindType(typeKey);
     }
 
     private Method GetCurrentMethod()
     {
-      MethodName methodName = _methods.Peek();
-      TypeName typeName = _types.Peek();
-      if (typeName == TypeName.None) return null;
-      if (methodName == MethodName.None) return null;
-      return _memberRepository.FindMethod(methodName);
+      MethodKey methodKey = _methods.Peek();
+      TypeKey typeKey = _types.Peek();
+      if (typeKey == TypeKey.None) return null;
+      if (methodKey == MethodKey.None) return null;
+      return _memberRepository.FindMethod(methodKey);
     }
 
     private Property GetCurrentProperty()
     {
-      PropertyName propertyName = _properties.Peek();
-      TypeName typeName = _types.Peek();
-      if (typeName == TypeName.None) return null;
-      if (propertyName == PropertyName.None) return null;
-      return _memberRepository.FindProperty(propertyName);
+      PropertyKey propertyKey = _properties.Peek();
+      TypeKey typeKey = _types.Peek();
+      if (typeKey == TypeKey.None) return null;
+      if (propertyKey == PropertyKey.None) return null;
+      return _memberRepository.FindProperty(propertyKey);
     }
 
     private Field GetCurrentField()
     {
-      FieldName fieldName = _fields.Peek();
-      TypeName typeName = _types.Peek();
-      if (typeName == TypeName.None) return null;
-      if (fieldName == FieldName.None) return null;
-      return _memberRepository.FindField(fieldName);
+      FieldKey fieldKey = _fields.Peek();
+      TypeKey typeKey = _types.Peek();
+      if (typeKey == TypeKey.None) return null;
+      if (fieldKey == FieldKey.None) return null;
+      return _memberRepository.FindField(fieldKey);
     }
 
     private ICanHaveAttributes GetCurrentCanHaveAttributes()

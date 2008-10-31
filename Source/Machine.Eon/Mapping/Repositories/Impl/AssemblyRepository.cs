@@ -5,15 +5,15 @@ namespace Machine.Eon.Mapping.Repositories.Impl
 {
   public class AssemblyRepository : IAssemblyRepository
   {
-    private readonly Dictionary<AssemblyName, Assembly> _assemblies = new Dictionary<AssemblyName, Assembly>();
+    private readonly Dictionary<AssemblyKey, Assembly> _assemblies = new Dictionary<AssemblyKey, Assembly>();
 
-    public Assembly FindAssembly(AssemblyName name)
+    public Assembly FindAssembly(AssemblyKey key)
     {
-      if (!_assemblies.ContainsKey(name))
+      if (!_assemblies.ContainsKey(key))
       {
         return null;
       }
-      return _assemblies[name];
+      return _assemblies[key];
     }
 
     public IEnumerable<Assembly> FindAll()
@@ -23,7 +23,7 @@ namespace Machine.Eon.Mapping.Repositories.Impl
 
     public void SaveAssembly(Assembly assembly)
     {
-      _assemblies[assembly.Name] = assembly;
+      _assemblies[assembly.Key] = assembly;
     }
   }
 }

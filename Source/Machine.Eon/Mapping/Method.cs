@@ -29,7 +29,7 @@ namespace Machine.Eon.Mapping
   }
   public class Method : Member, IMethod, IHaveIndirectUses
   {
-    private readonly MethodName _name;
+    private readonly MethodKey _key;
     private List<Parameter> _parameters;
     private Type _returnType;
     private MethodFlags _flags = MethodFlags.Invalid;
@@ -39,19 +39,19 @@ namespace Machine.Eon.Mapping
       get { return _parameters; }
     }
 
-    public MethodName Name
+    public MethodKey Key
     {
-      get { return _name; }
+      get { return _key; }
     }
 
     public bool IsSetter
     {
-      get { return _name.Name.StartsWith("set_"); }
+      get { return _key.Name.StartsWith("set_"); }
     }
 
     public bool IsGetter
     {
-      get { return _name.Name.StartsWith("get_"); }
+      get { return _key.Name.StartsWith("get_"); }
     }
 
     public Type ReturnType
@@ -90,10 +90,10 @@ namespace Machine.Eon.Mapping
       set { _flags = value;}
     }
 
-    public Method(Type type, MethodName name)
-      : base(type, name)
+    public Method(Type type, MethodKey key)
+      : base(type, key)
     {
-      _name = name;
+      _key = key;
     }
 
     public override Usage CreateUsage()

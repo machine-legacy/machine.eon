@@ -21,17 +21,17 @@ namespace Machine.Eon.Mapping
 
     public IEnumerable<Type> Types
     {
-      get { return NodesOfType<Type, TypeName>(); }
+      get { return NodesOfType<Type, TypeKey>(); }
     }
 
     public IEnumerable<Property> Properties
     {
-      get { return NodesOfType<Property, PropertyName>(); }
+      get { return NodesOfType<Property, PropertyKey>(); }
     }
 
     public IEnumerable<Method> Methods
     {
-      get { return NodesOfType<Method, MethodName>(); }
+      get { return NodesOfType<Method, MethodKey>(); }
     }
 
     public void Add(Node node)
@@ -73,10 +73,10 @@ namespace Machine.Eon.Mapping
     }
 
     private IEnumerable<TNode> NodesOfType<TNode, TName>()
-      where TNode : Node, INodeNamed<TName>
-      where TName : NodeName
+      where TNode : Node, IKeyedNode<TName>
+      where TName : NodeKey
     {
-      foreach (UsageByName<TNode, TName> usage in OfType<UsageByName<TNode, TName>>())
+      foreach (UsageByKey<TNode, TName> usage in OfType<UsageByKey<TNode, TName>>())
       {
         if (usage != null)
         {

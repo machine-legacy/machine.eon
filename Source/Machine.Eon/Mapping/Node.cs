@@ -10,14 +10,14 @@ namespace Machine.Eon.Mapping
       throw new InvalidOperationException();
     }
   }
-  public interface INodeNamed<TName> where TName : NodeName
+  public interface IKeyedNode<TKey> where TKey : NodeKey
   {
-    TName Name
+    TKey Key
     {
       get;
     }
   }
-  public abstract class NodeName
+  public abstract class NodeKey
   {
   }
 }

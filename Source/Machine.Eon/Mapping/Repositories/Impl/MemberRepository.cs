@@ -11,37 +11,37 @@ namespace Machine.Eon.Mapping.Repositories.Impl
       _assemblyRepository = assemblyRepository;
     }
 
-    public Method FindMethod(MethodName name)
+    public Method FindMethod(MethodKey key)
     {
-      Assembly assembly = _assemblyRepository.FindAssembly(name.TypeName.AssemblyName);
+      Assembly assembly = _assemblyRepository.FindAssembly(key.TypeKey.AssemblyKey);
       if (assembly == null)
       {
-        assembly = new Assembly(name.TypeName.AssemblyName);
+        assembly = new Assembly(key.TypeKey.AssemblyKey);
         _assemblyRepository.SaveAssembly(assembly);
       }
-      return assembly.FindOrCreateMethod(name);
+      return assembly.FindOrCreateMethod(key);
     }
 
-    public Property FindProperty(PropertyName name)
+    public Property FindProperty(PropertyKey key)
     {
-      Assembly assembly = _assemblyRepository.FindAssembly(name.TypeName.AssemblyName);
+      Assembly assembly = _assemblyRepository.FindAssembly(key.TypeKey.AssemblyKey);
       if (assembly == null)
       {
-        assembly = new Assembly(name.TypeName.AssemblyName);
+        assembly = new Assembly(key.TypeKey.AssemblyKey);
         _assemblyRepository.SaveAssembly(assembly);
       }
-      return assembly.FindOrCreateProperty(name);
+      return assembly.FindOrCreateProperty(key);
     }
 
-    public Field FindField(FieldName name)
+    public Field FindField(FieldKey key)
     {
-      Assembly assembly = _assemblyRepository.FindAssembly(name.TypeName.AssemblyName);
+      Assembly assembly = _assemblyRepository.FindAssembly(key.TypeKey.AssemblyKey);
       if (assembly == null)
       {
-        assembly = new Assembly(name.TypeName.AssemblyName);
+        assembly = new Assembly(key.TypeKey.AssemblyKey);
         _assemblyRepository.SaveAssembly(assembly);
       }
-      return assembly.FindOrCreateField(name);
+      return assembly.FindOrCreateField(key);
     }
   }
 }

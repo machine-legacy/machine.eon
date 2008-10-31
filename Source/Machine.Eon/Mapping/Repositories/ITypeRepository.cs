@@ -5,6 +5,6 @@ namespace Machine.Eon.Mapping.Repositories
 {
   public interface ITypeRepository
   {
-    Type FindType(TypeName name);
+    Type FindType(TypeKey key);
   }
 }

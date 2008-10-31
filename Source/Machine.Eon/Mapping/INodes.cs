@@ -6,30 +6,30 @@ namespace Machine.Eon.Mapping
   public interface INode
   {
   }
-  public interface IAssembly : INode, INodeNamed<AssemblyName>
+  public interface IAssembly : INode, IKeyedNode<AssemblyKey>
   {
   }
-  public interface INamespace : INode, INodeNamed<NamespaceName>
+  public interface INamespace : INode, IKeyedNode<NamespaceKey>
   {
   }
-  public interface IType : INode, INodeNamed<TypeName>
+  public interface IType : INode, IKeyedNode<TypeKey>
   {
   }
   public interface IMember : INode
   {
   }
-  public interface IProperty : IMember, INodeNamed<PropertyName>
+  public interface IProperty : IMember, IKeyedNode<PropertyKey>
   {
     bool IsReadOnly { get; }
     bool IsWriteOnly { get; }
     bool IsReadWrite { get; }
   }
-  public interface IMethod : IMember, INodeNamed<MethodName>
+  public interface IMethod : IMember, IKeyedNode<MethodKey>
   {
     bool IsGetter { get; }
     bool IsSetter { get; }
   }
-  public interface IField : IMember, INodeNamed<FieldName>
+  public interface IField : IMember, IKeyedNode<FieldKey>
   {
   }
 }

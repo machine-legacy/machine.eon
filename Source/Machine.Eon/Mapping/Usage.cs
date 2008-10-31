@@ -7,11 +7,11 @@ namespace Machine.Eon.Mapping
   {
   }
 
-  public abstract class UsageByName<TNode, TName> : Usage where TNode : Node, INodeNamed<TName> where TName : NodeName
+  public abstract class UsageByKey<TNode, TKey> : Usage where TNode : Node, IKeyedNode<TKey> where TKey : NodeKey
   {
     private readonly TNode _node;
 
-    protected UsageByName(TNode node)
+    protected UsageByKey(TNode node)
     {
       _node = node;
     }
@@ -21,32 +21,32 @@ namespace Machine.Eon.Mapping
       get { return _node; }
     }
 
-    private TName Name
+    private TKey Key
     {
-      get { return _node.Name; }
+      get { return _node.Key; }
     }
 
     public override bool Equals(object obj)
     {
-      if (obj is UsageByName<TNode, TName>)
+      if (obj is UsageByKey<TNode, TKey>)
       {
-        return ((UsageByName<TNode, TName>)obj).Name.Equals(this.Name);
+        return ((UsageByKey<TNode, TKey>)obj).Key.Equals(this.Key);
       }
       return false;
     }
     
     public override Int32 GetHashCode()
     {
-      return this.Name.GetHashCode();
+      return this.Key.GetHashCode();
     }
 
     public override string ToString()
     {
-      return "Usage<" + this.Name + ">";
+      return "Usage<" + this.Key + ">";
     }
   }
   
-  public class TypeUsage : UsageByName<Type, TypeName>
+  public class TypeUsage : UsageByKey<Type, TypeKey>
   {
     public TypeUsage(Type type)
       : base(type)
@@ -54,7 +54,7 @@ namespace Machine.Eon.Mapping
     }
   }
   
-  public class MethodUsage : UsageByName<Method, MethodName>
+  public class MethodUsage : UsageByKey<Method, MethodKey>
   {
     public MethodUsage(Method method)
       : base(method)
@@ -62,7 +62,7 @@ namespace Machine.Eon.Mapping
     }
   }
   
-  public class PropertyUsage : UsageByName<Property, PropertyName>
+  public class PropertyUsage : UsageByKey<Property, PropertyKey>
   {
     public PropertyUsage(Property property)
       : base(property)

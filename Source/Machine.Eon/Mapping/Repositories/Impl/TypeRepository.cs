@@ -11,15 +11,15 @@ namespace Machine.Eon.Mapping.Repositories.Impl
       _assemblyRepository = assemblyRepository;
     }
 
-    public Type FindType(TypeName name)
+    public Type FindType(TypeKey key)
     {
-      Assembly assembly = _assemblyRepository.FindAssembly(name.AssemblyName);
+      Assembly assembly = _assemblyRepository.FindAssembly(key.AssemblyKey);
       if (assembly == null)
       {
-        assembly = new Assembly(name.AssemblyName);
+        assembly = new Assembly(key.AssemblyKey);
         _assemblyRepository.SaveAssembly(assembly);
       }
-      return assembly.FindOrCreateType(name);
+      return assembly.FindOrCreateType(key);
     }
   }
 }

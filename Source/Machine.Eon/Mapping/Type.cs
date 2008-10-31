@@ -15,7 +15,7 @@ namespace Machine.Eon.Mapping
   public class Type : Node, IType, ICanUseNodes, IHaveDirectUses, IHaveIndirectUses, ICanHaveAttributes
   {
     private readonly Namespace _namespace;
-    private readonly TypeName _name;
+    private readonly TypeKey _key;
     private readonly List<Method> _methods = new List<Method>();
     private readonly List<Property> _properties = new List<Property>();
     private readonly List<Field> _fields = new List<Field>();
@@ -25,9 +25,9 @@ namespace Machine.Eon.Mapping
     private TypeFlags _flags = TypeFlags.Invalid;
     private Type _baseType;
 
-    public TypeName Name
+    public TypeKey Key
     {
-      get { return _name; }
+      get { return _key; }
     }
 
     public Namespace Namespace
@@ -79,15 +79,15 @@ namespace Machine.Eon.Mapping
       set { _baseType = value; }
     }
 
-    public Type(Namespace ns, TypeName name)
-      : this(ns, name, null)
+    public Type(Namespace ns, TypeKey key)
+      : this(ns, key, null)
     {
     }
 
-    private Type(Namespace ns, TypeName name, Type baseType)
+    private Type(Namespace ns, TypeKey key, Type baseType)
     {
       _namespace = ns;
-      _name = name;
+      _key = key;
       _baseType = baseType;
     }
 
@@ -140,47 +140,47 @@ namespace Machine.Eon.Mapping
       }
     }
 
-    public Method FindOrCreateMethod(MethodName name)
+    public Method FindOrCreateMethod(MethodKey key)
     {
-      if (!name.TypeName.Equals(_name)) throw new ArgumentException("name");
+      if (!key.TypeKey.Equals(_key)) throw new ArgumentException("name");
       foreach (Method method in _methods)
       {
-        if (method.Name.Equals(name))
+        if (method.Key.Equals(key))
         {
           return method;
         }
       }
-      Method newMember = new Method(this, name);
+      Method newMember = new Method(this, key);
       _methods.Add(newMember);
       return newMember;
     }
 
-    public Property FindOrCreateProperty(PropertyName name)
+    public Property FindOrCreateProperty(PropertyKey key)
     {
-      if (!name.TypeName.Equals(_name)) throw new ArgumentException("name");
+      if (!key.TypeKey.Equals(_key)) throw new ArgumentException("name");
       foreach (Property property in _properties)
       {
-        if (property.Name.Equals(name))
+        if (property.Key.Equals(key))
         {
           return property;
         }
       }
-      Property newMember = new Property(this, name);
+      Property newMember = new Property(this, key);
       _properties.Add(newMember);
       return newMember;
     }
 
-    public Field FindOrCreateField(FieldName name)
+    public Field FindOrCreateField(FieldKey key)
     {
-      if (!name.TypeName.Equals(_name)) throw new ArgumentException("name");
+      if (!key.TypeKey.Equals(_key)) throw new ArgumentException("name");
       foreach (Field field in _fields)
       {
-        if (field.Name.Equals(name))
+        if (field.Key.Equals(key))
         {
           return field;
         }
       }
-      Field newMember = new Field(this, name);
+      Field newMember = new Field(this, key);
       _fields.Add(newMember);
       return newMember;
     }
@@ -250,26 +250,26 @@ namespace Machine.Eon.Mapping
 
     public override string ToString()
     {
-      return _name.ToString();
+      return _key.ToString();
     }
 
     public bool IsA(Type type)
     {
-      return IsA(type.Name);
+      return IsA(type.Key);
     }
 
-    public bool IsA(TypeName name)
+    public bool IsA(TypeKey key)
     {
-      if (this.Name.Equals(name)) return true;
+      if (this.Key.Equals(key)) return true;
       foreach (Type interfaceType in _interfaces)
       {
-        if (interfaceType.IsA(name)) return true;
+        if (interfaceType.IsA(key)) return true;
       }
       if (_baseType == null)
       {
         return false;
       }
-      return _baseType.IsA(name);
+      return _baseType.IsA(key);
     }
   }
 }

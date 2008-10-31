@@ -43,12 +43,12 @@ namespace Machine.Eon
 
     public IEnumerable<Namespace> NamespacesNamed(string name)
     {
-      return from ns in Namespaces where ns.Name.Equals(new NamespaceName(AssemblyName.Any, name)) select ns;
+      return from ns in Namespaces where ns.Key.Equals(new NamespaceKey(AssemblyKey.Any, name)) select ns;
     }
 
     public IEnumerable<Assembly> AssembliesNamed(string name)
     {
-      return from assembly in Assemblies where assembly.Name.Equals(new AssemblyName(name)) select assembly;
+      return from assembly in Assemblies where assembly.Key.Equals(new AssemblyKey(name)) select assembly;
     }
 
     public Type SystemObject
@@ -68,13 +68,13 @@ namespace Machine.Eon
 
     public Type FromSystemType(System.Type runtimeType)
     {
-      var query = from type in Types where type.Name.FullName.Equals(runtimeType.FullName) select type;
+      var query = from type in Types where type.Key.FullName.Equals(runtimeType.FullName) select type;
       return query.Single();
     }
 
-    public Type FromTypeName(TypeName typeName)
+    public Type FromTypeName(TypeKey typeKey)
     {
-      var query = from type in Types where type.Name.Equals(typeName) select type;
+      var query = from type in Types where type.Key.Equals(typeKey) select type;
       return query.Single();
     }
 
@@ -83,9 +83,9 @@ namespace Machine.Eon
       get { return FromSystemType(runtimeType); }
     }
 
-    public Type this[TypeName typeName]
+    public Type this[TypeKey typeKey]
     {
-      get { return FromTypeName(typeName); }
+      get { return FromTypeName(typeKey); }
     }
 
     public IEnumerable<Type> TypesThatAre(System.Type runtimeType)
@@ -95,7 +95,7 @@ namespace Machine.Eon
 
     public IEnumerable<Type> TypesThatAre(Type baseType)
     {
-      return from type in Types where type.IsA(baseType.Name) select type;
+      return from type in Types where type.IsA(baseType.Key) select type;
     }
   }
 }

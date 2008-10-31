@@ -5,12 +5,12 @@ namespace Machine.Eon.Mapping
 {
   public class Field : Member, IField
   {
-    private readonly FieldName _name;
+    private readonly FieldKey _key;
     private Type _fieldType;
 
-    public FieldName Name
+    public FieldKey Key
     {
-      get { return _name; }
+      get { return _key; }
     }
 
     public Type FieldType
@@ -19,10 +19,10 @@ namespace Machine.Eon.Mapping
       set { _fieldType = value; }
     }
 
-    public Field(Type type, FieldName name)
-      : base(type, name)
+    public Field(Type type, FieldKey key)
+      : base(type, key)
     {
-      _name = name;
+      _key = key;
     }
   }
 }

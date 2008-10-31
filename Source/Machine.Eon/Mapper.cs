@@ -53,7 +53,7 @@ namespace Machine.Eon
       }
 
       var assemblies = from assembly in _assemblyRepository.FindAll()
-                       where assembly.Name.Name.Equals("Machine.Eon.Specs")
+                       where assembly.Key.Name.Equals("Machine.Eon.Specs")
                        select assembly;
       
       var methods = from assembly in assemblies
@@ -70,7 +70,7 @@ namespace Machine.Eon
       var types = from assembly in assemblies
                   from ns in assembly.Namespaces
                   from type in ns.Types
-                  where ns.Name.Name.Equals("Machine.Eon.Specs.ClassesAndInterfaces")
+                  where ns.Key.Name.Equals("Machine.Eon.Specs.ClassesAndInterfaces")
                   select type;
       foreach (Type type in types)
       {

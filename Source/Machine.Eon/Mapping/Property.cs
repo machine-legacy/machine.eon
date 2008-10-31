@@ -5,14 +5,14 @@ namespace Machine.Eon.Mapping
 {
   public class Property : Member, IProperty
   {
-    private readonly PropertyName _name;
+    private readonly PropertyKey _key;
     private Type _propertyType;
     private Method _getter;
     private Method _setter;
 
-    public PropertyName Name
+    public PropertyKey Key
     {
-      get { return _name; }
+      get { return _key; }
     }
 
     public Type PropertyType
@@ -48,10 +48,10 @@ namespace Machine.Eon.Mapping
       set { _setter = value; }
     }
 
-    public Property(Type type, PropertyName name)
-      : base(type, name)
+    public Property(Type type, PropertyKey key)
+      : base(type, key)
     {
-      _name = name;
+      _key = key;
     }
 
     public override Usage CreateUsage()

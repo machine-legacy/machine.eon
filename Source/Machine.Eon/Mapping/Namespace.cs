@@ -6,7 +6,7 @@ namespace Machine.Eon.Mapping
   public class Namespace : Node, INamespace, IHaveIndirectUses
   {
     private readonly Assembly _assembly;
-    private readonly NamespaceName _name;
+    private readonly NamespaceKey _key;
     private readonly List<Type> _types = new List<Type>();
 
     public Assembly Assembly
@@ -14,9 +14,9 @@ namespace Machine.Eon.Mapping
       get { return _assembly; }
     }
 
-    public NamespaceName Name
+    public NamespaceKey Key
     {
-      get { return _name; }
+      get { return _key; }
     }
 
     public IEnumerable<Type> Types
@@ -24,30 +24,30 @@ namespace Machine.Eon.Mapping
       get { return _types; }
     }
 
-    public Namespace(Assembly assembly, NamespaceName name)
+    public Namespace(Assembly assembly, NamespaceKey key)
     {
       _assembly = assembly;
-      _name = name;
+      _key = key;
     }
 
-    public Type FindOrCreateType(TypeName name)
+    public Type FindOrCreateType(TypeKey key)
     {
-      if (!name.Namespace.Equals(_name)) throw new ArgumentException("name");
-      Type type = FindType(name);
+      if (!key.Namespace.Equals(_key)) throw new ArgumentException("name");
+      Type type = FindType(key);
       if (type != null)
       {
         return type;
       }
-      type = new Type(this, name);
+      type = new Type(this, key);
       _types.Add(type);
       return type;
     }
 
-    private Type FindType(TypeName name)
+    private Type FindType(TypeKey key)
     {
       foreach (Type type in _types)
       {
-        if (type.Name.Equals(name))
+        if (type.Key.Equals(key))
         {
           return type;
         }
@@ -57,7 +57,7 @@ namespace Machine.Eon.Mapping
 
     public override string ToString()
     {
-      return _name.ToString();
+      return _key.ToString();
     }
 
     public IndirectUses IndirectlyUses

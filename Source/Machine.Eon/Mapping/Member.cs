@@ -6,7 +6,7 @@ namespace Machine.Eon.Mapping
   public abstract class Member : Node, IMember, ICanUseNodes, ICanHaveAttributes, IHaveDirectUses
   {
     private readonly Type _type;
-    private readonly MemberName _name;
+    private readonly MemberKey _key;
     private readonly List<Type> _attributes = new List<Type>();
     private readonly UsageSet _usages = new UsageSet();
 
@@ -20,10 +20,10 @@ namespace Machine.Eon.Mapping
       get { return _attributes; }
     }
 
-    protected Member(Type type, MemberName name)
+    protected Member(Type type, MemberKey key)
     {
       _type = type;
-      _name = name;
+      _key = key;
     }
 
     public void AddAttribute(Type type)
@@ -36,7 +36,7 @@ namespace Machine.Eon.Mapping
 
     public override string ToString()
     {
-      return _name.ToString();
+      return _key.ToString();
     }
 
     public void Use(Node node)

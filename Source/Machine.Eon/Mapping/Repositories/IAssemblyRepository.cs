@@ -5,7 +5,7 @@ namespace Machine.Eon.Mapping.Repositories
 {
   public interface IAssemblyRepository
   {
-    Assembly FindAssembly(AssemblyName name);
+    Assembly FindAssembly(AssemblyKey key);
     IEnumerable<Assembly> FindAll();
     void SaveAssembly(Assembly assembly);
   }

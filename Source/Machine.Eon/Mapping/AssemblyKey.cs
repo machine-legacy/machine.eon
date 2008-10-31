@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class AssemblyName : NodeName
+  public class AssemblyKey : NodeKey
   {
-    public static readonly AssemblyName None = new AssemblyName(String.Empty);
-    public static readonly AssemblyName Any = new AssemblyName("*");
+    public static readonly AssemblyKey None = new AssemblyKey(String.Empty);
+    public static readonly AssemblyKey Any = new AssemblyKey("*");
     private readonly string _name;
 
     public string Name
@@ -14,27 +14,27 @@ namespace Machine.Eon.Mapping
       get { return _name; }
     }
 
-    public AssemblyName(string name)
+    public AssemblyKey(string name)
     {
       _name = name;
     }
 
     public override bool Equals(object obj)
     {
-      if (obj is AssemblyName)
+      if (obj is AssemblyKey)
       {
         if (ReferenceEquals(Any, obj) || ReferenceEquals(Any, this)) return true;
-        return ((AssemblyName)obj).Name.Equals(this.Name);
+        return ((AssemblyKey)obj).Name.Equals(this.Name);
       }
       return false;
     }
 
-    public static bool operator ==(AssemblyName n1, AssemblyName n2)
+    public static bool operator ==(AssemblyKey n1, AssemblyKey n2)
     {
       return Equals(n1, n2);
     }
 
-    public static bool operator !=(AssemblyName n1, AssemblyName n2)
+    public static bool operator !=(AssemblyKey n1, AssemblyKey n2)
     {
       return !Equals(n1, n2);
     }

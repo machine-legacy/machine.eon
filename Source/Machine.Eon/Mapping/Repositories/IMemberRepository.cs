@@ -5,8 +5,8 @@ namespace Machine.Eon.Mapping.Repositories
 {
   public interface IMemberRepository
   {
-    Method FindMethod(MethodName name);
-    Property FindProperty(PropertyName name);
-    Field FindField(FieldName name);
+    Method FindMethod(MethodKey key);
+    Property FindProperty(PropertyKey key);
+    Field FindField(FieldKey key);
   }
 }

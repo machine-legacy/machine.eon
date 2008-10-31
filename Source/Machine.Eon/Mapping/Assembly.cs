@@ -6,11 +6,11 @@ namespace Machine.Eon.Mapping
   public class Assembly : Node, IAssembly
   {
     private readonly List<Namespace> _namespaces = new List<Namespace>();
-    private readonly AssemblyName _name;
+    private readonly AssemblyKey _key;
 
-    public AssemblyName Name
+    public AssemblyKey Key
     {
-      get { return _name; }
+      get { return _key; }
     }
 
     public IEnumerable<Namespace> Namespaces
@@ -18,52 +18,52 @@ namespace Machine.Eon.Mapping
       get { return _namespaces; }
     }
 
-    public Assembly(AssemblyName name)
+    public Assembly(AssemblyKey key)
     {
-      _name = name;
+      _key = key;
     }
 
-    public Namespace FindOrCreateNamespace(NamespaceName name)
+    public Namespace FindOrCreateNamespace(NamespaceKey key)
     {
       foreach (Namespace ns in _namespaces)
       {
-        if (ns.Name.Equals(name))
+        if (ns.Key.Equals(key))
         {
           return ns;
         }
       }
-      Namespace newNs = new Namespace(this, name);
+      Namespace newNs = new Namespace(this, key);
       _namespaces.Add(newNs);
       return newNs;
     }
 
-    public Type FindOrCreateType(TypeName typeName)
+    public Type FindOrCreateType(TypeKey typeKey)
     {
-      Namespace ns = FindOrCreateNamespace(typeName.Namespace);
-      return ns.FindOrCreateType(typeName);
+      Namespace ns = FindOrCreateNamespace(typeKey.Namespace);
+      return ns.FindOrCreateType(typeKey);
     }
 
-    public Method FindOrCreateMethod(MethodName methodName)
+    public Method FindOrCreateMethod(MethodKey methodKey)
     {
-      Type type = FindOrCreateType(methodName.TypeName);
-      return type.FindOrCreateMethod(methodName);
+      Type type = FindOrCreateType(methodKey.TypeKey);
+      return type.FindOrCreateMethod(methodKey);
     }
 
-    public Property FindOrCreateProperty(PropertyName propertyName)
+    public Property FindOrCreateProperty(PropertyKey propertyKey)
     {
-      Type type = FindOrCreateType(propertyName.TypeName);
-      return type.FindOrCreateProperty(propertyName);
+      Type type = FindOrCreateType(propertyKey.TypeKey);
+      return type.FindOrCreateProperty(propertyKey);
     }
 
-    public Field FindOrCreateField(FieldName fieldName)
+    public Field FindOrCreateField(FieldKey fieldKey)
     {
-      Type type = FindOrCreateType(fieldName.TypeName);
-      return type.FindOrCreateField(fieldName);
+      Type type = FindOrCreateType(fieldKey.TypeKey);
+      return type.FindOrCreateField(fieldKey);
     }
 
     public override string ToString()
     {
-      return _name.ToString();
+      return _key.ToString();
     }
   }
 }
