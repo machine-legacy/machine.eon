@@ -20,7 +20,12 @@ namespace Machine.Eon.Mapping.Repositories.Impl
         _assemblyRepository.SaveAssembly(assembly);
       }
       Type type = assembly.FindOrCreateType(key.TypeKey);
-      return type.FindOrCreateMethod(key);
+      Method member = type.FindMethod(key);
+      if (member == null)
+      {
+        member = type.AddMethod(key);
+      }
+      return member;
     }
 
     public Property FindProperty(PropertyKey key)
@@ -32,7 +37,12 @@ namespace Machine.Eon.Mapping.Repositories.Impl
         _assemblyRepository.SaveAssembly(assembly);
       }
       Type type = assembly.FindOrCreateType(key.TypeKey);
-      return type.FindOrCreateProperty(key);
+      Property member = type.FindProperty(key);
+      if (member == null)
+      {
+        member = type.AddProperty(key);
+      }
+      return member;
     }
 
     public Field FindField(FieldKey key)
@@ -44,7 +54,12 @@ namespace Machine.Eon.Mapping.Repositories.Impl
         _assemblyRepository.SaveAssembly(assembly);
       }
       Type type = assembly.FindOrCreateType(key.TypeKey);
-      return type.FindOrCreateField(key);
+      Field member = type.FindField(key);
+      if (member == null)
+      {
+        member = type.AddField(key);
+      }
+      return member;
     }
 
     public Event FindEvent(EventKey key)
@@ -56,7 +71,12 @@ namespace Machine.Eon.Mapping.Repositories.Impl
         _assemblyRepository.SaveAssembly(assembly);
       }
       Type type = assembly.FindOrCreateType(key.TypeKey);
-      return type.FindOrCreateEvent(key);
+      Event member = type.FindEvent(key);
+      if (member == null)
+      {
+        member = type.AddEvent(key);
+      }
+      return member;
     }
   }
 }

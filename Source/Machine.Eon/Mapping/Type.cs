@@ -155,16 +155,22 @@ namespace Machine.Eon.Mapping
       return newMember;
     }
 
-    public Method FindOrCreateMethod(MethodKey key)
+    private T FindMember<T, K>(K key) where T : Member where K : MemberKey
     {
-      foreach (Method method in _methods)
+      foreach (Member member in this.Members)
       {
-        if (method.Key.Equals(key))
+        IKeyedNode<K> node = member as IKeyedNode<K>;
+        if (node != null && node.Key.Equals(key))
         {
-          return method;
+          return (T)node;
         }
       }
-      return AddMethod(key);
+      return default(T);
+    }
+
+    public Method FindMethod(MethodKey key)
+    {
+      return FindMember<Method, MethodKey>(key);
     }
 
     public Property AddProperty(PropertyKey key)
@@ -175,16 +181,9 @@ namespace Machine.Eon.Mapping
       return newMember;
     }
 
-    public Property FindOrCreateProperty(PropertyKey key)
+    public Property FindProperty(PropertyKey key)
     {
-      foreach (Property property in _properties)
-      {
-        if (property.Key.Equals(key))
-        {
-          return property;
-        }
-      }
-      return AddProperty(key);
+      return FindMember<Property, PropertyKey>(key);
     }
 
     public Field AddField(FieldKey key)
@@ -195,16 +194,9 @@ namespace Machine.Eon.Mapping
       return newMember;
     }
 
-    public Field FindOrCreateField(FieldKey key)
+    public Field FindField(FieldKey key)
     {
-      foreach (Field field in _fields)
-      {
-        if (field.Key.Equals(key))
-        {
-          return field;
-        }
-      }
-      return AddField(key);
+      return FindMember<Field, FieldKey>(key);
     }
 
     public Event AddEvent(EventKey key)
@@ -215,16 +207,9 @@ namespace Machine.Eon.Mapping
       return newMember;
     }
 
-    public Event FindOrCreateEvent(EventKey key)
+    public Event FindEvent(EventKey key)
     {
-      foreach (Event anEvent in _events)
-      {
-        if (anEvent.Key.Equals(key))
-        {
-          return anEvent;
-        }
-      }
-      return AddEvent(key);
+      return FindMember<Event, EventKey>(key);
     }
 
     public override Usage CreateUsage()
