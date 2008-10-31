@@ -147,9 +147,16 @@ namespace Machine.Eon.Mapping
       }
     }
 
-    public Method FindOrCreateMethod(MethodKey key)
+    public Method AddMethod(MethodKey key)
     {
       if (!key.TypeKey.Equals(_key)) throw new ArgumentException("name");
+      Method newMember = new Method(this, key);
+      _methods.Add(newMember);
+      return newMember;
+    }
+
+    public Method FindOrCreateMethod(MethodKey key)
+    {
       foreach (Method method in _methods)
       {
         if (method.Key.Equals(key))
@@ -157,14 +164,19 @@ namespace Machine.Eon.Mapping
           return method;
         }
       }
-      Method newMember = new Method(this, key);
-      _methods.Add(newMember);
+      return AddMethod(key);
+    }
+
+    public Property AddProperty(PropertyKey key)
+    {
+      if (!key.TypeKey.Equals(_key)) throw new ArgumentException("name");
+      Property newMember = new Property(this, key);
+      _properties.Add(newMember);
       return newMember;
     }
 
     public Property FindOrCreateProperty(PropertyKey key)
     {
-      if (!key.TypeKey.Equals(_key)) throw new ArgumentException("name");
       foreach (Property property in _properties)
       {
         if (property.Key.Equals(key))
@@ -172,14 +184,19 @@ namespace Machine.Eon.Mapping
           return property;
         }
       }
-      Property newMember = new Property(this, key);
-      _properties.Add(newMember);
+      return AddProperty(key);
+    }
+
+    public Field AddField(FieldKey key)
+    {
+      if (!key.TypeKey.Equals(_key)) throw new ArgumentException("name");
+      Field newMember = new Field(this, key);
+      _fields.Add(newMember);
       return newMember;
     }
 
     public Field FindOrCreateField(FieldKey key)
     {
-      if (!key.TypeKey.Equals(_key)) throw new ArgumentException("name");
       foreach (Field field in _fields)
       {
         if (field.Key.Equals(key))
@@ -187,14 +204,19 @@ namespace Machine.Eon.Mapping
           return field;
         }
       }
-      Field newMember = new Field(this, key);
-      _fields.Add(newMember);
+      return AddField(key);
+    }
+
+    public Event AddEvent(EventKey key)
+    {
+      if (!key.TypeKey.Equals(_key)) throw new ArgumentException("name");
+      Event newMember = new Event(this, key);
+      _events.Add(newMember);
       return newMember;
     }
 
     public Event FindOrCreateEvent(EventKey key)
     {
-      if (!key.TypeKey.Equals(_key)) throw new ArgumentException("name");
       foreach (Event anEvent in _events)
       {
         if (anEvent.Key.Equals(key))
@@ -202,9 +224,7 @@ namespace Machine.Eon.Mapping
           return anEvent;
         }
       }
-      Event newMember = new Event(this, key);
-      _events.Add(newMember);
-      return newMember;
+      return AddEvent(key);
     }
 
     public override Usage CreateUsage()

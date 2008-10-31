@@ -43,30 +43,6 @@ namespace Machine.Eon.Mapping
       return ns.FindOrCreateType(typeKey);
     }
 
-    public Method FindOrCreateMethod(MethodKey methodKey)
-    {
-      Type type = FindOrCreateType(methodKey.TypeKey);
-      return type.FindOrCreateMethod(methodKey);
-    }
-
-    public Property FindOrCreateProperty(PropertyKey propertyKey)
-    {
-      Type type = FindOrCreateType(propertyKey.TypeKey);
-      return type.FindOrCreateProperty(propertyKey);
-    }
-
-    public Field FindOrCreateField(FieldKey fieldKey)
-    {
-      Type type = FindOrCreateType(fieldKey.TypeKey);
-      return type.FindOrCreateField(fieldKey);
-    }
-
-    public Event FindOrCreateEvent(EventKey eventKey)
-    {
-      Type type = FindOrCreateType(eventKey.TypeKey);
-      return type.FindOrCreateEvent(eventKey);
-    }
-
     public override string ToString()
     {
       return _key.ToString();
