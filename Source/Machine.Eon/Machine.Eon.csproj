@@ -65,7 +65,7 @@
     <Compile Include="Mapping\Repositories\IAssemblyRepository.cs" />
     <Compile Include="Mapping\Repositories\IMemberRepository.cs" />
     <Compile Include="Mapper.cs" />
-    <Compile Include="Mapping\Inspection\Listener.cs" />
+    <Compile Include="Mapping\Inspection\ModelCreator.cs" />
     <Compile Include="Mapping\MemberKey.cs" />
     <Compile Include="Mapping\NamespaceKey.cs" />
     <Compile Include="Mapping\Repositories\Impl\AssemblyRepository.cs" />

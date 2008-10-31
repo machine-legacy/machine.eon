@@ -29,8 +29,8 @@ namespace Machine.Eon
     public void Include(string path)
     {
       AssemblyDefinition definition = AssemblyFactory.GetAssembly(path);
-      Listener listener = new Listener(_typeRepository, _memberRepository);
-      MyReflectionStructureVisitor visitor = new MyReflectionStructureVisitor(listener);
+      ModelCreator modelCreator = new ModelCreator(_typeRepository, _memberRepository);
+      MyReflectionStructureVisitor visitor = new MyReflectionStructureVisitor(modelCreator);
       definition.Accept(visitor);
     }
 

@@ -5,7 +5,7 @@ using Machine.Eon.Mapping.Repositories;
 
 namespace Machine.Eon.Mapping.Inspection
 {
-  public class Listener
+  public class ModelCreator
   {
     private readonly ITypeRepository _typeRepository;
     private readonly IMemberRepository _memberRepository;
@@ -16,7 +16,7 @@ namespace Machine.Eon.Mapping.Inspection
     private readonly Stack<PropertyKey> _properties = new Stack<PropertyKey>();
     private readonly Stack<FieldKey> _fields = new Stack<FieldKey>();
 
-    public Listener(ITypeRepository typeRepository, IMemberRepository memberRepository)
+    public ModelCreator(ITypeRepository typeRepository, IMemberRepository memberRepository)
     {
       _types.Push(TypeKey.None);
       _methods.Push(MethodKey.None);
