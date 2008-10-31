@@ -4,27 +4,16 @@ namespace Machine.Eon.Mapping.Repositories.Impl
 {
   public class MemberRepository : IMemberRepository
   {
-    private readonly IAssemblyRepository _assemblyRepository;
+    private readonly ITypeRepository _typeRepository;
 
-    public MemberRepository(IAssemblyRepository assemblyRepository)
+    public MemberRepository(ITypeRepository typeRepository)
     {
-      _assemblyRepository = assemblyRepository;
-    }
-
-    private Assembly FindAssembly(MemberKey key)
-    {
-      Assembly assembly = _assemblyRepository.FindAssembly(key.TypeKey.AssemblyKey);
-      if (assembly == null)
-      {
-        assembly = new Assembly(key.TypeKey.AssemblyKey);
-        _assemblyRepository.SaveAssembly(assembly);
-      }
-      return assembly;
+      _typeRepository = typeRepository;
     }
 
     private Type FindType(MemberKey key)
     {
-      return FindAssembly(key).FindOrCreateType(key.TypeKey);
+      return _typeRepository.FindType(key.TypeKey);
     }
 
     public Method FindMethod(MethodKey key)

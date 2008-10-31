@@ -23,7 +23,7 @@ namespace Machine.Eon.Mapping
       _key = key;
     }
 
-    public Namespace FindOrCreateNamespace(NamespaceKey key)
+    private Namespace FindOrCreateNamespace(NamespaceKey key)
     {
       foreach (Namespace ns in _namespaces)
       {
@@ -37,10 +37,16 @@ namespace Machine.Eon.Mapping
       return newNs;
     }
 
-    public Type FindOrCreateType(TypeKey typeKey)
+    public Type FindType(TypeKey key)
     {
-      Namespace ns = FindOrCreateNamespace(typeKey.Namespace);
-      return ns.FindOrCreateType(typeKey);
+      Namespace ns = FindOrCreateNamespace(key.Namespace);
+      return ns.FindType(key);
+    }
+
+    public Type AddType(TypeKey key)
+    {
+      Namespace ns = FindOrCreateNamespace(key.Namespace);
+      return ns.AddType(key);
     }
 
     public override string ToString()

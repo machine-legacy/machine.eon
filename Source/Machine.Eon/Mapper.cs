@@ -23,7 +23,7 @@ namespace Machine.Eon
     {
       _assemblyRepository = new AssemblyRepository();
       _typeRepository = new TypeRepository(_assemblyRepository);
-      _memberRepository = new MemberRepository(_assemblyRepository);
+      _memberRepository = new MemberRepository(_typeRepository);
     }
 
     public void Include(string path)

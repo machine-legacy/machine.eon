@@ -30,20 +30,7 @@ namespace Machine.Eon.Mapping
       _key = key;
     }
 
-    public Type FindOrCreateType(TypeKey key)
-    {
-      if (!key.Namespace.Equals(_key)) throw new ArgumentException("name");
-      Type type = FindType(key);
-      if (type != null)
-      {
-        return type;
-      }
-      type = new Type(this, key);
-      _types.Add(type);
-      return type;
-    }
-
-    private Type FindType(TypeKey key)
+    public Type FindType(TypeKey key)
     {
       foreach (Type type in _types)
       {
@@ -53,6 +40,13 @@ namespace Machine.Eon.Mapping
         }
       }
       return null;
+    }
+
+    public Type AddType(TypeKey key)
+    {
+      Type type = new Type(this, key);
+      _types.Add(type);
+      return type;
     }
 
     public override string ToString()
