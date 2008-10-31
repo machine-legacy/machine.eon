@@ -8,6 +8,7 @@ namespace Machine.Eon.Mapping
     private readonly Assembly _assembly;
     private readonly NamespaceKey _key;
     private readonly List<Type> _types = new List<Type>();
+    private readonly List<Type> _genericParameterTypes = new List<Type>();
 
     public Assembly Assembly
     {
@@ -32,12 +33,13 @@ namespace Machine.Eon.Mapping
 
     public Type FindType(TypeKey key)
     {
+      foreach (Type type in _genericParameterTypes)
+      {
+        if (type.Key.Equals(key)) return type;
+      }
       foreach (Type type in _types)
       {
-        if (type.Key.Equals(key))
-        {
-          return type;
-        }
+        if (type.Key.Equals(key)) return type;
       }
       return null;
     }
@@ -45,7 +47,14 @@ namespace Machine.Eon.Mapping
     public Type AddType(TypeKey key)
     {
       Type type = new Type(this, key);
-      _types.Add(type);
+      if (key is GenericParameterTypeKey)
+      {
+        _genericParameterTypes.Add(type);
+      }
+      else
+      {
+        _types.Add(type);
+      }
       return type;
     }
 
