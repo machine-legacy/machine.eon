@@ -36,10 +36,6 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitAssemblyNameReferenceCollection(AssemblyNameReferenceCollection names)
     {
-      foreach (AssemblyNameReference name in names)
-      {
-        name.Accept(this);
-      }
     }
 
     public override void VisitEmbeddedResource(EmbeddedResource res)
@@ -69,18 +65,10 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitModuleReferenceCollection(ModuleReferenceCollection modules)
     {
-      foreach (ModuleReference module in modules)
-      {
-        module.Accept(this);
-      }
     }
 
     public override void VisitResourceCollection(ResourceCollection resources)
     {
-      foreach (Resource resource in resources)
-      {
-        resource.Accept(this);
-      }
     }
   }
   public class MyReflectionVisitor : BaseReflectionVisitor
@@ -128,10 +116,6 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitEventDefinitionCollection(EventDefinitionCollection events)
     {
-      foreach (EventDefinition eventDefinition in events)
-      {
-        eventDefinition.Accept(this);
-      }
     }
 
     public override void VisitExternType(TypeReference externType)
@@ -140,10 +124,6 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitExternTypeCollection(ExternTypeCollection externTypes)
     {
-      foreach (TypeReference type in externTypes)
-      {
-        type.Accept(this);
-      }
     }
 
     public override void VisitFieldDefinition(FieldDefinition field)
@@ -194,10 +174,6 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitMemberReferenceCollection(MemberReferenceCollection members)
     {
-      foreach (MemberReference member in members)
-      {
-        member.Accept(this);
-      }
     }
 
     public override void VisitMethodDefinition(MethodDefinition method)
@@ -250,14 +226,13 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitParameterDefinition(ParameterDefinition parameter)
     {
-      _modelCreator.UseType(parameter.ToTypeKey());
     }
 
     public override void VisitParameterDefinitionCollection(ParameterDefinitionCollection parameters)
     {
       foreach (ParameterDefinition parameter in parameters)
       {
-        parameter.Accept(this);
+        _modelCreator.UseType(parameter.ToTypeKey());
       }
     }
 
@@ -294,10 +269,6 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitSecurityDeclarationCollection(SecurityDeclarationCollection securityDeclarations)
     {
-      foreach (SecurityDeclaration securityDeclaration in securityDeclarations)
-      {
-        securityDeclaration.Accept(this);
-      }
     }
 
     public override void VisitTypeDefinition(TypeDefinition type)
@@ -386,10 +357,6 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitExceptionHandlerCollection(ExceptionHandlerCollection seh)
     {
-      foreach (ExceptionHandler handler in seh)
-      {
-        handler.Accept(this);
-      }
     }
 
     public override void VisitInstruction(Instruction instr)
@@ -436,22 +403,17 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitScopeCollection(ScopeCollection scopes)
     {
-      foreach (Scope scope in scopes)
-      {
-        scope.Accept(this);
-      }
     }
 
     public override void VisitVariableDefinition(VariableDefinition variable)
     {
-      _modelCreator.UseType(variable.ToTypeKey());
     }
 
     public override void VisitVariableDefinitionCollection(VariableDefinitionCollection variables)
     {
       foreach (VariableDefinition variable in variables)
       {
-        variable.Accept(this);
+        _modelCreator.UseType(variable.ToTypeKey());
       }
     }
   }
