@@ -138,6 +138,10 @@ namespace Machine.Eon.Specs.ClassesAndInterfaces
   {
   }
 
+  public class Generic1AsAnotherGeneric : AGeneric2<AGeneric1<string>, AGeneric1<long>>
+  {
+  }
+
   [Subject("ClassesAndInterfaces")]
   public class with_a_class_that_extends_a_generic_class : with_eon
   {

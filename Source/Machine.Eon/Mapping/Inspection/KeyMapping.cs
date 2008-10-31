@@ -45,7 +45,12 @@ namespace Machine.Eon.Mapping.Inspection
       GenericInstanceType genericInstanceType = reference as GenericInstanceType;
       if (genericInstanceType != null)
       {
-        return new TypeKey(assemblyKey, reference.FullName.Substring(0, reference.FullName.IndexOf('`') + 2));
+        TypeReference elementType = genericInstanceType.ElementType;
+        while (elementType is GenericInstanceType)
+        {
+          elementType = (elementType as GenericInstanceType).ElementType;
+        }
+        return new TypeKey(assemblyKey, elementType.FullName);
       }
       return new TypeKey(assemblyKey, reference.FullName);
     }

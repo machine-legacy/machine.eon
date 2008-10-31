@@ -168,10 +168,6 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitGenericParameterCollection(GenericParameterCollection parameters)
     {
-      foreach (GenericParameter parameter in parameters)
-      {
-        parameter.Accept(this);
-      }
     }
 
     public override void VisitInterface(TypeReference interf)
@@ -327,7 +323,10 @@ namespace Machine.Eon.Mapping.Inspection
         type.BaseType.Accept(this);
         _listener.SetBaseType(type.BaseType.ToTypeKey());
       }
-      type.GenericParameters.Accept(this);
+      foreach (GenericParameter parameter in type.GenericParameters)
+      {
+        _listener.UseType(parameter.ToTypeKey());
+      }
       type.Accept(this);
       _listener.EndType();
       _listener.EndNamespace();
