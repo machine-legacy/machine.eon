@@ -137,4 +137,16 @@ namespace Machine.Eon.Specs.ClassesAndInterfaces
   public class Generic1AsObject : AGeneric1<object>
   {
   }
+
+  [Subject("ClassesAndInterfaces")]
+  public class with_a_class_that_extends_a_generic_class : with_eon
+  {
+    static Machine.Eon.Mapping.Type type;
+
+    Because of = () =>
+      type = qr.FromSystemType(typeof(Generic1AsString));
+
+    It should_use_the_generic_parameter_type_directly = () =>
+      type.DirectlyUses.Types.ShouldContain(systemString);
+  }
 }

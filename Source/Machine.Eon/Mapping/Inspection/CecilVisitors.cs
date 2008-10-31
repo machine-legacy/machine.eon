@@ -324,9 +324,10 @@ namespace Machine.Eon.Mapping.Inspection
       _listener.SetTypeFlags(type.IsInterface, type.IsAbstract, false);
       if (type.BaseType != null)
       {
+        type.BaseType.Accept(this);
         _listener.SetBaseType(type.BaseType.ToTypeKey());
-        _listener.UseType(type.BaseType.ToTypeKey());
       }
+      type.GenericParameters.Accept(this);
       type.Accept(this);
       _listener.EndType();
       _listener.EndNamespace();
@@ -334,7 +335,15 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitTypeReference(TypeReference type)
     {
+      GenericInstanceType genericInstanceType = type as GenericInstanceType;
       _listener.UseType(type.ToTypeKey());
+      if (genericInstanceType != null)
+      {
+        foreach (TypeReference reference in genericInstanceType.GenericArguments)
+        {
+          reference.Accept(this);
+        }
+      }
     }
 
     public override void VisitTypeReferenceCollection(TypeReferenceCollection refs)
