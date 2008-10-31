@@ -42,11 +42,11 @@ namespace Machine.Eon.Mapping.Inspection
       {
         throw new InvalidOperationException("I saw this before and it's gone now? I used GenericParameterTypeKey here earlier...");
       }
-      AssemblyKey assemblyKey = reference.Scope.ToAssemblyKey();
-      if (reference.FullName.EndsWith("[]"))
+      if (reference is ArrayType)
       {
-        return new TypeKey(assemblyKey, reference.FullName.Substring(0, reference.FullName.IndexOf("[]")));
+        return ((ArrayType)reference).ElementType.ToTypeKey();
       }
+      AssemblyKey assemblyKey = reference.Scope.ToAssemblyKey();
       GenericParameter genericParameter = reference as GenericParameter;
       if (genericParameter != null)
       {
