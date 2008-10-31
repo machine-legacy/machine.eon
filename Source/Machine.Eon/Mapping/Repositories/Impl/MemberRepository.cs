@@ -11,7 +11,7 @@ namespace Machine.Eon.Mapping.Repositories.Impl
       _assemblyRepository = assemblyRepository;
     }
 
-    public Method FindMethod(MethodKey key)
+    private Assembly FindAssembly(MemberKey key)
     {
       Assembly assembly = _assemblyRepository.FindAssembly(key.TypeKey.AssemblyKey);
       if (assembly == null)
@@ -19,7 +19,17 @@ namespace Machine.Eon.Mapping.Repositories.Impl
         assembly = new Assembly(key.TypeKey.AssemblyKey);
         _assemblyRepository.SaveAssembly(assembly);
       }
-      Type type = assembly.FindOrCreateType(key.TypeKey);
+      return assembly;
+    }
+
+    private Type FindType(MemberKey key)
+    {
+      return FindAssembly(key).FindOrCreateType(key.TypeKey);
+    }
+
+    public Method FindMethod(MethodKey key)
+    {
+      Type type = FindType(key);
       Method member = type.FindMethod(key);
       if (member == null)
       {
@@ -30,13 +40,7 @@ namespace Machine.Eon.Mapping.Repositories.Impl
 
     public Property FindProperty(PropertyKey key)
     {
-      Assembly assembly = _assemblyRepository.FindAssembly(key.TypeKey.AssemblyKey);
-      if (assembly == null)
-      {
-        assembly = new Assembly(key.TypeKey.AssemblyKey);
-        _assemblyRepository.SaveAssembly(assembly);
-      }
-      Type type = assembly.FindOrCreateType(key.TypeKey);
+      Type type = FindType(key);
       Property member = type.FindProperty(key);
       if (member == null)
       {
@@ -47,13 +51,7 @@ namespace Machine.Eon.Mapping.Repositories.Impl
 
     public Field FindField(FieldKey key)
     {
-      Assembly assembly = _assemblyRepository.FindAssembly(key.TypeKey.AssemblyKey);
-      if (assembly == null)
-      {
-        assembly = new Assembly(key.TypeKey.AssemblyKey);
-        _assemblyRepository.SaveAssembly(assembly);
-      }
-      Type type = assembly.FindOrCreateType(key.TypeKey);
+      Type type = FindType(key);
       Field member = type.FindField(key);
       if (member == null)
       {
@@ -64,13 +62,7 @@ namespace Machine.Eon.Mapping.Repositories.Impl
 
     public Event FindEvent(EventKey key)
     {
-      Assembly assembly = _assemblyRepository.FindAssembly(key.TypeKey.AssemblyKey);
-      if (assembly == null)
-      {
-        assembly = new Assembly(key.TypeKey.AssemblyKey);
-        _assemblyRepository.SaveAssembly(assembly);
-      }
-      Type type = assembly.FindOrCreateType(key.TypeKey);
+      Type type = FindType(key);
       Event member = type.FindEvent(key);
       if (member == null)
       {
