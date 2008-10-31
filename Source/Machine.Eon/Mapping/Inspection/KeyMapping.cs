@@ -40,7 +40,7 @@ namespace Machine.Eon.Mapping.Inspection
     {
       if (reference.Scope == null)
       {
-        return new GenericParameterTypeName(AssemblyKey.None, reference.Name);
+        return new GenericParameterTypeKey(AssemblyKey.None, reference.Name);
       }
       AssemblyKey assemblyKey = reference.Scope.ToAssemblyKey();
       if (reference.FullName.EndsWith("[]"))

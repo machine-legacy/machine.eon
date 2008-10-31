@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Machine.Eon.Mapping
 {
-  public class GenericParameterTypeName : TypeKey
+  public class GenericParameterTypeKey : TypeKey
   {
-    public GenericParameterTypeName(AssemblyKey assemblyKey, string name)
+    public GenericParameterTypeKey(AssemblyKey assemblyKey, string name)
       : base(assemblyKey, name)
     {
     }
