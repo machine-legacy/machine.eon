@@ -40,12 +40,17 @@ namespace Machine.Eon.Mapping.Inspection
     {
       if (reference.Scope == null)
       {
-        return new GenericParameterTypeKey(AssemblyKey.None, reference.Name);
+        throw new InvalidOperationException("I saw this before and it's gone now? I used GenericParameterTypeKey here earlier...");
       }
       AssemblyKey assemblyKey = reference.Scope.ToAssemblyKey();
       if (reference.FullName.EndsWith("[]"))
       {
         return new TypeKey(assemblyKey, reference.FullName.Substring(0, reference.FullName.IndexOf("[]")));
+      }
+      GenericParameter genericParameter = reference as GenericParameter;
+      if (genericParameter != null)
+      {
+        return new GenericParameterTypeKey(assemblyKey, reference.Name);
       }
       GenericInstanceType genericInstanceType = reference as GenericInstanceType;
       if (genericInstanceType != null)

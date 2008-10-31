@@ -9,6 +9,15 @@ namespace Machine.Eon.Mapping
       : base(assemblyKey, name)
     {
     }
+
+    public override string ToString()
+    {
+      if (String.IsNullOrEmpty(this.FullName))
+      {
+        return "GenericParameterType<Null>";
+      }
+      return "GenericParameterType<" + this.FullName + ">";
+    }
   }
   public class TypeKey : NodeKey
   {
