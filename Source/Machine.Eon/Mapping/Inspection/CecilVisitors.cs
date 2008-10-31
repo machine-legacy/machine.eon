@@ -116,6 +116,22 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitEventDefinitionCollection(EventDefinitionCollection events)
     {
+      foreach (EventDefinition eventDefinition in events)
+      {
+        _modelCreator.StartEvent(eventDefinition.ToKey());
+        eventDefinition.CustomAttributes.Accept(this);
+        if (eventDefinition.AddMethod != null)
+        {
+          ApplyMethodListeners(eventDefinition.AddMethod);
+          _modelCreator.SetEventAdder(eventDefinition.ToKey(), eventDefinition.AddMethod.ToMethodKey());
+        }
+        if (eventDefinition.RemoveMethod != null)
+        {
+          ApplyMethodListeners(eventDefinition.RemoveMethod);
+          _modelCreator.SetEventRemover(eventDefinition.ToKey(), eventDefinition.RemoveMethod.ToMethodKey());
+        }
+        _modelCreator.EndEvent();
+      }
     }
 
     public override void VisitExternType(TypeReference externType)

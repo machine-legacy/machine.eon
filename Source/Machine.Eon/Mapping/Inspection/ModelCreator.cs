@@ -15,6 +15,7 @@ namespace Machine.Eon.Mapping.Inspection
     private readonly Stack<MethodKey> _methods = new Stack<MethodKey>();
     private readonly Stack<PropertyKey> _properties = new Stack<PropertyKey>();
     private readonly Stack<FieldKey> _fields = new Stack<FieldKey>();
+    private readonly Stack<EventKey> _events = new Stack<EventKey>();
 
     public ModelCreator(ITypeRepository typeRepository, IMemberRepository memberRepository)
     {
@@ -22,6 +23,7 @@ namespace Machine.Eon.Mapping.Inspection
       _methods.Push(MethodKey.None);
       _properties.Push(PropertyKey.None);
       _fields.Push(FieldKey.None);
+      _events.Push(EventKey.None);
       _typeRepository = typeRepository;
       _memberRepository = memberRepository;
     }
@@ -69,6 +71,18 @@ namespace Machine.Eon.Mapping.Inspection
       _fields.Pop();
     }
 
+    public void StartEvent(EventKey key)
+    {
+      if (key == null) throw new ArgumentNullException("key");
+      _events.Push(key);
+      GetCurrentField();
+    }
+
+    public void EndEvent()
+    {
+      _events.Pop();
+    }
+
     public void StartMethod(MethodKey key)
     {
       if (key == null) throw new ArgumentNullException("key");
@@ -108,6 +122,14 @@ namespace Machine.Eon.Mapping.Inspection
       if (methodKey == null) throw new ArgumentNullException("methodKey");
       Property property = _memberRepository.FindProperty(propertyKey);
       property.Setter = _memberRepository.FindMethod(methodKey);
+    }
+
+    public void SetEventAdder(EventKey eventKey, MethodKey methodKey)
+    {
+    }
+
+    public void SetEventRemover(EventKey eventKey, MethodKey methodKey)
+    {
     }
 
     public void SetBaseType(TypeKey baseTypeKey)
@@ -233,6 +255,15 @@ namespace Machine.Eon.Mapping.Inspection
       return _memberRepository.FindField(fieldKey);
     }
 
+    private Event GetCurrentEvent()
+    {
+      EventKey eventKey = _events.Peek();
+      TypeKey typeKey = _types.Peek();
+      if (typeKey == TypeKey.None) return null;
+      if (eventKey == EventKey.None) return null;
+      return _memberRepository.FindEvent(eventKey);
+    }
+
     private ICanHaveAttributes GetCurrentCanHaveAttributes()
     {
       Method method = GetCurrentMethod();
@@ -241,6 +272,8 @@ namespace Machine.Eon.Mapping.Inspection
       if (property != null) return property;
       Field field = GetCurrentField();
       if (field != null) return field;
+      Event anEvent = GetCurrentEvent();
+      if (anEvent != null) return anEvent;
       Type type = GetCurrentType();
       return type;
     }
@@ -251,6 +284,10 @@ namespace Machine.Eon.Mapping.Inspection
       if (method != null) return method;
       Field field = GetCurrentField();
       if (field != null) return field;
+      Property property = GetCurrentProperty();
+      if (property != null) return property;
+      Event anEvent = GetCurrentEvent();
+      if (anEvent != null) return anEvent;
       Type type = GetCurrentType();
       return type;
     }

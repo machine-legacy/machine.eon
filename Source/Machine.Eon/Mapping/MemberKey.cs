@@ -33,6 +33,16 @@ namespace Machine.Eon.Mapping
     {
     }
   }
+  public class EventKey : MemberKey
+  {
+    public static readonly EventKey None = new EventKey(TypeKey.None, String.Empty);
+    public static readonly EventKey Any = new EventKey(TypeKey.Any, "*");
+
+    public EventKey(TypeKey typeKey, string name)
+      : base(typeKey, name)
+    {
+    }
+  }
   public abstract class MemberKey : NodeKey
   {
     private readonly TypeKey _typeKey;

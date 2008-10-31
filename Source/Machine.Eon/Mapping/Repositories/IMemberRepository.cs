@@ -8,5 +8,6 @@ namespace Machine.Eon.Mapping.Repositories
     Method FindMethod(MethodKey key);
     Property FindProperty(PropertyKey key);
     Field FindField(FieldKey key);
+    Event FindEvent(EventKey key);
   }
 }

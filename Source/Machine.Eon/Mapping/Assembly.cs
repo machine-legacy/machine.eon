@@ -61,6 +61,12 @@ namespace Machine.Eon.Mapping
       return type.FindOrCreateField(fieldKey);
     }
 
+    public Event FindOrCreateEvent(EventKey eventKey)
+    {
+      Type type = FindOrCreateType(eventKey.TypeKey);
+      return type.FindOrCreateEvent(eventKey);
+    }
+
     public override string ToString()
     {
       return _key.ToString();

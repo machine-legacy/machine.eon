@@ -32,4 +32,7 @@ namespace Machine.Eon.Mapping
   public interface IField : IMember, IKeyedNode<FieldKey>
   {
   }
+  public interface IEvent : IMember, IKeyedNode<EventKey>
+  {
+  }
 }

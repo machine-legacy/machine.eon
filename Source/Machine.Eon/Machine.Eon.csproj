@@ -51,6 +51,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mapping\AssemblyKey.cs" />
+    <Compile Include="Mapping\Event.cs" />
     <Compile Include="Mapping\Field.cs" />
     <Compile Include="Mapping\ICanUseNodes.cs" />
     <Compile Include="Mapping\IndirectUses.cs" />

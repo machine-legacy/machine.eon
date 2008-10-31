@@ -43,5 +43,16 @@ namespace Machine.Eon.Mapping.Repositories.Impl
       }
       return assembly.FindOrCreateField(key);
     }
+
+    public Event FindEvent(EventKey key)
+    {
+      Assembly assembly = _assemblyRepository.FindAssembly(key.TypeKey.AssemblyKey);
+      if (assembly == null)
+      {
+        assembly = new Assembly(key.TypeKey.AssemblyKey);
+        _assemblyRepository.SaveAssembly(assembly);
+      }
+      return assembly.FindOrCreateEvent(key);
+    }
   }
 }

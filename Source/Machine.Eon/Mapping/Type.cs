@@ -19,6 +19,7 @@ namespace Machine.Eon.Mapping
     private readonly List<Method> _methods = new List<Method>();
     private readonly List<Property> _properties = new List<Property>();
     private readonly List<Field> _fields = new List<Field>();
+    private readonly List<Event> _events = new List<Event>();
     private readonly List<Type> _interfaces = new List<Type>();
     private readonly List<Type> _attributes = new List<Type>();
     private readonly UsageSet _usages = new UsageSet();
@@ -111,6 +112,11 @@ namespace Machine.Eon.Mapping
       get { return _properties; }
     }
 
+    public IEnumerable<Event> Events
+    {
+      get { return _events; }
+    }
+
     public IEnumerable<Method> Methods
     {
       get { return _methods; }
@@ -182,6 +188,21 @@ namespace Machine.Eon.Mapping
       }
       Field newMember = new Field(this, key);
       _fields.Add(newMember);
+      return newMember;
+    }
+
+    public Event FindOrCreateEvent(EventKey key)
+    {
+      if (!key.TypeKey.Equals(_key)) throw new ArgumentException("name");
+      foreach (Event anEvent in _events)
+      {
+        if (anEvent.Key.Equals(key))
+        {
+          return anEvent;
+        }
+      }
+      Event newMember = new Event(this, key);
+      _events.Add(newMember);
       return newMember;
     }
 

@@ -31,6 +31,11 @@ namespace Machine.Eon.Mapping.Inspection
       return new PropertyKey(definition.DeclaringType.ToTypeKey(), definition.Name);
     }
 
+    public static EventKey ToKey(this EventDefinition definition)
+    {
+      return new EventKey(definition.DeclaringType.ToTypeKey(), definition.Name);
+    }
+
     public static TypeKey ToTypeKey(this TypeReference reference)
     {
       if (reference.Scope == null)
