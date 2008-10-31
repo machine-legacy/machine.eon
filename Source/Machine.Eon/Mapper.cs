@@ -70,7 +70,7 @@ namespace Machine.Eon
       var types = from assembly in assemblies
                   from ns in assembly.Namespaces
                   from type in ns.Types
-                  where ns.Key.Name.Equals("Machine.Eon.Specs.ClassesAndInterfaces")
+                  where ns.Key.Name.Equals("Machine.Eon.Specs.DirectUses")
                   select type;
       foreach (Type type in types)
       {

@@ -314,6 +314,10 @@ namespace Machine.Eon.Mapping.Inspection
       }
       foreach (GenericParameter parameter in type.GenericParameters)
       {
+        foreach (TypeReference reference in parameter.Constraints)
+        {
+          _modelCreator.UseType(reference.ToTypeKey());
+        }
         _modelCreator.UseType(parameter.ToTypeKey());
       }
       type.Accept(this);

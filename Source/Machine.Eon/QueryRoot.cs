@@ -68,6 +68,10 @@ namespace Machine.Eon
 
     public Type FromSystemType(System.Type runtimeType)
     {
+      if (runtimeType.IsGenericType)
+      {
+        runtimeType = runtimeType.GetGenericTypeDefinition();
+      }
       var query = from type in Types where type.Key.FullName.Equals(runtimeType.FullName) select type;
       return query.Single();
     }

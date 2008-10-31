@@ -159,6 +159,38 @@ namespace Machine.Eon.Specs.DirectUses
       type.DirectlyUses.ShouldContain(qr.FromSystemType(typeof(Type1)));
   }
 
+  public abstract class Sample1
+  {
+    public abstract string Name { get; }
+  }
+
+  public class Sample2<T> where T : Sample1
+  {
+    private readonly T _sample;
+
+    public Sample2(T sample)
+    {
+      _sample = sample;
+    }
+
+    public void SayHello()
+    {
+      Console.WriteLine(_sample.Name);
+    }
+  }
+
+  [Subject("Direct Uses")]
+  public class with_a_class_that_has_a_generic_parameter_with_a_constraint : with_eon
+  {
+    static Machine.Eon.Mapping.Type type;
+
+    Because of = () =>
+      type = qr.FromSystemType(typeof(Sample2<Sample1>));
+
+    It should_use_the_constrained_type_directly = () =>
+      type.DirectlyUses.ShouldContain(qr.FromSystemType(typeof(Sample1)));
+  }
+
   public class Type7
   {
 #pragma warning disable 169
