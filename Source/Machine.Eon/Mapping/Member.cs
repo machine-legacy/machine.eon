@@ -15,9 +15,13 @@ namespace Machine.Eon.Mapping
       get { return _type; }
     }
 
-    public IEnumerable<Type> Attributes
+    public virtual IEnumerable<Type> Attributes
     {
-      get { return _attributes; }
+      get
+      {
+        EnsureMemberIsNotPending();
+        return _attributes;
+      }
     }
 
     protected Member(Type type, MemberKey key)
@@ -46,7 +50,15 @@ namespace Machine.Eon.Mapping
 
     public virtual UsageSet DirectlyUses
     {
-      get { return _usages; }
+      get
+      {
+        EnsureMemberIsNotPending();
+        return _usages;
+      }
+    }
+
+    protected virtual void EnsureMemberIsNotPending()
+    {
     }
   }
 }

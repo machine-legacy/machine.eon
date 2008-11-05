@@ -36,7 +36,11 @@ namespace Machine.Eon.Mapping
 
     public IEnumerable<Parameter> Parameters
     {
-      get { return _parameters; }
+      get
+      {
+        EnsureMemberIsNotPending();
+        return _parameters;
+      }
     }
 
     public MethodKey Key
@@ -66,7 +70,11 @@ namespace Machine.Eon.Mapping
 
     public Type ReturnType
     {
-      get { return _returnType; }
+      get
+      {
+        EnsureMemberIsNotPending();
+        return _returnType;
+      }
       set { _returnType = value; }
     }
 
@@ -77,27 +85,33 @@ namespace Machine.Eon.Mapping
 
     public bool IsConstructor
     {
-      get { return (_flags & MethodFlags.Constructor) == MethodFlags.Constructor; }
+      get { return HasFlag(MethodFlags.Constructor); }
     }
 
     public bool IsAbstract
     {
-      get { return (_flags & MethodFlags.Abstract) == MethodFlags.Abstract; }
+      get { return HasFlag(MethodFlags.Abstract); }
     }
 
     public bool IsVirtual
     {
-      get { return (_flags & MethodFlags.Virtual) == MethodFlags.Virtual; }
+      get { return HasFlag(MethodFlags.Virtual); }
     }
 
     public bool IsStatic
     {
-      get { return (_flags & MethodFlags.Static) == MethodFlags.Static; }
+      get { return HasFlag(MethodFlags.Static); }
     }
 
     public MethodFlags MethodFlags
     {
       set { _flags = value;}
+    }
+
+    private bool HasFlag(MethodFlags flag)
+    {
+      EnsureMemberIsNotPending();
+      return (_flags & flag) == flag;
     }
 
     public Method(Type type, MethodKey key)
@@ -113,12 +127,24 @@ namespace Machine.Eon.Mapping
 
     public IndirectUses IndirectlyUses
     {
-      get { return this.DirectlyUses.CreateIndirectUses(); }
+      get
+      {
+        EnsureMemberIsNotPending();
+        return this.DirectlyUses.CreateIndirectUses();
+      }
     }
 
     public void SetParameters(List<Parameter> parameters)
     {
       _parameters = parameters;
+    }
+
+    protected override void EnsureMemberIsNotPending()
+    {
+      if (this.IsPending)
+      {
+        throw new NodeIsPendingException(this.Key.ToString());
+      }
     }
   }
 }

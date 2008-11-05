@@ -38,7 +38,6 @@ namespace Machine.Eon.Mapping
 
     public TypeFlags TypeFlags
     {
-      get { return _flags; }
       set { _flags = value; }
     }
 
@@ -54,24 +53,27 @@ namespace Machine.Eon.Mapping
 
     public bool IsInterface
     {
-      get { return (_flags & TypeFlags.Interface) == TypeFlags.Interface; }
+      get { return HasFlag(TypeFlags.Interface); }
     }
 
     public bool IsAbstract
     {
-      get { return (_flags & TypeFlags.Abstract) == TypeFlags.Abstract; }
+      get { return HasFlag(TypeFlags.Abstract); }
     }
 
-    /*
-    public bool IsStatic
+    private bool HasFlag(TypeFlags flag)
     {
-      get { return (_flags & TypeFlags.Static) == TypeFlags.Static; }
+      EnsureTypeIsNotPending();
+      return (_flags & flag) == flag;
     }
-    */
-    
+
     public Type BaseType
     {
-      get { return _baseType; }
+      get
+      {
+        EnsureTypeIsNotPending();
+        return _baseType;
+      }
       set { _baseType = value; }
     }
 
@@ -89,38 +91,39 @@ namespace Machine.Eon.Mapping
 
     public IEnumerable<Type> Attributes
     {
-      get { return _attributes; }
+      get { EnsureTypeIsNotPending(); return _attributes; }
     }
 
     public IEnumerable<Type> Interfaces
     {
-      get { return _interfaces; }
+      get { EnsureTypeIsNotPending(); return _interfaces; }
     }
 
     public IEnumerable<Field> Fields
     {
-      get { return _fields; }
+      get { EnsureTypeIsNotPending(); return _fields; }
     }
 
     public IEnumerable<Property> Properties
     {
-      get { return _properties; }
+      get { EnsureTypeIsNotPending(); return _properties; }
     }
 
     public IEnumerable<Event> Events
     {
-      get { return _events; }
+      get { EnsureTypeIsNotPending(); return _events; }
     }
 
     public IEnumerable<Method> Methods
     {
-      get { return _methods; }
+      get { EnsureTypeIsNotPending(); return _methods; }
     }
 
     public IEnumerable<Method> MethodsNotPartOfProperties
     {
       get
       {
+        EnsureTypeIsNotPending();
         List<Method> methods = new List<Method>(_methods);
         foreach (Property property in _properties)
         {
@@ -132,6 +135,11 @@ namespace Machine.Eon.Mapping
     }
 
     public IEnumerable<Member> Members
+    {
+      get { EnsureTypeIsNotPending(); return MembersPendingOrNot; }
+    }
+
+    private IEnumerable<Member> MembersPendingOrNot
     {
       get
       {
@@ -152,7 +160,7 @@ namespace Machine.Eon.Mapping
 
     private T FindMember<T, K>(K key) where T : Member where K : MemberKey
     {
-      foreach (Member member in this.Members)
+      foreach (Member member in this.MembersPendingOrNot)
       {
         IKeyedNode<K> node = member as IKeyedNode<K>;
         if (node != null && node.Key.Equals(key))
@@ -219,13 +227,18 @@ namespace Machine.Eon.Mapping
 
     public UsageSet DirectlyUses
     {
-      get { return UsageSet.Union(_usages, DirectUsesOfMembers); }
+      get
+      {
+        EnsureTypeIsNotPending();
+        return UsageSet.Union(_usages, DirectUsesOfMembers);
+      }
     }
 
     private UsageSet DirectUsesOfMembers
     {
       get
       {
+        EnsureTypeIsNotPending();
         List<UsageSet> usages = new List<UsageSet>();
         foreach (Member member in this.Members)
         {
@@ -239,6 +252,7 @@ namespace Machine.Eon.Mapping
     {
       get
       {
+        EnsureTypeIsNotPending();
         UsageSet set = UsageSet.Union(_usages, UsageSet.MakeFrom(_attributes), UsageSet.MakeFrom(_interfaces), UsageSet.MakeFrom(_methods));
         set.Add(this);
         if (this.BaseType != null)
@@ -251,7 +265,11 @@ namespace Machine.Eon.Mapping
 
     public IndirectUses IndirectlyUses
     {
-      get { return DirectUsesAttributesInterfacesAndMethods.CreateIndirectUses(); }
+      get
+      {
+        EnsureTypeIsNotPending();
+        return DirectUsesAttributesInterfacesAndMethods.CreateIndirectUses();
+      }
     }
 
     public void AddInterface(Type type)
@@ -282,6 +300,7 @@ namespace Machine.Eon.Mapping
 
     public bool IsA(TypeKey key)
     {
+      EnsureTypeIsNotPending();
       if (this.Key.Equals(key)) return true;
       foreach (Type interfaceType in _interfaces)
       {
@@ -292,6 +311,14 @@ namespace Machine.Eon.Mapping
         return false;
       }
       return _baseType.IsA(key);
+    }
+
+    protected virtual void EnsureTypeIsNotPending()
+    {
+      if (this.IsPending)
+      {
+        throw new NodeIsPendingException(this.Key.ToString());
+      }
     }
   }
 }

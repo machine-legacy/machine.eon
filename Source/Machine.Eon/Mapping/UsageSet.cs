@@ -123,7 +123,10 @@ namespace Machine.Eon.Mapping
           _log.Debug(prefix + "  Adding: " + node);
           visited.Add(node);
           set.Add(depth, node);
-          node.DirectUsesAttributesInterfacesAndMethods.AddIndirectUses(depth + 1, visited, set);
+          if (!node.IsPending)
+          {
+            node.DirectUsesAttributesInterfacesAndMethods.AddIndirectUses(depth + 1, visited, set);
+          }
         }
       }
       foreach (Method node in this.Methods)
@@ -133,7 +136,10 @@ namespace Machine.Eon.Mapping
           _log.Debug(prefix + "  Adding: " + node);
           visited.Add(node);
           set.Add(depth, node);
-          node.DirectlyUses.AddIndirectUses(depth + 1, visited, set);
+          if (!node.IsPending)
+          {
+            node.DirectlyUses.AddIndirectUses(depth + 1, visited, set);
+          }
         }
       }
     }

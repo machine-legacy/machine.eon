@@ -58,6 +58,7 @@
     <Compile Include="Mapping\INodes.cs" />
     <Compile Include="Mapping\Inspection\CecilVisitors.cs" />
     <Compile Include="Mapping\Inspection\KeyMapping.cs" />
+    <Compile Include="Mapping\NodeIsPendingException.cs" />
     <Compile Include="Mapping\Member.cs" />
     <Compile Include="Mapping\Method.cs" />
     <Compile Include="Mapping\Namespace.cs" />
