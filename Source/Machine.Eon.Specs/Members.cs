@@ -142,7 +142,9 @@ namespace Machine.Eon.Specs.Members
 
   public class Type6
   {
+#pragma warning disable 67
     public event EventHandler EndOfTheWorld;
+#pragma warning restore 67
   }
 
   [Subject("Members")]
