@@ -36,20 +36,20 @@ namespace Machine.Eon
 
     public QueryRoot ToQueryRoot()
     {
-      CheckForInvalidTypes();
+      CheckForAndLoadPendingNodes();
       return new QueryRoot(_assemblyRepository.FindAll());
     }
 
-    public void CheckForInvalidTypes()
+    public void CheckForAndLoadPendingNodes()
     {
-      var invalids = from assembly in _assemblyRepository.FindAll()
-                     from ns in assembly.Namespaces
-                     from type in ns.Types
-                     where type.IsPendingCreation
-                     select type;
-      foreach (Type type in invalids.Distinct())
+      var pending = from assembly in _assemblyRepository.FindAll()
+                    from ns in assembly.Namespaces
+                    from type in ns.Types
+                    where type.IsPendingCreation
+                    select type;
+      foreach (Type type in pending.Distinct())
       {
-        _log.Info("Invalid: " + type);
+        _log.Info("Pending: " + type);
       }
 
       var assemblies = from assembly in _assemblyRepository.FindAll()
@@ -64,7 +64,7 @@ namespace Machine.Eon
                     select method;
       foreach (Method method in methods)
       {
-        _log.Info("Invalid: " + method);
+        _log.Info("Pending: " + method);
       }
 
       var types = from assembly in assemblies
