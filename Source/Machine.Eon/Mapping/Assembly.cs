@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Machine.Eon.Mapping
 {
@@ -16,6 +17,11 @@ namespace Machine.Eon.Mapping
     public IEnumerable<Namespace> Namespaces
     {
       get { return _namespaces; }
+    }
+
+    public IEnumerable<Type> Types
+    {
+      get { return from ns in this.Namespaces from type in ns.Types select type; }
     }
 
     public Assembly(AssemblyKey key)
