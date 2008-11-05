@@ -7,7 +7,7 @@ namespace Machine.Eon.Mapping
   public enum TypeFlags
   {
     None = 0,
-    Invalid = 1,
+    Pending = 1,
     Interface = 2,
     Abstract = 4,
     Static = 8
@@ -23,7 +23,7 @@ namespace Machine.Eon.Mapping
     private readonly List<Type> _interfaces = new List<Type>();
     private readonly List<Type> _attributes = new List<Type>();
     private readonly UsageSet _usages = new UsageSet();
-    private TypeFlags _flags = TypeFlags.Invalid;
+    private TypeFlags _flags = TypeFlags.Pending;
     private Type _baseType;
 
     public TypeKey Key
@@ -42,14 +42,9 @@ namespace Machine.Eon.Mapping
       set { _flags = value; }
     }
 
-    public bool IsValid
+    public bool IsPending
     {
-      get { return !IsPendingCreation; }
-    }
-
-    public bool IsPendingCreation
-    {
-      get { return (_flags & TypeFlags.Invalid) == TypeFlags.Invalid; }
+      get { return (_flags & TypeFlags.Pending) == TypeFlags.Pending; }
     }
 
     public bool IsClass

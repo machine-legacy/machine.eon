@@ -21,7 +21,7 @@ namespace Machine.Eon.Mapping
   public enum MethodFlags
   {
     None = 0,
-    Invalid = 1,
+    Pending = 1,
     Constructor = 2,
     Abstract = 4,
     Virtual = 8,
@@ -32,7 +32,7 @@ namespace Machine.Eon.Mapping
     private readonly MethodKey _key;
     private List<Parameter> _parameters;
     private Type _returnType;
-    private MethodFlags _flags = MethodFlags.Invalid;
+    private MethodFlags _flags = MethodFlags.Pending;
 
     public IEnumerable<Parameter> Parameters
     {
@@ -70,9 +70,9 @@ namespace Machine.Eon.Mapping
       set { _returnType = value; }
     }
 
-    public bool IsPendingCreation
+    public bool IsPending
     {
-      get { return (_flags & MethodFlags.Invalid) == MethodFlags.Invalid; }
+      get { return (_flags & MethodFlags.Pending) == MethodFlags.Pending; }
     }
 
     public bool IsConstructor
