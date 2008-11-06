@@ -62,7 +62,6 @@
     <Compile Include="DirectUses.cs" />
     <Compile Include="IndirectUses.cs" />
     <Compile Include="Members.cs" />
-    <Compile Include="MyExtensionMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WithEon.cs" />
   </ItemGroup>
