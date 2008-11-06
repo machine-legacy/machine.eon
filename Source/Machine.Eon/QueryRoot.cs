@@ -26,7 +26,7 @@ namespace Machine.Eon
       get { return from assembly in Assemblies from ns in assembly.Namespaces select ns; }
     }
 
-    public IEnumerable<Type> AllTypes
+    private IEnumerable<Type> AllTypes
     {
       get { return from ns in Namespaces from type in ns.Types select type; }
     }
