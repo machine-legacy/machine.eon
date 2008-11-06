@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using Mono.Cecil;
@@ -51,6 +52,7 @@ namespace Machine.Eon
 
   public class PendingTypeLoader
   {
+    private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(typeof(PendingTypeLoader));
     private readonly ExternalAssemblyLoader _externalAssemblyLoader;
     private readonly ModelCreator _modelCreator;
 
@@ -62,17 +64,22 @@ namespace Machine.Eon
 
     public void Load(IEnumerable<Assembly> assemblies)
     {
+      Stopwatch sw = new Stopwatch();
+      sw.Start();
+      List<TypeKey> types = assemblies.KeysForPendingTypes();
       foreach (AssemblyDefinition definition in _externalAssemblyLoader.FindExternalAssemblyDefinitions(assemblies))
       {
-        MyReflectionStructureVisitor visitor = new MyReflectionStructureVisitor(_modelCreator, new VisitationOptions(false));
+        MyReflectionStructureVisitor visitor = new MyReflectionStructureVisitor(_modelCreator, new VisitationOptions(false, types));
         definition.Accept(visitor);
+        _log.Info(sw.Elapsed.TotalSeconds + " - "  + definition.Name.Name);
       }
+      _log.Info(sw.Elapsed.TotalSeconds);
     }
   }
 
   public class ExternalAssemblyLoader
   {
-    private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(typeof(PendingTypeLoader));
+    private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(typeof(ExternalAssemblyLoader));
     private readonly List<string> _directories;
 
     public ExternalAssemblyLoader(List<string> directories)
@@ -83,15 +90,17 @@ namespace Machine.Eon
     public IEnumerable<AssemblyDefinition> FindExternalAssemblyDefinitions(IEnumerable<Assembly> assemblies)
     {
       List<AssemblyDefinition> definitions = new List<AssemblyDefinition>();
-      var pending = from assembly in assemblies from type in assembly.Types where type.IsPending select assembly;
-      foreach (Assembly assembly in pending.Distinct())
+      foreach (Assembly assembly in assemblies.AssembliesWithPendingTypes())
       {
         AssemblyDefinition definition = GetAssemblyDefinition(assembly);
         if (definition == null)
         {
           _log.Warn("Not able to load: " + assembly.Key);
         }
-        definitions.Add(definition);
+        else
+        {
+          definitions.Add(definition);
+        }
       }
       return definitions;
     }
@@ -125,6 +134,29 @@ namespace Machine.Eon
         }
       }
       return null;
+    }
+  }
+
+  public static class PendingHelpers
+  {
+    public static List<TypeKey> KeysForPendingTypes(this IEnumerable<Assembly> assemblies)
+    {
+      List<TypeKey> keys = new List<TypeKey>();
+      var pending = from assembly in assemblies from type in assembly.Types where type.IsPending select type;
+      foreach (Type type in pending)
+      {
+        if (!keys.Contains(type.Key))
+        {
+          keys.Add(type.Key);
+        }
+      } 
+      return keys;
+    }
+
+    public static List<Assembly> AssembliesWithPendingTypes(this IEnumerable<Assembly> assemblies)
+    {
+      var pending = from assembly in assemblies from type in assembly.Types where type.IsPending select assembly;
+      return new List<Assembly>(pending.Distinct());
     }
   }
 }

@@ -6,16 +6,39 @@ namespace Machine.Eon.Mapping.Inspection
 {
   public class VisitationOptions
   {
+    private readonly List<TypeKey> _types;
     private readonly bool _visitMethods;
+    private readonly bool _visitMembers;
 
     public bool VisitMethods
     {
       get { return _visitMethods; }
     }
 
-    public VisitationOptions(bool visitMethods)
+    public bool VisitMembers
+    {
+      get { return _visitMembers; }
+    }
+
+    public bool ShouldVisit(TypeKey typeKey)
+    {
+      if (_types == null)
+      {
+        return true;
+      }
+      return _types.Contains(typeKey);
+    }
+
+    public VisitationOptions(bool visitMethods, List<TypeKey> types)
     {
       _visitMethods = visitMethods;
+      _visitMembers = visitMethods;
+      _types = types;
+    }
+
+    public VisitationOptions(bool visitMethods)
+      : this(visitMethods, null)
+    {
     }
   }
   public class MyReflectionStructureVisitor : BaseStructureVisitor
@@ -322,12 +345,16 @@ namespace Machine.Eon.Mapping.Inspection
 
     private void ApplyTypeVisitors(TypeDefinition type)
     {
+      TypeKey typeKey = type.ToTypeKey();
+      if (!_options.ShouldVisit(typeKey))
+      {
+        return;
+      }
       if (_typeDefinitions.Contains(type))
       {
         return;
       }
       _typeDefinitions.Push(type);
-      TypeKey typeKey = type.ToTypeKey();
       _modelCreator.StartNamespace(typeKey.Namespace);
       _modelCreator.StartType(typeKey);
       _modelCreator.SetTypeFlags(type.IsInterface, type.IsAbstract, false);

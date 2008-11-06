@@ -300,7 +300,6 @@ namespace Machine.Eon.Mapping
 
     public bool IsA(TypeKey key)
     {
-      EnsureTypeIsNotPending();
       if (this.Key.Equals(key)) return true;
       foreach (Type interfaceType in _interfaces)
       {
