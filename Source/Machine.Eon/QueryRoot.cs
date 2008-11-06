@@ -26,9 +26,14 @@ namespace Machine.Eon
       get { return from assembly in Assemblies from ns in assembly.Namespaces select ns; }
     }
 
-    public IEnumerable<Type> Types
+    public IEnumerable<Type> AllTypes
     {
       get { return from ns in Namespaces from type in ns.Types select type; }
+    }
+
+    public IEnumerable<Type> Types
+    {
+      get { return from ns in Namespaces from type in ns.Types where !type.IsPending select type; }
     }
 
     public IEnumerable<Method> Methods
@@ -72,13 +77,13 @@ namespace Machine.Eon
       {
         runtimeType = runtimeType.GetGenericTypeDefinition();
       }
-      var query = from type in Types where type.Key.FullName.Equals(runtimeType.FullName) select type;
+      var query = from type in AllTypes where type.Key.FullName.Equals(runtimeType.FullName) select type;
       return query.Single();
     }
 
     public Type FromTypeName(TypeKey typeKey)
     {
-      var query = from type in Types where type.Key.Equals(typeKey) select type;
+      var query = from type in AllTypes where type.Key.Equals(typeKey) select type;
       return query.Single();
     }
 
@@ -99,7 +104,7 @@ namespace Machine.Eon
 
     public IEnumerable<Type> TypesThatAre(Type baseType)
     {
-      return from type in Types where type.IsA(baseType.Key) select type;
+      return from type in AllTypes where type.IsA(baseType.Key) select type;
     }
   }
 }
