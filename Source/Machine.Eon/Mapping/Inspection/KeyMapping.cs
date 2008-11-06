@@ -12,7 +12,7 @@ namespace Machine.Eon.Mapping.Inspection
 
     public static AssemblyKey ToKey(this AssemblyDefinition definition)
     {
-      return new AssemblyKey(definition.Name.Name);
+      return new AssemblyKey(definition.Name.Name, definition.Name.FullName);
     }
 
     public static TypeKey ToTypeKey(this TypeDefinition definition)
@@ -87,7 +87,7 @@ namespace Machine.Eon.Mapping.Inspection
 
     public static AssemblyKey ToAssemblyKey(this AssemblyNameReference reference)
     {
-      return new AssemblyKey(reference.Name);
+      return new AssemblyKey(reference.Name, reference.FullName);
     }
 
     public static AssemblyKey ToAssemblyKey(this ModuleDefinition definition)

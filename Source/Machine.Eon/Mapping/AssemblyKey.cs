@@ -5,18 +5,30 @@ namespace Machine.Eon.Mapping
 {
   public class AssemblyKey : NodeKey
   {
-    public static readonly AssemblyKey None = new AssemblyKey(String.Empty);
-    public static readonly AssemblyKey Any = new AssemblyKey("*");
+    public static readonly AssemblyKey None = new AssemblyKey(String.Empty, String.Empty);
+    public static readonly AssemblyKey Any = new AssemblyKey("*", "*");
     private readonly string _name;
+    private readonly string _fullName;
 
     public string Name
     {
       get { return _name; }
     }
 
+    public string FullName
+    {
+      get { return _fullName; }
+    }
+
     public AssemblyKey(string name)
+      : this(name, name)
+    {
+    }
+
+    public AssemblyKey(string name, string fullName)
     {
       _name = name;
+      _fullName = fullName;
     }
 
     public override bool Equals(object obj)
