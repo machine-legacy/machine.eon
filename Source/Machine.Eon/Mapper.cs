@@ -19,12 +19,14 @@ namespace Machine.Eon
     private readonly IAssemblyRepository _assemblyRepository;
     private readonly ITypeRepository _typeRepository;
     private readonly IMemberRepository _memberRepository;
+    private readonly ModelCreator _modelCreator;
 
     public Mapper()
     {
       _assemblyRepository = new AssemblyRepository();
       _typeRepository = new TypeRepository(_assemblyRepository);
       _memberRepository = new MemberRepository(_typeRepository);
+      _modelCreator = new ModelCreator(_typeRepository, _memberRepository);
     }
 
     public void Include(string path)
@@ -35,14 +37,13 @@ namespace Machine.Eon
         _directories.Add(directory);
       }
       AssemblyDefinition definition = AssemblyFactory.GetAssembly(path);
-      ModelCreator modelCreator = new ModelCreator(_typeRepository, _memberRepository);
-      MyReflectionStructureVisitor visitor = new MyReflectionStructureVisitor(modelCreator);
+      MyReflectionStructureVisitor visitor = new MyReflectionStructureVisitor(_modelCreator, new VisitationOptions(true));
       definition.Accept(visitor);
     }
 
     public QueryRoot ToQueryRoot()
     {
-      PendingTypeLoader pendingTypeLoader = new PendingTypeLoader(_directories);
+      PendingTypeLoader pendingTypeLoader = new PendingTypeLoader(_modelCreator, _directories);
       pendingTypeLoader.Load(_assemblyRepository.FindAll());
       return new QueryRoot(_assemblyRepository.FindAll());
     }
@@ -51,9 +52,11 @@ namespace Machine.Eon
   public class PendingTypeLoader
   {
     private readonly ExternalAssemblyLoader _externalAssemblyLoader;
+    private readonly ModelCreator _modelCreator;
 
-    public PendingTypeLoader(List<string> directories)
+    public PendingTypeLoader(ModelCreator modelCreator, List<string> directories)
     {
+      _modelCreator = modelCreator;
       _externalAssemblyLoader = new ExternalAssemblyLoader(directories);
     }
 
@@ -61,6 +64,8 @@ namespace Machine.Eon
     {
       foreach (AssemblyDefinition definition in _externalAssemblyLoader.FindExternalAssemblyDefinitions(assemblies))
       {
+        MyReflectionStructureVisitor visitor = new MyReflectionStructureVisitor(_modelCreator, new VisitationOptions(false));
+        definition.Accept(visitor);
       }
     }
   }
@@ -77,6 +82,7 @@ namespace Machine.Eon
 
     public IEnumerable<AssemblyDefinition> FindExternalAssemblyDefinitions(IEnumerable<Assembly> assemblies)
     {
+      List<AssemblyDefinition> definitions = new List<AssemblyDefinition>();
       var pending = from assembly in assemblies from type in assembly.Types where type.IsPending select assembly;
       foreach (Assembly assembly in pending.Distinct())
       {
@@ -85,8 +91,9 @@ namespace Machine.Eon
         {
           _log.Warn("Not able to load: " + assembly.Key);
         }
-        yield return definition;
+        definitions.Add(definition);
       }
+      return definitions;
     }
 
     private AssemblyDefinition GetAssemblyDefinition(Assembly assembly)
@@ -96,7 +103,7 @@ namespace Machine.Eon
         System.Reflection.Assembly dotNetAssembly = System.Reflection.Assembly.ReflectionOnlyLoad(assembly.Key.FullName);
         return AssemblyFactory.GetAssembly(dotNetAssembly.Location);
       }
-      catch (Exception error)
+      catch (Exception)
       {
         return GetAssemblyDefinitionFromPath(assembly);
       }

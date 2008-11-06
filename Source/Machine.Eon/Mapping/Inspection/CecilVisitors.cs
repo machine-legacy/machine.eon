@@ -1,15 +1,32 @@
+using System.Collections.Generic;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 
 namespace Machine.Eon.Mapping.Inspection
 {
+  public class VisitationOptions
+  {
+    private readonly bool _visitMethods;
+
+    public bool VisitMethods
+    {
+      get { return _visitMethods; }
+    }
+
+    public VisitationOptions(bool visitMethods)
+    {
+      _visitMethods = visitMethods;
+    }
+  }
   public class MyReflectionStructureVisitor : BaseStructureVisitor
   {
     private readonly ModelCreator _modelCreator;
+    private readonly VisitationOptions _options;
 
-    public MyReflectionStructureVisitor(ModelCreator modelCreator)
+    public MyReflectionStructureVisitor(ModelCreator modelCreator, VisitationOptions options)
     {
       _modelCreator = modelCreator;
+      _options = options;
     }
 
     public override void VisitAssemblyDefinition(AssemblyDefinition asm)
@@ -48,7 +65,7 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitModuleDefinition(ModuleDefinition module)
     {
-      module.Accept(new MyReflectionVisitor(_modelCreator));
+      module.Accept(new MyReflectionVisitor(_modelCreator, _options));
     }
 
     public override void VisitModuleDefinitionCollection(ModuleDefinitionCollection modules)
@@ -74,10 +91,12 @@ namespace Machine.Eon.Mapping.Inspection
   public class MyReflectionVisitor : BaseReflectionVisitor
   {
     private readonly ModelCreator _modelCreator;
+    private readonly VisitationOptions _options;
 
-    public MyReflectionVisitor(ModelCreator modelCreator)
+    public MyReflectionVisitor(ModelCreator modelCreator, VisitationOptions options)
     {
       _modelCreator = modelCreator;
+      _options = options;
     }
 
     public override void TerminateModuleDefinition(ModuleDefinition module)
@@ -196,7 +215,7 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitMethodDefinition(MethodDefinition method)
     {
-      if (method.Body != null)
+      if (method.Body != null && _options.VisitMethods)
       {
         method.Body.Accept(new MyCodeVisitor(_modelCreator));
       }
@@ -303,6 +322,11 @@ namespace Machine.Eon.Mapping.Inspection
 
     private void ApplyTypeVisitors(TypeDefinition type)
     {
+      if (_typeDefinitions.Contains(type))
+      {
+        return;
+      }
+      _typeDefinitions.Push(type);
       TypeKey typeKey = type.ToTypeKey();
       _modelCreator.StartNamespace(typeKey.Namespace);
       _modelCreator.StartType(typeKey);
@@ -323,10 +347,18 @@ namespace Machine.Eon.Mapping.Inspection
       type.Accept(this);
       _modelCreator.EndType();
       _modelCreator.EndNamespace();
+      _typeDefinitions.Pop();
     }
+
+    private readonly Stack<TypeDefinition> _typeDefinitions = new Stack<TypeDefinition>();
 
     public override void VisitTypeReference(TypeReference type)
     {
+      if (_typeReferences.Contains(type))
+      {
+        return;
+      }
+      _typeReferences.Push(type);
       GenericInstanceType genericInstanceType = type as GenericInstanceType;
       _modelCreator.UseType(type.ToTypeKey());
       if (genericInstanceType != null)
@@ -336,7 +368,10 @@ namespace Machine.Eon.Mapping.Inspection
           reference.Accept(this);
         }
       }
+      _typeReferences.Pop();
     }
+
+    private readonly Stack<TypeReference> _typeReferences = new Stack<TypeReference>();
 
     public override void VisitTypeReferenceCollection(TypeReferenceCollection refs)
     {

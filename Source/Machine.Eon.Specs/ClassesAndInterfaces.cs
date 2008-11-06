@@ -153,4 +153,43 @@ namespace Machine.Eon.Specs.ClassesAndInterfaces
     It should_use_the_generic_parameter_type_directly = () =>
       type.DirectlyUses.Types.ShouldContain(systemString);
   }
+
+  public class CircularInheritanceCauseOfGenerics : IEquatable<CircularInheritanceCauseOfGenerics>
+  {
+    public bool Equals(CircularInheritanceCauseOfGenerics other)
+    {
+      throw new NotImplementedException();
+    }
+  }
+
+  [Subject("ClassesAndInterfaces")]
+  public class with_a_class_that_has_circular_dependency : with_eon
+  {
+    static Machine.Eon.Mapping.Type type;
+
+    Because of = () =>
+      type = qr.FromSystemType(typeof(CircularInheritanceCauseOfGenerics));
+
+    It should_not_stack_overflow = () =>
+      type.ShouldNotBeNull();
+  }
+
+  public class TypeWithNestedType
+  {
+    public class Entry : TypeWithNestedType
+    {
+    }
+  }
+
+  [Subject("ClassesAndInterfaces")]
+  public class with_a_class_with_nested_class : with_eon
+  {
+    static Machine.Eon.Mapping.Type type;
+
+    Because of = () =>
+      type = qr.FromSystemType(typeof(TypeWithNestedType));
+
+    It should_not_stack_overflow = () =>
+      type.ShouldNotBeNull();
+  }
 }
