@@ -85,11 +85,6 @@ namespace Machine.Eon.Mapping.Inspection
       return definition.VariableType.ToTypeKey();
     }
 
-    public static TypeKey ToTypeKey(this ParameterDefinition definition)
-    {
-      return definition.ParameterType.ToTypeKey();
-    }
-
     public static AssemblyKey ToAssemblyKey(this AssemblyNameReference reference)
     {
       return new AssemblyKey(reference.Name);
@@ -118,12 +113,22 @@ namespace Machine.Eon.Mapping.Inspection
       return definition.ReturnType.ReturnType.ToTypeKey();
     }
 
+    public static TypeKey ToTypeKey(this ParameterDefinition definition)
+    {
+      ModifierOptional modifierOptional = definition.ParameterType as ModifierOptional;
+      if (modifierOptional != null)
+      {
+        return modifierOptional.ElementType.ToTypeKey();
+      }
+      return definition.ParameterType.ToTypeKey();
+    }
+
     public static ICollection<TypeKey> ToParameterTypeKey(this MethodDefinition definition)
     {
       List<TypeKey> names = new List<TypeKey>();
       foreach (ParameterDefinition parameter in definition.Parameters)
       {
-        names.Add(parameter.ParameterType.ToTypeKey());
+        names.Add(parameter.ToTypeKey());
       }
       return names;
     }
