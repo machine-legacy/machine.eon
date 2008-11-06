@@ -23,30 +23,6 @@ namespace Machine.Eon.Mapping.Inspection
       _modelCreator.EndAssembly();
     }
 
-    public override void VisitAssemblyLinkedResource(AssemblyLinkedResource res)
-    {
-    }
-
-    public override void VisitAssemblyNameDefinition(AssemblyNameDefinition name)
-    {
-    }
-
-    public override void VisitAssemblyNameReference(AssemblyNameReference name)
-    {
-    }
-
-    public override void VisitAssemblyNameReferenceCollection(AssemblyNameReferenceCollection names)
-    {
-    }
-
-    public override void VisitEmbeddedResource(EmbeddedResource res)
-    {
-    }
-
-    public override void VisitLinkedResource(LinkedResource res)
-    {
-    }
-
     public override void VisitModuleDefinition(ModuleDefinition module)
     {
       module.Accept(new ReflectionVisitor(_modelCreator, _options));
@@ -60,16 +36,22 @@ namespace Machine.Eon.Mapping.Inspection
       }
     }
 
-    public override void VisitModuleReference(ModuleReference module)
-    {
-    }
+    public override void VisitModuleReference(ModuleReference module) { }
 
-    public override void VisitModuleReferenceCollection(ModuleReferenceCollection modules)
-    {
-    }
+    public override void VisitModuleReferenceCollection(ModuleReferenceCollection modules) { }
 
-    public override void VisitResourceCollection(ResourceCollection resources)
-    {
-    }
+    public override void VisitResourceCollection(ResourceCollection resources) { }
+
+    public override void VisitAssemblyLinkedResource(AssemblyLinkedResource res) { }
+
+    public override void VisitAssemblyNameDefinition(AssemblyNameDefinition name) { }
+
+    public override void VisitAssemblyNameReference(AssemblyNameReference name) { }
+
+    public override void VisitAssemblyNameReferenceCollection(AssemblyNameReferenceCollection names) { }
+
+    public override void VisitEmbeddedResource(EmbeddedResource res) { }
+
+    public override void VisitLinkedResource(LinkedResource res) { }
   }
 }

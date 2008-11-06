@@ -7,6 +7,8 @@ namespace Machine.Eon.Mapping.Inspection
 {
   public class ReflectionVisitor : BaseReflectionVisitor
   {
+    private readonly Stack<TypeDefinition> _typeDefinitions = new Stack<TypeDefinition>();
+    private readonly Stack<TypeReference> _typeReferences = new Stack<TypeReference>();
     private readonly ModelCreator _modelCreator;
     private readonly VisitationOptions _options;
 
@@ -14,10 +16,6 @@ namespace Machine.Eon.Mapping.Inspection
     {
       _modelCreator = modelCreator;
       _options = options;
-    }
-
-    public override void TerminateModuleDefinition(ModuleDefinition module)
-    {
     }
 
     public override void VisitConstructor(MethodDefinition ctor)
@@ -33,10 +31,6 @@ namespace Machine.Eon.Mapping.Inspection
       }
     }
 
-    public override void VisitCustomAttribute(CustomAttribute customAttr)
-    {
-    }
-
     public override void VisitCustomAttributeCollection(CustomAttributeCollection customAttrs)
     {
       foreach (CustomAttribute customAttribute in customAttrs)
@@ -44,10 +38,6 @@ namespace Machine.Eon.Mapping.Inspection
         _modelCreator.HasAttribute(customAttribute.Constructor.DeclaringType.ToTypeKey());
         customAttribute.Accept(this);
       }
-    }
-
-    public override void VisitEventDefinition(EventDefinition evt)
-    {
     }
 
     public override void VisitEventDefinitionCollection(EventDefinitionCollection events)
@@ -72,18 +62,6 @@ namespace Machine.Eon.Mapping.Inspection
       }
     }
 
-    public override void VisitExternType(TypeReference externType)
-    {
-    }
-
-    public override void VisitExternTypeCollection(ExternTypeCollection externTypes)
-    {
-    }
-
-    public override void VisitFieldDefinition(FieldDefinition field)
-    {
-    }
-
     public override void VisitFieldDefinitionCollection(FieldDefinitionCollection fields)
     {
       foreach (FieldDefinition field in fields)
@@ -96,18 +74,6 @@ namespace Machine.Eon.Mapping.Inspection
       }
     }
 
-    public override void VisitGenericParameter(GenericParameter parameter)
-    {
-    }
-
-    public override void VisitGenericParameterCollection(GenericParameterCollection parameters)
-    {
-    }
-
-    public override void VisitInterface(TypeReference interf)
-    {
-    }
-
     public override void VisitInterfaceCollection(InterfaceCollection interfaces)
     {
       foreach (TypeReference type in interfaces)
@@ -116,18 +82,6 @@ namespace Machine.Eon.Mapping.Inspection
         _modelCreator.UseType(type.ToTypeKey());
         type.Accept(this);
       }
-    }
-
-    public override void VisitMarshalSpec(MarshalSpec marshalSpec)
-    {
-    }
-
-    public override void VisitMemberReference(MemberReference member)
-    {
-    }
-
-    public override void VisitMemberReferenceCollection(MemberReferenceCollection members)
-    {
     }
 
     public override void VisitMethodDefinition(MethodDefinition method)
@@ -146,14 +100,6 @@ namespace Machine.Eon.Mapping.Inspection
       }
     }
 
-    public override void VisitModuleDefinition(ModuleDefinition module)
-    {
-    }
-
-    public override void VisitNestedType(TypeDefinition nestedType)
-    {
-    }
-
     public override void VisitNestedTypeCollection(NestedTypeCollection nestedTypes)
     {
       foreach (TypeDefinition type in nestedTypes)
@@ -162,24 +108,12 @@ namespace Machine.Eon.Mapping.Inspection
       }
     }
 
-    public override void VisitOverride(MethodReference ov)
-    {
-    }
-
     public override void VisitOverrideCollection(OverrideCollection overrides)
     {
       foreach (MethodReference method in overrides)
       {
         method.Accept(this);
       }
-    }
-
-    public override void VisitPInvokeInfo(PInvokeInfo pinvk)
-    {
-    }
-
-    public override void VisitParameterDefinition(ParameterDefinition parameter)
-    {
     }
 
     public override void VisitParameterDefinitionCollection(ParameterDefinitionCollection parameters)
@@ -215,18 +149,6 @@ namespace Machine.Eon.Mapping.Inspection
       {
         property.Accept(this);
       }
-    }
-
-    public override void VisitSecurityDeclaration(SecurityDeclaration secDecl)
-    {
-    }
-
-    public override void VisitSecurityDeclarationCollection(SecurityDeclarationCollection securityDeclarations)
-    {
-    }
-
-    public override void VisitTypeDefinition(TypeDefinition type)
-    {
     }
 
     public override void VisitTypeDefinitionCollection(TypeDefinitionCollection types)
@@ -271,8 +193,6 @@ namespace Machine.Eon.Mapping.Inspection
       _typeDefinitions.Pop();
     }
 
-    private readonly Stack<TypeDefinition> _typeDefinitions = new Stack<TypeDefinition>();
-
     public override void VisitTypeReference(TypeReference type)
     {
       if (_typeReferences.Contains(type))
@@ -291,8 +211,6 @@ namespace Machine.Eon.Mapping.Inspection
       }
       _typeReferences.Pop();
     }
-
-    private readonly Stack<TypeReference> _typeReferences = new Stack<TypeReference>();
 
     public override void VisitTypeReferenceCollection(TypeReferenceCollection refs)
     {
@@ -315,5 +233,45 @@ namespace Machine.Eon.Mapping.Inspection
       method.Accept(this);
       _modelCreator.EndMethod();
     }
+    
+    public override void TerminateModuleDefinition(ModuleDefinition module) { }
+
+    public override void VisitCustomAttribute(CustomAttribute customAttr) { }
+
+    public override void VisitEventDefinition(EventDefinition evt) { }
+
+    public override void VisitExternType(TypeReference externType) { }
+
+    public override void VisitExternTypeCollection(ExternTypeCollection externTypes) { }
+
+    public override void VisitFieldDefinition(FieldDefinition field) { }
+
+    public override void VisitGenericParameter(GenericParameter parameter) { }
+
+    public override void VisitGenericParameterCollection(GenericParameterCollection parameters) { }
+
+    public override void VisitInterface(TypeReference interf) { }
+
+    public override void VisitMarshalSpec(MarshalSpec marshalSpec) { }
+
+    public override void VisitMemberReference(MemberReference member) { }
+
+    public override void VisitMemberReferenceCollection(MemberReferenceCollection members) { }
+
+    public override void VisitModuleDefinition(ModuleDefinition module) { }
+
+    public override void VisitNestedType(TypeDefinition nestedType) { }
+
+    public override void VisitOverride(MethodReference ov) { }
+
+    public override void VisitPInvokeInfo(PInvokeInfo pinvk) { }
+
+    public override void VisitSecurityDeclaration(SecurityDeclaration secDecl) { }
+
+    public override void VisitSecurityDeclarationCollection(SecurityDeclarationCollection securityDeclarations) { }
+
+    public override void VisitTypeDefinition(TypeDefinition type) { }
+
+    public override void VisitParameterDefinition(ParameterDefinition parameter) { }
   }
 }

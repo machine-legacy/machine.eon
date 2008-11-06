@@ -12,18 +12,6 @@ namespace Machine.Eon.Mapping.Inspection
       _modelCreator = modelCreator;
     }
 
-    public override void TerminateMethodBody(MethodBody body)
-    {
-    }
-
-    public override void VisitExceptionHandler(ExceptionHandler eh)
-    {
-    }
-
-    public override void VisitExceptionHandlerCollection(ExceptionHandlerCollection seh)
-    {
-    }
-
     public override void VisitInstruction(Instruction instr)
     {
       if (instr.Operand is TypeReference)
@@ -58,22 +46,6 @@ namespace Machine.Eon.Mapping.Inspection
       }
     }
 
-    public override void VisitMethodBody(MethodBody body)
-    {
-    }
-
-    public override void VisitScope(Scope scope)
-    {
-    }
-
-    public override void VisitScopeCollection(ScopeCollection scopes)
-    {
-    }
-
-    public override void VisitVariableDefinition(VariableDefinition variable)
-    {
-    }
-
     public override void VisitVariableDefinitionCollection(VariableDefinitionCollection variables)
     {
       foreach (VariableDefinition variable in variables)
@@ -81,5 +53,19 @@ namespace Machine.Eon.Mapping.Inspection
         _modelCreator.UseType(variable.ToTypeKey());
       }
     }
+
+    public override void VisitMethodBody(MethodBody body) { }
+
+    public override void VisitScope(Scope scope) { }
+
+    public override void VisitScopeCollection(ScopeCollection scopes) { }
+
+    public override void VisitVariableDefinition(VariableDefinition variable) { }
+
+    public override void TerminateMethodBody(MethodBody body) { }
+
+    public override void VisitExceptionHandler(ExceptionHandler eh) { }
+
+    public override void VisitExceptionHandlerCollection(ExceptionHandlerCollection seh) { }
   }
 }
