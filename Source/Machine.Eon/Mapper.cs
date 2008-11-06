@@ -38,7 +38,7 @@ namespace Machine.Eon
         _directories.Add(directory);
       }
       AssemblyDefinition definition = AssemblyFactory.GetAssembly(path);
-      MyReflectionStructureVisitor visitor = new MyReflectionStructureVisitor(_modelCreator, new VisitationOptions(true));
+      AssemblyStructureVisitor visitor = new AssemblyStructureVisitor(_modelCreator, new VisitationOptions(true));
       definition.Accept(visitor);
     }
 
@@ -69,7 +69,7 @@ namespace Machine.Eon
       List<TypeKey> types = assemblies.KeysForPendingTypes();
       foreach (AssemblyDefinition definition in _externalAssemblyLoader.FindExternalAssemblyDefinitions(assemblies))
       {
-        MyReflectionStructureVisitor visitor = new MyReflectionStructureVisitor(_modelCreator, new VisitationOptions(false, types));
+        AssemblyStructureVisitor visitor = new AssemblyStructureVisitor(_modelCreator, new VisitationOptions(false, types));
         definition.Accept(visitor);
         _log.Info(sw.Elapsed.TotalSeconds + " - "  + definition.Name.Name);
       }

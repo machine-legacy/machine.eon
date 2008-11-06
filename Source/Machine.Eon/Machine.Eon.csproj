@@ -56,8 +56,11 @@
     <Compile Include="Mapping\ICanUseNodes.cs" />
     <Compile Include="Mapping\IndirectUses.cs" />
     <Compile Include="Mapping\INodes.cs" />
-    <Compile Include="Mapping\Inspection\CecilVisitors.cs" />
+    <Compile Include="Mapping\Inspection\AssemblyStructureVisitor.cs" />
+    <Compile Include="Mapping\Inspection\VisitationOptions.cs" />
+    <Compile Include="Mapping\Inspection\CodeVisitor.cs" />
     <Compile Include="Mapping\Inspection\KeyMapping.cs" />
+    <Compile Include="Mapping\Inspection\ReflectionVisitor.cs" />
     <Compile Include="Mapping\NodeIsPendingException.cs" />
     <Compile Include="Mapping\Member.cs" />
     <Compile Include="Mapping\Method.cs" />

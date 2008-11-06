@@ -1,122 +1,16 @@
+using System;
 using System.Collections.Generic;
+
 using Mono.Cecil;
-using Mono.Cecil.Cil;
 
 namespace Machine.Eon.Mapping.Inspection
 {
-  public class VisitationOptions
-  {
-    private readonly List<TypeKey> _types;
-    private readonly bool _visitMethods;
-    private readonly bool _visitMembers;
-
-    public bool VisitMethods
-    {
-      get { return _visitMethods; }
-    }
-
-    public bool VisitMembers
-    {
-      get { return _visitMembers; }
-    }
-
-    public bool ShouldVisit(TypeKey typeKey)
-    {
-      if (_types == null)
-      {
-        return true;
-      }
-      return _types.Contains(typeKey);
-    }
-
-    public VisitationOptions(bool visitMethods, List<TypeKey> types)
-    {
-      _visitMethods = visitMethods;
-      _visitMembers = visitMethods;
-      _types = types;
-    }
-
-    public VisitationOptions(bool visitMethods)
-      : this(visitMethods, null)
-    {
-    }
-  }
-  public class MyReflectionStructureVisitor : BaseStructureVisitor
+  public class ReflectionVisitor : BaseReflectionVisitor
   {
     private readonly ModelCreator _modelCreator;
     private readonly VisitationOptions _options;
 
-    public MyReflectionStructureVisitor(ModelCreator modelCreator, VisitationOptions options)
-    {
-      _modelCreator = modelCreator;
-      _options = options;
-    }
-
-    public override void VisitAssemblyDefinition(AssemblyDefinition asm)
-    {
-      _modelCreator.StartAssembly(asm.ToKey());
-    }
-
-    public override void TerminateAssemblyDefinition(AssemblyDefinition asm)
-    {
-      _modelCreator.EndAssembly();
-    }
-
-    public override void VisitAssemblyLinkedResource(AssemblyLinkedResource res)
-    {
-    }
-
-    public override void VisitAssemblyNameDefinition(AssemblyNameDefinition name)
-    {
-    }
-
-    public override void VisitAssemblyNameReference(AssemblyNameReference name)
-    {
-    }
-
-    public override void VisitAssemblyNameReferenceCollection(AssemblyNameReferenceCollection names)
-    {
-    }
-
-    public override void VisitEmbeddedResource(EmbeddedResource res)
-    {
-    }
-
-    public override void VisitLinkedResource(LinkedResource res)
-    {
-    }
-
-    public override void VisitModuleDefinition(ModuleDefinition module)
-    {
-      module.Accept(new MyReflectionVisitor(_modelCreator, _options));
-    }
-
-    public override void VisitModuleDefinitionCollection(ModuleDefinitionCollection modules)
-    {
-      foreach (ModuleDefinition module in modules)
-      {
-        module.Accept(this);
-      }
-    }
-
-    public override void VisitModuleReference(ModuleReference module)
-    {
-    }
-
-    public override void VisitModuleReferenceCollection(ModuleReferenceCollection modules)
-    {
-    }
-
-    public override void VisitResourceCollection(ResourceCollection resources)
-    {
-    }
-  }
-  public class MyReflectionVisitor : BaseReflectionVisitor
-  {
-    private readonly ModelCreator _modelCreator;
-    private readonly VisitationOptions _options;
-
-    public MyReflectionVisitor(ModelCreator modelCreator, VisitationOptions options)
+    public ReflectionVisitor(ModelCreator modelCreator, VisitationOptions options)
     {
       _modelCreator = modelCreator;
       _options = options;
@@ -128,7 +22,7 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitConstructor(MethodDefinition ctor)
     {
-      ctor.Body.Accept(new MyCodeVisitor(_modelCreator));
+      ctor.Body.Accept(new CodeVisitor(_modelCreator));
     }
 
     public override void VisitConstructorCollection(ConstructorCollection ctors)
@@ -240,7 +134,7 @@ namespace Machine.Eon.Mapping.Inspection
     {
       if (method.Body != null && _options.VisitMethods)
       {
-        method.Body.Accept(new MyCodeVisitor(_modelCreator));
+        method.Body.Accept(new CodeVisitor(_modelCreator));
       }
     }
 
@@ -420,85 +314,6 @@ namespace Machine.Eon.Mapping.Inspection
       }
       method.Accept(this);
       _modelCreator.EndMethod();
-    }
-  }
-  public class MyCodeVisitor : BaseCodeVisitor
-  {
-    private readonly ModelCreator _modelCreator;
-
-    public MyCodeVisitor(ModelCreator modelCreator)
-    {
-      _modelCreator = modelCreator;
-    }
-
-    public override void TerminateMethodBody(MethodBody body)
-    {
-    }
-
-    public override void VisitExceptionHandler(ExceptionHandler eh)
-    {
-    }
-
-    public override void VisitExceptionHandlerCollection(ExceptionHandlerCollection seh)
-    {
-    }
-
-    public override void VisitInstruction(Instruction instr)
-    {
-      if (instr.Operand is TypeReference)
-      {
-        _modelCreator.UseType(((TypeReference)instr.Operand).ToTypeKey());
-      }
-      else if (instr.Operand is FieldReference)
-      {
-        TypeKey typeKey = ((FieldReference)instr.Operand).FieldType.ToTypeKey();
-        if (typeKey != null)
-        {
-          _modelCreator.UseType(typeKey);
-        }
-      }
-      else if (instr.Operand is MethodReference)
-      {
-        _modelCreator.UseType(((MethodReference)instr.Operand).DeclaringType.ToTypeKey());
-        _modelCreator.UseMethod(((MethodReference)instr.Operand).ToMethodKey());
-      }
-      else if (instr.Operand is PropertyReference)
-      {
-        _modelCreator.UseType(((PropertyReference)instr.Operand).DeclaringType.ToTypeKey());
-        _modelCreator.UseProperty(((PropertyReference)instr.Operand).ToPropertyKey());
-      }
-    }
-
-    public override void VisitInstructionCollection(InstructionCollection instructions)
-    {
-      foreach (Instruction instruction in instructions)
-      {
-        instruction.Accept(this);
-      }
-    }
-
-    public override void VisitMethodBody(MethodBody body)
-    {
-    }
-
-    public override void VisitScope(Scope scope)
-    {
-    }
-
-    public override void VisitScopeCollection(ScopeCollection scopes)
-    {
-    }
-
-    public override void VisitVariableDefinition(VariableDefinition variable)
-    {
-    }
-
-    public override void VisitVariableDefinitionCollection(VariableDefinitionCollection variables)
-    {
-      foreach (VariableDefinition variable in variables)
-      {
-        _modelCreator.UseType(variable.ToTypeKey());
-      }
     }
   }
 }
