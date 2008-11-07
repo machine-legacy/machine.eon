@@ -38,8 +38,8 @@ namespace Machine.Eon
         _directories.Add(directory);
       }
       AssemblyDefinition definition = AssemblyFactory.GetAssembly(path);
-      AssemblyStructureVisitor visitor = new AssemblyStructureVisitor(_modelCreator, new VisitationOptions(true));
-      definition.Accept(visitor);
+      TopDownVisitor visitor = new TopDownVisitor(_modelCreator, new VisitationOptions(true));
+      visitor.Visit(definition);
     }
 
     public QueryRoot ToQueryRoot()
@@ -69,8 +69,8 @@ namespace Machine.Eon
       List<TypeKey> types = assemblies.KeysForPendingTypes();
       foreach (AssemblyDefinition definition in _externalAssemblyLoader.FindExternalAssemblyDefinitions(assemblies))
       {
-        AssemblyStructureVisitor visitor = new AssemblyStructureVisitor(_modelCreator, new VisitationOptions(false, types));
-        definition.Accept(visitor);
+        TopDownVisitor visitor = new TopDownVisitor(_modelCreator, new VisitationOptions(false, types));
+        visitor.Visit(definition);
         _log.Info(sw.Elapsed.TotalSeconds + " - "  + definition.Name.Name);
       }
       _log.Info(sw.Elapsed.TotalSeconds);
