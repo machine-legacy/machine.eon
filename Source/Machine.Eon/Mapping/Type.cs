@@ -78,6 +78,11 @@ namespace Machine.Eon.Mapping
       set { _baseType = value; }
     }
 
+    public bool IsInDependentAssembly
+    {
+      get { return _namespace.Assembly.IsDependency; }
+    }
+
     public Type(Namespace ns, TypeKey key)
       : this(ns, key, null)
     {

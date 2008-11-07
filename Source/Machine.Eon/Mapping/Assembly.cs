@@ -8,6 +8,7 @@ namespace Machine.Eon.Mapping
   {
     private readonly List<Namespace> _namespaces = new List<Namespace>();
     private readonly AssemblyKey _key;
+    private bool _isDependency;
 
     public AssemblyKey Key
     {
@@ -22,6 +23,12 @@ namespace Machine.Eon.Mapping
     public IEnumerable<Type> Types
     {
       get { return from ns in this.Namespaces from type in ns.Types select type; }
+    }
+
+    public bool IsDependency
+    {
+      get { return _isDependency; }
+      set { _isDependency = value; }
     }
 
     public Assembly(AssemblyKey key)

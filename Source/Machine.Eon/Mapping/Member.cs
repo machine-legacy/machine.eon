@@ -15,6 +15,11 @@ namespace Machine.Eon.Mapping
       get { return _type; }
     }
 
+    public bool IsInDependentAssembly
+    {
+      get { return _type.Namespace.Assembly.IsDependency; }
+    }
+
     public virtual IEnumerable<Type> Attributes
     {
       get

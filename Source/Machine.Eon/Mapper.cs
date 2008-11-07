@@ -68,6 +68,10 @@ namespace Machine.Eon
       sw.Start();
       List<TypeKey> types = assemblies.KeysForPendingTypes();
       List<MethodKey> methods = assemblies.KeysForPendingMethods();
+      foreach (Assembly assembly in assemblies)
+      {
+        assembly.IsDependency = true;
+      }
       foreach (AssemblyDefinition definition in _externalAssemblyLoader.FindExternalAssemblyDefinitions(assemblies))
       {
         TopDownVisitor visitor = new TopDownVisitor(_modelCreator, new VisitationOptions(false, types, methods));
