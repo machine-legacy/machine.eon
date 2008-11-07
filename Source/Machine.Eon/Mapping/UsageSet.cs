@@ -125,7 +125,7 @@ namespace Machine.Eon.Mapping
           set.Add(depth, node);
           if (!node.IsPending)
           {
-            node.DirectUsesAttributesInterfacesAndMethods.AddIndirectUses(depth + 1, visited, set);
+            node.DirectUsesAndAttributesAndInterfaces.AddIndirectUses(depth + 1, visited, set);
           }
         }
       }

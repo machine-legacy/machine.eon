@@ -53,11 +53,14 @@ namespace Machine.Eon.Mapping.Inspection
       Visit(type.CustomAttributes);
       Visit(type.Interfaces);
       Visit(type.GenericParameters);
-      Visit(type.Constructors);
-      Visit(type.Methods);
-      Visit(type.Properties);
-      Visit(type.Fields);
-      Visit(type.Events);
+      if (_options.VisitMembers)
+      {
+        Visit(type.Constructors);
+        Visit(type.Methods);
+        Visit(type.Properties);
+        Visit(type.Fields);
+        Visit(type.Events);
+      }
 
       _modelCreator.EndType();
       _modelCreator.EndNamespace();
@@ -113,6 +116,10 @@ namespace Machine.Eon.Mapping.Inspection
 
     private void Visit(MethodDefinition method)
     {
+      if (!_options.ShouldVisit(method.ToMethodKey()))
+      {
+        return;
+      }
       _modelCreator.StartMethod(method.ToKey());
       Visit(method.CustomAttributes);
       _modelCreator.SetMethodPrototype(method.ToReturnTypeKey(), method.ToParameterTypeKey());

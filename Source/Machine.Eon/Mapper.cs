@@ -67,9 +67,10 @@ namespace Machine.Eon
       Stopwatch sw = new Stopwatch();
       sw.Start();
       List<TypeKey> types = assemblies.KeysForPendingTypes();
+      List<MethodKey> methods = assemblies.KeysForPendingMethods();
       foreach (AssemblyDefinition definition in _externalAssemblyLoader.FindExternalAssemblyDefinitions(assemblies))
       {
-        TopDownVisitor visitor = new TopDownVisitor(_modelCreator, new VisitationOptions(false, types));
+        TopDownVisitor visitor = new TopDownVisitor(_modelCreator, new VisitationOptions(false, types, methods));
         visitor.Visit(definition);
         _log.Info(sw.Elapsed.TotalSeconds + " - "  + definition.Name.Name);
       }
@@ -148,6 +149,20 @@ namespace Machine.Eon
         if (!keys.Contains(type.Key))
         {
           keys.Add(type.Key);
+        }
+      } 
+      return keys;
+    }
+
+    public static List<MethodKey> KeysForPendingMethods(this IEnumerable<Assembly> assemblies)
+    {
+      List<MethodKey> keys = new List<MethodKey>();
+      var pending = from assembly in assemblies from type in assembly.Types from method in type.PendingMethods select method;
+      foreach (Method method in pending)
+      {
+        if (!keys.Contains(method.Key))
+        {
+          keys.Add(method.Key);
         }
       } 
       return keys;

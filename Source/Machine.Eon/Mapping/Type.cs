@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Machine.Eon.Mapping
 {
@@ -139,6 +140,11 @@ namespace Machine.Eon.Mapping
       get { EnsureTypeIsNotPending(); return MembersPendingOrNot; }
     }
 
+    public IEnumerable<Method> PendingMethods
+    {
+      get { return from method in _methods where method.IsPending select method; }
+    }
+
     private IEnumerable<Member> MembersPendingOrNot
     {
       get
@@ -248,7 +254,7 @@ namespace Machine.Eon.Mapping
       }
     }
 
-    public UsageSet DirectUsesAttributesInterfacesAndMethods
+    public UsageSet DirectUsesAndAttributesAndInterfaces
     {
       get
       {
@@ -268,7 +274,7 @@ namespace Machine.Eon.Mapping
       get
       {
         EnsureTypeIsNotPending();
-        return DirectUsesAttributesInterfacesAndMethods.CreateIndirectUses();
+        return DirectUsesAndAttributesAndInterfaces.CreateIndirectUses();
       }
     }
 
