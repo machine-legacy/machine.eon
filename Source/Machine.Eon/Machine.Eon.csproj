@@ -57,6 +57,7 @@
     <Compile Include="Mapping\IndirectUses.cs" />
     <Compile Include="Mapping\INodes.cs" />
     <Compile Include="Mapping\Inspection\AssemblyStructureVisitor.cs" />
+    <Compile Include="Mapping\Inspection\TopDownVisitor.cs" />
     <Compile Include="Mapping\Inspection\VisitationOptions.cs" />
     <Compile Include="Mapping\Inspection\CodeVisitor.cs" />
     <Compile Include="Mapping\Inspection\KeyMapping.cs" />
