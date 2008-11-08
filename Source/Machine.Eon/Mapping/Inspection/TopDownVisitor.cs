@@ -48,14 +48,14 @@ namespace Machine.Eon.Mapping.Inspection
       Visit(type.GenericParameters);
       Visit(type.CustomAttributes);
 
+      if (type.BaseType != null)
+      {
+        Visit(type.BaseType);
+        _modelCreator.SetBaseType(type.BaseType.ToTypeKey());
+      }
+
       if (_options.PrimaryVisitation)
       {
-        if (type.BaseType != null)
-        {
-          Visit(type.BaseType);
-          _modelCreator.SetBaseType(type.BaseType.ToTypeKey());
-        }
-
         Visit(type.Properties);
         Visit(type.Fields);
         Visit(type.Events);
@@ -122,7 +122,6 @@ namespace Machine.Eon.Mapping.Inspection
         return;
       }
       _modelCreator.StartMethod(method.ToKey());
-      Visit(method.CustomAttributes);
       _modelCreator.SetMethodPrototype(method.ToReturnTypeKey(), method.ToParameterTypeKey());
       _modelCreator.SetMethodFlags(method.IsConstructor, method.IsAbstract, method.IsVirtual, method.IsStatic, _options.PrimaryVisitation);
       _modelCreator.UseType(method.ToReturnTypeKey());
@@ -130,9 +129,13 @@ namespace Machine.Eon.Mapping.Inspection
       {
         _modelCreator.UseType(typeName);
       }
-      if (method.Body != null && _options.PrimaryVisitation)
+      if (_options.PrimaryVisitation)
       {
-        method.Body.Accept(new CodeVisitor(_modelCreator));
+        Visit(method.CustomAttributes);
+        if (method.Body != null)
+        {
+          method.Body.Accept(new CodeVisitor(_modelCreator));
+        }
       }
       _modelCreator.EndMethod();
     }

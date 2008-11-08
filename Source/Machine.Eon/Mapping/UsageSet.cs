@@ -135,10 +135,13 @@ namespace Machine.Eon.Mapping
         {
           _log.Debug(prefix + "  Adding: " + node);
           visited.Add(node);
-          set.Add(depth, node);
-          if (!node.IsPending)
+          if (!node.IsIncomplete)
           {
-            node.DirectUsesAndAttributesAndInterfaces.AddIndirectUses(depth + 1, visited, set);
+            set.Add(depth, node);
+            if (!node.IsPending)
+            {
+              node.DirectUsesAndAttributesAndInterfaces.AddIndirectUses(depth + 1, visited, set);
+            }
           }
         }
       }
