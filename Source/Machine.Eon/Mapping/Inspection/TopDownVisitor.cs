@@ -42,13 +42,13 @@ namespace Machine.Eon.Mapping.Inspection
       _typeDefinitions.Push(type);
       _modelCreator.StartNamespace(typeKey.Namespace);
       _modelCreator.StartType(typeKey);
-      _modelCreator.SetTypeFlags(type.IsInterface, type.IsAbstract, false, !_options.VisitMembers);
+      _modelCreator.SetTypeFlags(type.IsInterface, type.IsAbstract, false, !_options.PrimaryVisitation);
       
       Visit(type.Interfaces);
       Visit(type.GenericParameters);
       Visit(type.CustomAttributes);
 
-      if (_options.VisitMembers)
+      if (_options.PrimaryVisitation)
       {
         if (type.BaseType != null)
         {
@@ -124,13 +124,13 @@ namespace Machine.Eon.Mapping.Inspection
       _modelCreator.StartMethod(method.ToKey());
       Visit(method.CustomAttributes);
       _modelCreator.SetMethodPrototype(method.ToReturnTypeKey(), method.ToParameterTypeKey());
-      _modelCreator.SetMethodFlags(method.IsConstructor, method.IsAbstract, method.IsVirtual, method.IsStatic, _options.VisitMembers);
+      _modelCreator.SetMethodFlags(method.IsConstructor, method.IsAbstract, method.IsVirtual, method.IsStatic, _options.PrimaryVisitation);
       _modelCreator.UseType(method.ToReturnTypeKey());
       foreach (TypeKey typeName in method.ToParameterTypeKey())
       {
         _modelCreator.UseType(typeName);
       }
-      if (method.Body != null && _options.VisitMembers)
+      if (method.Body != null && _options.PrimaryVisitation)
       {
         method.Body.Accept(new CodeVisitor(_modelCreator));
       }

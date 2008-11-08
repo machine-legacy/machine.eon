@@ -7,11 +7,11 @@ namespace Machine.Eon.Mapping.Inspection
   {
     private readonly List<TypeKey> _types;
     private readonly List<MethodKey> _methods;
-    private readonly bool _visitMembers;
+    private readonly bool _primaryVisitation;
 
-    public bool VisitMembers
+    public bool PrimaryVisitation
     {
-      get { return _visitMembers; }
+      get { return _primaryVisitation; }
     }
 
     public bool ShouldVisit(TypeKey typeKey)
@@ -32,9 +32,9 @@ namespace Machine.Eon.Mapping.Inspection
       return _methods.Contains(methodKey);
     }
 
-    public VisitationOptions(bool visitMembers, List<TypeKey> types, List<MethodKey> methods)
+    public VisitationOptions(bool primaryVisitation, List<TypeKey> types, List<MethodKey> methods)
     {
-      _visitMembers = visitMembers;
+      _primaryVisitation = primaryVisitation;
       _types = types;
       _methods = methods;
     }
