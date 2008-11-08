@@ -125,6 +125,17 @@ namespace Machine.Eon.Mapping
       get { EnsureTypeIsNotPending(); return _methods; }
     }
 
+    public IEnumerable<Method> Constructors
+    {
+      get
+      {
+        foreach (Method method in this.Methods)
+        {
+          if (method.IsConstructor) yield return method;
+        }
+      }
+    }
+
     public IEnumerable<Method> MethodsNotPartOfProperties
     {
       get
@@ -158,6 +169,20 @@ namespace Machine.Eon.Mapping
         foreach (Property property in _properties) yield return property;
         foreach (Event anEvent in _events) yield return anEvent;
         foreach (Method method in _methods) yield return method;
+      }
+    }
+
+    public IEnumerable<Member> this[string name]
+    {
+      get
+      {
+        foreach (Member member in this.Members)
+        {
+          if (member.Key.Name.Equals(name))
+          {
+            yield return member;
+          }
+        }
       }
     }
 

@@ -15,6 +15,11 @@ namespace Machine.Eon.Mapping
       get { return _type; }
     }
 
+    public MemberKey Key
+    {
+      get { return _key; }
+    }
+
     public bool IsInDependentAssembly
     {
       get { return _type.Namespace.Assembly.IsDependency; }
