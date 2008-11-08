@@ -193,22 +193,24 @@ namespace Machine.Eon.Mapping.Inspection
       GetCurrentCanHaveAttributes().AddAttribute(type);
     }
 
-    public void SetTypeFlags(bool isInterface, bool isAbstract, bool isStatic)
+    public void SetTypeFlags(bool isInterface, bool isAbstract, bool isStatic, bool isIncomplete)
     {
       TypeFlags flags = TypeFlags.None;
       if (isInterface) flags |= TypeFlags.Interface;
       if (isAbstract) flags |= TypeFlags.Abstract;
       if (isStatic) flags |= TypeFlags.Static;
+      if (isIncomplete) flags |= TypeFlags.Incomplete;
       GetCurrentType().TypeFlags = flags;
     }
 
-    public void SetMethodFlags(bool isConstructor, bool isAbstract, bool isVirtual, bool isStatic)
+    public void SetMethodFlags(bool isConstructor, bool isAbstract, bool isVirtual, bool isStatic, bool isIncomplete)
     {
       MethodFlags flags = MethodFlags.None;
       if (isConstructor) flags |= MethodFlags.Constructor;
       if (isAbstract) flags |= MethodFlags.Abstract;
       if (isVirtual) flags |= MethodFlags.Virtual;
       if (isStatic) flags |= MethodFlags.Static;
+      if (isIncomplete) flags |= MethodFlags.Incomplete;
       GetCurrentMethod().MethodFlags = flags;
     }
 

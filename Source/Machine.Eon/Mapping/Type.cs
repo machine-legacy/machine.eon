@@ -11,7 +11,8 @@ namespace Machine.Eon.Mapping
     Pending = 1,
     Interface = 2,
     Abstract = 4,
-    Static = 8
+    Static = 8,
+    Incomplete = 16
   }
   public class Type : Node, IType, ICanUseNodes, IHaveDirectUses, IHaveIndirectUses, ICanHaveAttributes
   {

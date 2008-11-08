@@ -25,7 +25,8 @@ namespace Machine.Eon.Mapping
     Constructor = 2,
     Abstract = 4,
     Virtual = 8,
-    Static = 16
+    Static = 16,
+    Incomplete = 32
   }
   public class Method : Member, IMethod, IHaveIndirectUses
   {
