@@ -31,13 +31,19 @@ namespace Machine.Eon.Specs.IndirectUses
     Because of = () =>
       type = qr.FromSystemType(typeof(Type1));
 
-    It should_have_indirect_uses_of_object_void_and_itself = () =>
+    It should_indirectly_use_void_attributes_and_base_type = () =>
       type.IndirectlyUses.ExtractTypes().ShouldContainOnly(qr.FromSystemType(
         typeof(Object), typeof(void), typeof(Type1), typeof(ComVisibleAttribute), typeof(ClassInterfaceAttribute)
       ));
 
-    It should_only_use_object_ctor = () =>
-      type.IndirectlyUses.ExtractMethods().ShouldContainOnly(qr.SystemObject.Constructors.First());
+    It should_indirectly_use_only_base_type_ctor = () =>
+      type.IndirectlyUses.ExtractMethods().ShouldContainOnly(
+        systemObject.Constructors.First(),
+        type.Constructors.First()
+      );
+
+    It should_indirectly_use_no_properties = () =>
+      type.IndirectlyUses.Properties.ShouldBeEmpty();
   }
 
   public class Type2
@@ -61,11 +67,21 @@ namespace Machine.Eon.Specs.IndirectUses
     Because of = () =>
       type = qr.FromSystemType(typeof(Type2));
 
-    It should_have_indirect_uses_of_object_void_itself_and_those_types = () =>
+    It should_indirectly_use_void_attributes_base_type_and_exceptions = () =>
       type.IndirectlyUses.ExtractTypes().ShouldContainOnly(qr.FromSystemType(
-        typeof(Object), typeof(void), typeof(Type1), typeof(ComVisibleAttribute), typeof(ClassInterfaceAttribute),
+        typeof(Object), typeof(void), typeof(ComVisibleAttribute), typeof(ClassInterfaceAttribute),
         typeof(Type2), typeof(InvalidOperationException), typeof(ArgumentNullException)
       ));
+
+    It should_indirectly_use_members_and_ctors_for_base_and_exceptions = () =>
+      type.IndirectlyUses.ExtractMembers().ShouldContainOnly(
+        type.Constructors.First(),
+        type["IsCalled"].First(),
+        type["Notcalled"].First(),
+        systemObject.Constructors.First(),
+        qr[typeof(InvalidOperationException)].Constructors.First(),
+        qr[typeof(ArgumentNullException)].Constructors.First()
+      );
   }
 
   public class Type3
@@ -93,9 +109,19 @@ namespace Machine.Eon.Specs.IndirectUses
 
     It should_have_indirect_uses_of_object_void_itself_and_those_types = () =>
       type.IndirectlyUses.ExtractTypes().ShouldContainOnly(qr.FromSystemType(
-        typeof(Object), typeof(void), typeof(Type1), typeof(ComVisibleAttribute), typeof(ClassInterfaceAttribute),
+        typeof(Object), typeof(void), typeof(ComVisibleAttribute), typeof(ClassInterfaceAttribute),
         typeof(Type2), typeof(Type3), typeof(InvalidOperationException), typeof(ArgumentNullException)
       ));
+
+    It should_indirectly_use_exception_ctors_base_type_ctor_and_method = () =>
+      type.IndirectlyUses.ExtractMembers().ShouldContainOnly(
+        qr[typeof(Type3)]["AMethod"].First(),
+        type.Constructors.First(),
+        qr[typeof(Type2)].Constructors.First(),
+        qr[typeof(Type2)]["IsCalled"].First(),
+        systemObject.Constructors.First(),
+        qr[typeof(InvalidOperationException)].Constructors.First()
+      );
   }
 
   public class Type4
@@ -116,10 +142,18 @@ namespace Machine.Eon.Specs.IndirectUses
 
     It should_have_indirect_uses_of_object_void_itself_and_those_types = () =>
       type.IndirectlyUses.ExtractTypes().ShouldContainOnly(qr.FromSystemType(
-        typeof(Object), typeof(void), typeof(Type1), typeof(ComVisibleAttribute), typeof(ClassInterfaceAttribute),
+        typeof(Object), typeof(void), typeof(ComVisibleAttribute), typeof(ClassInterfaceAttribute),
         typeof(Type2), typeof(Type4), typeof(InvalidOperationException),
         typeof(ArgumentNullException)
       ));
+
+    It should_indirectly_use_exception_ctors_base_type_ctor_and_method = () =>
+      type.IndirectlyUses.ExtractMembers().ShouldContainOnly(
+        type.Constructors.First(),
+        type["AMethod"].First(),
+        qr[typeof(Type2)].Constructors.First(),
+        systemObject.Constructors.First()
+      );
   }
 
   [Subject("Indirect Uses")]

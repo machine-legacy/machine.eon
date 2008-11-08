@@ -114,6 +114,11 @@ namespace Machine.Eon.Mapping
       return ExtractNodesOfType<Method>(usages);
     }
 
+    public static IEnumerable<Member> ExtractMembers(this IEnumerable<RelativeUsage> usages) 
+    {
+      return ExtractNodesOfType<Member>(usages);
+    }
+
     private static IEnumerable<T> ExtractNodesOfType<T>(this IEnumerable<RelativeUsage> usages) where T : Node
     {
       foreach (RelativeUsage usage in usages)
