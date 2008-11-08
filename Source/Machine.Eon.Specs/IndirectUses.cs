@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using System.Runtime.InteropServices;
+
 using Machine.Eon.Mapping;
 using Machine.Specifications;
 
@@ -18,7 +20,10 @@ namespace Machine.Eon.Specs.IndirectUses
       type = qr.FromSystemType(typeof(Type1));
 
     It should_have_indirect_uses_of_object_void_and_itself = () =>
-      type.IndirectlyUses.ExtractTypes().ShouldContainOnly(qr.FromSystemType(typeof(Object), typeof(void), typeof(Type1)));
+      type.IndirectlyUses.ExtractTypes().ShouldContainOnly(qr.FromSystemType(typeof(Object), typeof(void), typeof(Type1), typeof(ComVisibleAttribute), typeof(ClassInterfaceAttribute)));
+
+    It should_only_use_object_ctor = () =>
+      type.IndirectlyUses.ExtractMethods().ShouldContainOnly(qr.SystemObject.Constructors.First());
   }
 
   public class Type2
@@ -43,7 +48,7 @@ namespace Machine.Eon.Specs.IndirectUses
       type = qr.FromSystemType(typeof(Type2));
 
     It should_have_indirect_uses_of_object_void_itself_and_those_types = () =>
-      type.IndirectlyUses.ExtractTypes().ShouldContainOnly(qr.FromSystemType(typeof(Object), typeof(void), typeof(Type2), typeof(InvalidOperationException), typeof(ArgumentNullException)));
+      type.IndirectlyUses.ExtractTypes().ShouldContainOnly(qr.FromSystemType(typeof(Object), typeof(void), typeof(Type2), typeof(InvalidOperationException), typeof(ArgumentNullException), typeof(ComVisibleAttribute), typeof(ClassInterfaceAttribute)));
   }
 
   public class Type3
@@ -70,7 +75,7 @@ namespace Machine.Eon.Specs.IndirectUses
       type = qr.FromSystemType(typeof(Type3));
 
     It should_have_indirect_uses_of_object_void_itself_and_those_types = () =>
-      type.IndirectlyUses.ExtractTypes().ShouldContainOnly(qr.FromSystemType(typeof(Object), typeof(void), typeof(Type2), typeof(Type3), typeof(InvalidOperationException), typeof(ArgumentNullException)));
+      type.IndirectlyUses.ExtractTypes().ShouldContainOnly(qr.FromSystemType(typeof(Object), typeof(void), typeof(Type2), typeof(Type3), typeof(InvalidOperationException), typeof(ArgumentNullException), typeof(ComVisibleAttribute), typeof(ClassInterfaceAttribute)));
   }
 
   public class Type4
@@ -90,7 +95,7 @@ namespace Machine.Eon.Specs.IndirectUses
       type = qr.FromSystemType(typeof(Type4));
 
     It should_have_indirect_uses_of_object_void_itself_and_those_types = () =>
-      type.IndirectlyUses.ExtractTypes().ShouldContainOnly(qr.FromSystemType(typeof(Object), typeof(void), typeof(Type2), typeof(Type4), typeof(InvalidOperationException), typeof(ArgumentNullException)));
+      type.IndirectlyUses.ExtractTypes().ShouldContainOnly(qr.FromSystemType(typeof(Object), typeof(void), typeof(Type2), typeof(Type4), typeof(InvalidOperationException), typeof(ArgumentNullException), typeof(ComVisibleAttribute), typeof(ClassInterfaceAttribute)));
   }
 
   [Subject("Indirect Uses")]
@@ -102,7 +107,7 @@ namespace Machine.Eon.Specs.IndirectUses
       ns = qr.NamespacesNamed("Sample.HasTypeWithType4").Single();
 
     It should_have_indirect_uses_of_object_void_itself_and_those_types = () =>
-      ns.IndirectlyUses.ExtractTypes().ShouldContainOnly(qr.FromSystemType(typeof(Object), typeof(void), typeof(Type2), typeof(Type4), typeof(InvalidOperationException), typeof(ArgumentNullException), typeof(Sample.HasTypeWithType4.Type5)));
+      ns.IndirectlyUses.ExtractTypes().ShouldContainOnly(qr.FromSystemType(typeof(Object), typeof(void), typeof(Type2), typeof(Type4), typeof(InvalidOperationException), typeof(ArgumentNullException), typeof(Sample.HasTypeWithType4.Type5), typeof(ComVisibleAttribute), typeof(ClassInterfaceAttribute)));
   }
 }
 

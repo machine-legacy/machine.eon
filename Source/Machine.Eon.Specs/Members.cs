@@ -82,7 +82,7 @@ namespace Machine.Eon.Specs.Members
       type.MethodsNotPartOfProperties.Count().ShouldEqual(1);
 
     It should_have_a_method_that_is_a_constructor = () =>
-      type.Methods.First().IsConstructor.ShouldBeTrue();
+      type.Constructors.First().IsConstructor.ShouldBeTrue();
 
     It should_have_a_field = () =>
       type.Fields.First().ShouldNotBeNull();
@@ -159,7 +159,7 @@ namespace Machine.Eon.Specs.Members
       type.Members.Count().ShouldEqual(5);
 
     It should_have_a_method_that_is_a_constructor = () =>
-      type.Methods.First().IsConstructor.ShouldBeTrue();
+      type.Constructors.First().IsConstructor.ShouldBeTrue();
 
     It should_have_an_event = () =>
       type.Events.First().ShouldNotBeNull();

@@ -78,7 +78,7 @@ namespace Machine.Eon.Mapping
     {
       foreach (UsageByKey<TNode, TName> usage in OfType<UsageByKey<TNode, TName>>())
       {
-        if (usage != null)
+        if (usage != null && !(usage.Node.Key is GenericParameterTypeKey))
         {
           yield return usage.Node;
         }
