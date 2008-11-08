@@ -7,6 +7,18 @@ using Machine.Specifications;
 namespace Machine.Eon.Specs.DirectUses
 {
   [Subject("Direct Uses")]
+  public class with_system_object : with_eon
+  {
+    static Machine.Eon.Mapping.Type type;
+
+    Because of = () =>
+      type = systemObject;
+
+    It should_directly_use_nothing = () =>
+      type.DirectlyUses.ShouldBeEmpty();
+  }
+
+  [Subject("Direct Uses")]
   public class with_empty_type : with_eon
   {
     static Machine.Eon.Mapping.Type type;
