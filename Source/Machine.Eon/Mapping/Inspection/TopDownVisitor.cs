@@ -226,7 +226,7 @@ namespace Machine.Eon.Mapping.Inspection
     {
       foreach (CustomAttribute attributeReference in attributes)
       {
-        Visit(attributeReference.Constructor.DeclaringType);
+        _modelCreator.HasAttribute(attributeReference.Constructor.DeclaringType.ToTypeKey());
       }
     }
   }
