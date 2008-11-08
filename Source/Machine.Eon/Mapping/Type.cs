@@ -63,6 +63,11 @@ namespace Machine.Eon.Mapping
       get { return HasFlag(TypeFlags.Abstract); }
     }
 
+    public bool IsIncomplete
+    {
+      get { return HasFlag(TypeFlags.Incomplete); }
+    }
+
     private bool HasFlag(TypeFlags flag)
     {
       EnsureTypeIsNotPending();
