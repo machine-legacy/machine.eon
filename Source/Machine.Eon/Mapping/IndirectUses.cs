@@ -29,7 +29,6 @@ namespace Machine.Eon.Mapping
       return "Relative<" + _depth + ", " + _node + ">";
     }
   }
-
   public class IndirectUses : IEnumerable<RelativeUsage>
   {
     private readonly List<RelativeUsage> _usages = new List<RelativeUsage>();
@@ -90,7 +89,6 @@ namespace Machine.Eon.Mapping
       }
     }
 
-    #region IEnumerable<RelativeUsage> Members
     public IEnumerator<RelativeUsage> GetEnumerator()
     {
       return _usages.GetEnumerator();
@@ -100,7 +98,6 @@ namespace Machine.Eon.Mapping
     {
       return _usages.GetEnumerator();
     }
-    #endregion
   }
   public static class UsageMappings
   {

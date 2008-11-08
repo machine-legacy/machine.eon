@@ -272,11 +272,11 @@ namespace Machine.Eon.Mapping
       get
       {
         EnsureTypeIsNotPending();
-        return UsageSet.Union(_usages, DirectUsesOfMembers).RemoveReferencesToType(this);
+        return UsageSet.Union(_usages, DirectlyUsedByMembers).RemoveReferencesToType(this);
       }
     }
 
-    private UsageSet DirectUsesOfMembers
+    private UsageSet DirectlyUsedByMembers
     {
       get
       {
@@ -290,27 +290,12 @@ namespace Machine.Eon.Mapping
       }
     }
 
-    public UsageSet DirectUsesAndAttributesAndInterfaces
-    {
-      get
-      {
-        EnsureTypeIsNotPending();
-        UsageSet set = UsageSet.Union(_usages, UsageSet.MakeFrom(_attributes), UsageSet.MakeFrom(_interfaces), UsageSet.MakeFrom(_methods));
-        set.Add(this);
-        if (this.BaseType != null)
-        {
-          set.Add(this.BaseType);
-        }
-        return set;
-      }
-    }
-
     public IndirectUses IndirectlyUses
     {
       get
       {
         EnsureTypeIsNotPending();
-        return DirectUsesAndAttributesAndInterfaces.CreateIndirectUses();
+        return new IndirectUses();
       }
     }
 

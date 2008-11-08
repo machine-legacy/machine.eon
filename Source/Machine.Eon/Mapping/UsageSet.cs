@@ -39,14 +39,6 @@ namespace Machine.Eon.Mapping
       Add(node.CreateUsage());
     }
 
-    private void AddAll(IEnumerable<Usage> usages)
-    {
-      foreach (Usage usage in usages)
-      {
-        Add(usage);
-      }
-    }
-
     public UsageSet RemoveReferencesToType(Type type)
     {
       UsageSet set = new UsageSet();
@@ -60,9 +52,52 @@ namespace Machine.Eon.Mapping
       return set;
     }
 
+    public IEnumerator<Node> GetEnumerator()
+    {
+      return this.All.GetEnumerator();
+    }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+    {
+      return this.All.GetEnumerator();
+    }
+
+    public override string ToString()
+    {
+      return "UsageSet<" + _usages.Count + ">";
+    }
+
+    public static UsageSet Union(params UsageSet[] sets)
+    {
+      UsageSet union = new UsageSet();
+      foreach (UsageSet set in sets)
+      {
+        union.AddAll(set);
+      }
+      return union;
+    }
+
+    public static UsageSet MakeFrom<T>(IEnumerable<T> nodes) where T : Node
+    {
+      UsageSet set = new UsageSet();
+      foreach (T node in nodes)
+      {
+        set.Add(node);
+      }
+      return set;
+    }
+
     private void AddAll(UsageSet set)
     {
       AddAll(set._usages);
+    }
+
+    private void AddAll(IEnumerable<Usage> usages)
+    {
+      foreach (Usage usage in usages)
+      {
+        Add(usage);
+      }
     }
 
     private void Add(Usage usage)
@@ -96,85 +131,6 @@ namespace Machine.Eon.Mapping
           yield return usage.Node;
         }
       }
-    }
-
-    public static UsageSet Union(params UsageSet[] sets)
-    {
-      UsageSet union = new UsageSet();
-      foreach (UsageSet set in sets)
-      {
-        union.AddAll(set);
-      }
-      return union;
-    }
-
-    public static UsageSet MakeFrom<T>(IEnumerable<T> nodes) where T : Node
-    {
-      UsageSet set = new UsageSet();
-      foreach (T node in nodes)
-      {
-        set.Add(node);
-      }
-      return set;
-    }
-
-    public IndirectUses CreateIndirectUses()
-    {
-      List<Node> visited = new List<Node>();
-      IndirectUses set = new IndirectUses();
-      AddIndirectUses(0, visited, set);
-      return set;
-    }
-
-    private void AddIndirectUses(Int32 depth, ICollection<Node> visited, IndirectUses set)
-    {
-      string prefix = new string(' ', depth * 4);
-      foreach (Type node in this.Types)
-      {
-        if (!visited.Contains(node))
-        {
-          _log.Debug(prefix + "  Adding: " + node);
-          visited.Add(node);
-          if (!node.IsIncomplete)
-          {
-            set.Add(depth, node);
-            if (!node.IsPending)
-            {
-              node.DirectUsesAndAttributesAndInterfaces.AddIndirectUses(depth + 1, visited, set);
-            }
-          }
-        }
-      }
-      foreach (Method node in this.Methods)
-      {
-        if (!visited.Contains(node))
-        {
-          _log.Debug(prefix + "  Adding: " + node);
-          visited.Add(node);
-          set.Add(depth, node);
-          if (!node.IsPending)
-          {
-            node.DirectlyUses.AddIndirectUses(depth + 1, visited, set);
-          }
-        }
-      }
-    }
-
-    #region IEnumerable<Node> Members
-    public IEnumerator<Node> GetEnumerator()
-    {
-      return this.All.GetEnumerator();
-    }
-
-    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-    {
-      return this.All.GetEnumerator();
-    }
-    #endregion
-
-    public override string ToString()
-    {
-      return "UsageSet<" + _usages.Count + ">";
     }
   }
 }

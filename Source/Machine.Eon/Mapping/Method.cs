@@ -131,7 +131,7 @@ namespace Machine.Eon.Mapping
       get
       {
         EnsureMemberIsNotPending();
-        return this.DirectlyUses.CreateIndirectUses();
+        return new IndirectUses();
       }
     }
 

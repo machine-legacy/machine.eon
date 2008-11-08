@@ -65,7 +65,7 @@ namespace Machine.Eon.Mapping
 
     public IndirectUses IndirectlyUses
     {
-      get { return UsageSet.MakeFrom(_types).CreateIndirectUses(); }
+      get { return new IndirectUses(); }
     }
   }
 }
