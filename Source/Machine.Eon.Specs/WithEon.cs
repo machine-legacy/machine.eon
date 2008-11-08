@@ -14,6 +14,7 @@ namespace Machine.Eon.Specs
     protected static QueryRoot qr;
     protected static Type systemVoid;
     protected static Type systemString;
+    protected static Type systemObject;
 
     Establish context = () =>
     {
@@ -26,6 +27,7 @@ namespace Machine.Eon.Specs
         qr = mapper.ToQueryRoot();
         systemVoid = qr.FromSystemType(typeof(void));
         systemString = qr.FromSystemType(typeof(string));
+        systemObject = qr.SystemObject;
       }
     };
   }
