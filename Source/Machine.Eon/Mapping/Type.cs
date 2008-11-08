@@ -178,7 +178,7 @@ namespace Machine.Eon.Mapping
       {
         foreach (Member member in this.Members)
         {
-          if (member.Key.Name.Equals(name))
+          if (member.MemberKey.Name.Equals(name))
           {
             yield return member;
           }

@@ -15,7 +15,7 @@ namespace Machine.Eon.Mapping
       get { return _type; }
     }
 
-    public MemberKey Key
+    public MemberKey MemberKey
     {
       get { return _key; }
     }
