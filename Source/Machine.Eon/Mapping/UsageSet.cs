@@ -47,6 +47,19 @@ namespace Machine.Eon.Mapping
       }
     }
 
+    public UsageSet RemoveReferencesToType(Type type)
+    {
+      UsageSet set = new UsageSet();
+      foreach (Usage usage in _usages)
+      {
+        if (!usage.IsForType(type))
+        {
+          set.Add(usage);
+        }
+      }
+      return set;
+    }
+
     private void AddAll(UsageSet set)
     {
       AddAll(set._usages);

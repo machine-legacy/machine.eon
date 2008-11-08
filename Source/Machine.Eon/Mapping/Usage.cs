@@ -5,6 +5,7 @@ namespace Machine.Eon.Mapping
 {
   public abstract class Usage
   {
+    public abstract bool IsForType(Type type);
   }
 
   public abstract class UsageByKey<TNode, TKey> : Usage where TNode : Node, IKeyedNode<TKey> where TKey : NodeKey
@@ -52,6 +53,11 @@ namespace Machine.Eon.Mapping
       : base(type)
     {
     }
+    
+    public override bool IsForType(Type type)
+    {
+      return this.Node.Equals(type);
+    }
   }
   
   public class MethodUsage : UsageByKey<Method, MethodKey>
@@ -60,6 +66,11 @@ namespace Machine.Eon.Mapping
       : base(method)
     {
     }
+    
+    public override bool IsForType(Type type)
+    {
+      return this.Node.Type.Equals(type);
+    }
   }
   
   public class PropertyUsage : UsageByKey<Property, PropertyKey>
@@ -67,6 +78,11 @@ namespace Machine.Eon.Mapping
     public PropertyUsage(Property property)
       : base(property)
     {
+    }
+    
+    public override bool IsForType(Type type)
+    {
+      return this.Node.Type.Equals(type);
     }
   }
 }
