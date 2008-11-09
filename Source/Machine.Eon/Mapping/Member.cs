@@ -63,7 +63,7 @@ namespace Machine.Eon.Mapping
       get
       {
         EnsureMemberIsNotPending();
-        return _usages;
+        return _usages.RemoveReferencesToType(this.Type);
       }
     }
 

@@ -272,6 +272,10 @@ namespace Machine.Eon.Mapping
       get
       {
         EnsureTypeIsNotPending();
+        if (this.IsInDependentAssembly)
+        {
+          return UsageSet.Empty;
+        }
         return UsageSet.Union(_usages, DirectlyUsedByMembers).RemoveReferencesToType(this);
       }
     }
