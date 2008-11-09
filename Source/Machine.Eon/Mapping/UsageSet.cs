@@ -72,7 +72,7 @@ namespace Machine.Eon.Mapping
       UsageSet union = new UsageSet();
       foreach (UsageSet set in sets)
       {
-        union.AddAll(set);
+        union.Add(set);
       }
       return union;
     }
@@ -87,7 +87,7 @@ namespace Machine.Eon.Mapping
       return set;
     }
 
-    private void AddAll(UsageSet set)
+    public void Add(UsageSet set)
     {
       AddAll(set._usages);
     }
