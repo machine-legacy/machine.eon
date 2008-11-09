@@ -124,11 +124,6 @@ namespace Machine.Eon.Mapping.Inspection
       _modelCreator.StartMethod(method.ToKey());
       _modelCreator.SetMethodPrototype(method.ToReturnTypeKey(), method.ToParameterTypeKey());
       _modelCreator.SetMethodFlags(method.IsConstructor, method.IsAbstract, method.IsVirtual, method.IsStatic, _options.PrimaryVisitation);
-      _modelCreator.UseType(method.ToReturnTypeKey());
-      foreach (TypeKey typeName in method.ToParameterTypeKey())
-      {
-        _modelCreator.UseType(typeName);
-      }
       if (_options.PrimaryVisitation)
       {
         Visit(method.CustomAttributes);

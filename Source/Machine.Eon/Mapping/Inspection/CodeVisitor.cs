@@ -14,11 +14,13 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitInstruction(Instruction instr)
     {
+      /*
       if (instr.Operand is TypeReference)
       {
         _modelCreator.UseType(((TypeReference)instr.Operand).ToTypeKey());
       }
-      else if (instr.Operand is FieldReference)
+      */
+      if (instr.Operand is FieldReference)
       {
         TypeKey typeKey = ((FieldReference)instr.Operand).FieldType.ToTypeKey();
         if (typeKey != null)
@@ -26,12 +28,12 @@ namespace Machine.Eon.Mapping.Inspection
           _modelCreator.UseType(typeKey);
         }
       }
-      else if (instr.Operand is MethodReference)
+      if (instr.Operand is MethodReference)
       {
         _modelCreator.UseType(((MethodReference)instr.Operand).DeclaringType.ToTypeKey());
         _modelCreator.UseMethod(((MethodReference)instr.Operand).ToMethodKey());
       }
-      else if (instr.Operand is PropertyReference)
+      if (instr.Operand is PropertyReference)
       {
         _modelCreator.UseType(((PropertyReference)instr.Operand).DeclaringType.ToTypeKey());
         _modelCreator.UseProperty(((PropertyReference)instr.Operand).ToPropertyKey());
@@ -48,10 +50,12 @@ namespace Machine.Eon.Mapping.Inspection
 
     public override void VisitVariableDefinitionCollection(VariableDefinitionCollection variables)
     {
+      /*
       foreach (VariableDefinition variable in variables)
       {
         _modelCreator.UseType(variable.ToTypeKey());
       }
+      */
     }
 
     public override void VisitMethodBody(MethodBody body) { }
