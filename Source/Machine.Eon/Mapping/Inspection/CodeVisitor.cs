@@ -19,7 +19,6 @@ namespace Machine.Eon.Mapping.Inspection
       {
         _modelCreator.UseType(((TypeReference)instr.Operand).ToTypeKey());
       }
-      */
       if (instr.Operand is FieldReference)
       {
         TypeKey typeKey = ((FieldReference)instr.Operand).FieldType.ToTypeKey();
@@ -28,6 +27,7 @@ namespace Machine.Eon.Mapping.Inspection
           _modelCreator.UseType(typeKey);
         }
       }
+      */
       if (instr.Operand is MethodReference)
       {
         _modelCreator.UseType(((MethodReference)instr.Operand).DeclaringType.ToTypeKey());
