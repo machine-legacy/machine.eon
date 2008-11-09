@@ -60,6 +60,7 @@ namespace Machine.Eon.Mapping.Inspection
         Visit(type.Fields);
         Visit(type.Events);
       }
+      
       Visit(type.Constructors);
       Visit(type.Methods);
 
@@ -72,7 +73,6 @@ namespace Machine.Eon.Mapping.Inspection
     {
       _modelCreator.StartProperty(property.ToKey());
       _modelCreator.SetPropertyType(property.PropertyType.ToTypeKey());
-      _modelCreator.UseType(property.PropertyType.ToTypeKey());
       Visit(property.CustomAttributes);
       if (property.GetMethod != null)
       {
@@ -92,7 +92,6 @@ namespace Machine.Eon.Mapping.Inspection
       _modelCreator.StartField(field.ToFieldKey());
       Visit(field.CustomAttributes);
       _modelCreator.SetFieldType(field.FieldType.ToTypeKey());
-      _modelCreator.UseType(field.FieldType.ToTypeKey());
       _modelCreator.EndField();
     }
 
@@ -101,7 +100,6 @@ namespace Machine.Eon.Mapping.Inspection
       _modelCreator.StartEvent(eventDefinition.ToKey());
       Visit(eventDefinition.CustomAttributes);
       _modelCreator.SetEventType(eventDefinition.EventType.ToTypeKey());
-      _modelCreator.UseType(eventDefinition.EventType.ToTypeKey());
       if (eventDefinition.AddMethod != null)
       {
         Visit(eventDefinition.AddMethod);
