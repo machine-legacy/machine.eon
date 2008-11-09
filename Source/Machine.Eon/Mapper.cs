@@ -68,7 +68,7 @@ namespace Machine.Eon
       sw.Start();
       List<TypeKey> types = assemblies.KeysForPendingTypes();
       List<MethodKey> methods = assemblies.KeysForPendingMethods();
-      foreach (Assembly assembly in assemblies)
+      foreach (Assembly assembly in assemblies.AssembliesWithPendingTypes())
       {
         assembly.IsDependency = true;
       }
