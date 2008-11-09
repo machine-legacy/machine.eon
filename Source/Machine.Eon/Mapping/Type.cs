@@ -281,12 +281,29 @@ namespace Machine.Eon.Mapping
       get
       {
         EnsureTypeIsNotPending();
-        List<UsageSet> usages = new List<UsageSet>();
-        foreach (Member member in this.Members)
+        UsageSet set = new UsageSet();
+        foreach (Method method in this.Methods)
         {
-          usages.Add(member.DirectlyUses);
+          set.Add(method.ReturnType);
+          foreach (Parameter parameter in method.Parameters)
+          {
+            set.Add(parameter.ParameterType);
+          }
+          set.Add(method.DirectlyUses);
         }
-        return UsageSet.Union(usages.ToArray());
+        foreach (Property property in this.Properties)
+        {
+          set.Add(property.PropertyType);
+        }
+        foreach (Field field in this.Fields)
+        {
+          set.Add(field.FieldType);
+        }
+        foreach (Event ev in this.Events)
+        {
+          set.Add(ev.EventType);
+        }
+        return set;
       }
     }
 
