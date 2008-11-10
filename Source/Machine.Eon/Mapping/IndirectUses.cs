@@ -58,6 +58,22 @@ namespace Machine.Eon.Mapping
       _usages.Add(usage);
     }
 
+    public void Add(Int32 depth, IndirectUses uses)
+    {
+      foreach (RelativeUsage usage in uses)
+      {
+        Add(usage.Depth + depth, usage.Node);
+      }
+    }
+
+    public void Add(Int32 depth, UsageSet set)
+    {
+      foreach (Node node in set.All)
+      {
+        Add(depth, node);
+      }
+    }
+
     public IEnumerable<RelativeUsage> Properties
     {
       get { return OfType<Property>(); }

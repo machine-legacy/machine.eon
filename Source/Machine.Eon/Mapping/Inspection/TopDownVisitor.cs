@@ -174,7 +174,6 @@ namespace Machine.Eon.Mapping.Inspection
       foreach (TypeReference interfaceType in interfaceCollection)
       {
         _modelCreator.ImplementsInterface(interfaceType.ToTypeKey());
-        _modelCreator.UseType(interfaceType.ToTypeKey());
       }
     }
 

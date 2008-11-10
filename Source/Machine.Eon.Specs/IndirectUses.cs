@@ -19,8 +19,15 @@ namespace Machine.Eon.Specs.IndirectUses
     Because of = () =>
       type = systemObject;
 
-    It should_indirectly_use_only_itself = () =>
-      type.IndirectlyUses.Nodes.ShouldContainOnly(systemObject);
+    It should_indirectly_use_itself = () =>
+      type.IndirectlyUses.ExtractTypes().ShouldContainOnly(
+        systemObject, qr[typeof(ComVisibleAttribute)], qr[typeof(ClassInterfaceAttribute)]
+      );
+
+    It should_indirectly_use_its_methods = () =>
+      type.IndirectlyUses.ExtractMembers().ShouldContainOnly(
+        systemObject.Members
+      );
   }
 
   [Subject("Indirect Uses")]
@@ -33,7 +40,8 @@ namespace Machine.Eon.Specs.IndirectUses
 
     It should_indirectly_use_void_attributes_and_base_type = () =>
       type.IndirectlyUses.ExtractTypes().ShouldContainOnly(qr.FromSystemType(
-        typeof(Object), typeof(void), typeof(Type1), typeof(ComVisibleAttribute), typeof(ClassInterfaceAttribute)
+        typeof(Object), typeof(void), typeof(ComVisibleAttribute), typeof(ClassInterfaceAttribute),
+        typeof(Type1)
       ));
 
     It should_indirectly_use_only_base_type_ctor = () =>
@@ -57,6 +65,26 @@ namespace Machine.Eon.Specs.IndirectUses
     {
       throw new ArgumentNullException();
     }
+  }
+
+  [Subject("Indirect Uses")]
+  public class with_method_that_creates_exception : with_eon
+  {
+    static Method method;
+
+    Because of = () =>
+      method = (Method)qr[typeof(Type2)]["IsCalled"].First();
+
+    It should_indirectly_use_itself_and_exception = () =>
+      method.IndirectlyUses.ExtractTypes().ShouldContainOnly(
+        method.Type,
+        qr[typeof(InvalidOperationException)]
+      );
+
+    It should_indirectly_use_exception_ctor = () =>
+      method.IndirectlyUses.ExtractMembers().ShouldContainOnly(
+        qr[typeof(InvalidOperationException)].Constructors.First()
+      );
   }
 
   [Subject("Indirect Uses")]
@@ -143,8 +171,7 @@ namespace Machine.Eon.Specs.IndirectUses
     It should_have_indirect_uses_of_object_void_itself_and_those_types = () =>
       type.IndirectlyUses.ExtractTypes().ShouldContainOnly(qr.FromSystemType(
         typeof(Object), typeof(void), typeof(ComVisibleAttribute), typeof(ClassInterfaceAttribute),
-        typeof(Type2), typeof(Type4), typeof(InvalidOperationException),
-        typeof(ArgumentNullException)
+        typeof(Type2), typeof(Type4), typeof(InvalidOperationException), typeof(ArgumentNullException)
       ));
 
     It should_indirectly_use_exception_ctors_base_type_ctor_and_method = () =>
@@ -166,10 +193,23 @@ namespace Machine.Eon.Specs.IndirectUses
 
     It should_have_indirect_uses_of_object_void_itself_and_those_types = () =>
       ns.IndirectlyUses.ExtractTypes().ShouldContainOnly(qr.FromSystemType(
-        typeof(Object), typeof(void), typeof(Type1), typeof(ComVisibleAttribute), typeof(ClassInterfaceAttribute),
-        typeof(Type2), typeof(Type4), typeof(InvalidOperationException),
+        typeof(Object), typeof(void), typeof(ComVisibleAttribute), typeof(ClassInterfaceAttribute),
+        typeof(Type1), typeof(Type2), typeof(Type4), typeof(InvalidOperationException),
         typeof(ArgumentNullException), typeof(Sample.HasTypeWithType4.Type5)
       ));
+  }
+
+  public class Type6
+  {
+    public void AnotherMethod()
+    {
+      Type4 type4 = new Type4();
+      type4.AMethod();
+    }
+  }
+
+  public class Type7 : Type4
+  {
   }
 }
 
